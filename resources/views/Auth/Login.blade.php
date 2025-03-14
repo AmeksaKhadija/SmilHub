@@ -595,9 +595,9 @@
             loginForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 // Here you would normally send the form data to your server
-                alert('Connexion réussie! Redirection vers votre tableau de bord...');
+                // alert('Connexion réussie! Redirection vers votre tableau de bord...');
                 // Redirect to dashboard or home page
-                // window.location.href = 'dashboard.html';
+                window.location.href = 'prendre_rendez_vous';
             });
 
             // Password visibility toggle

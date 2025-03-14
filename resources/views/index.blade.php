@@ -1323,7 +1323,7 @@
                         <ul>
                             <li><a href="#" class="nav-item">Accueil</a></li>
                             <li><a href="#" class="nav-item">À propos</a></li>
-                            <li><a href="#" class="nav-item">Services</a></li>
+                            <li><a href="" class="nav-item">Services</a></li>
                             <li><a href="#" class="nav-item">Médecins</a></li>
                             <li><a href="#" class="nav-item">Témoignages</a></li>
                             <li><a href="#" class="nav-item">Blog</a></li>
@@ -1346,7 +1346,7 @@
                 <h2 class="hero-subtitle">Votre santé bucco-dentaire est notre priorité</h2>
                 <p class="hero-text">Nous combinons expertise médicale et technologies de pointe pour vous offrir des soins dentaires de qualité dans un environnement confortable et accueillant.</p>
                 <div class="hero-btns">
-                    <a href="#" class="btn btn-secondary">Prendre rendez-vous</a>
+                    <a href="prendre_rendez_vous" class="btn btn-secondary">Prendre rendez-vous</a>
                     <a href="#" class="btn btn-outline">Découvrir nos services</a>
                 </div>
             </div>
@@ -1723,7 +1723,7 @@
                     <h3 class="footer-title">Liens rapides</h3>
                     <a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Accueil</a>
                     <a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> À propos</a>
-                    <a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Services</a>
+                    <a href="/Service" class="footer-link"><i class="fas fa-chevron-right"></i> Services</a>
                     <a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Médecins</a>
                     <a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Témoignages</a>
                     <a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Blog</a>
