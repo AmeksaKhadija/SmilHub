@@ -18,9 +18,27 @@ Route::get('/', function () {
 });
 
 Route::get('/Login', function () {
-    return view('Login');
+    return view('Auth/Login');
 });
 
 Route::get('/Register', function () {
-    return view('Register');
+    return view('Auth/Register');
+});
+
+Route::get('/prendre_rendez_vous', function () {
+    return view('prendre_rendez_vous');
+});
+
+Route::get('/suivi_soin', function () {
+    return view('suivi_soin');
+});
+
+// dentiste
+Route::get('/dentistDashboard', function () {
+    return view('dentistDashboard');
+});
+
+// admin
+Route::get('/adminDashboard', function () {
+    return view('adminDashboard');
 });
