@@ -300,11 +300,7 @@
             color: #dc3545;
             font-size: 0.8em;
         }
-
-
-
-
-
+        
         .invalid {
             border-color: #ef4444;
         }
@@ -673,6 +669,9 @@
                 isValid = false;
             }
 
+            if (isValid) {
+                window.location.href = '/Login';
+            }
             return isValid;
         }
     </script>

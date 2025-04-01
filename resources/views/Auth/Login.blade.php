@@ -541,13 +541,13 @@
                         <form id="login-form">
                             <div class="form-group">
                                 <label for="login-email" class="form-label">Adresse email</label>
-                                <input type="email" id="login-email" class="form-control" placeholder="exemple@email.com" required>
+                                <input type="text" id="login-email" class="form-control" placeholder="exemple@email.com">
                                 <i class="fas fa-envelope form-icon"></i>
                             </div>
 
                             <div class="form-group">
                                 <label for="login-password" class="form-label">Mot de passe</label>
-                                <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+                                <input type="text" id="login-password" class="form-control" placeholder="password">
                                 <i class="fas fa-lock form-icon"></i>
                             </div>
 
@@ -586,28 +586,6 @@
         </div>
     </section>
 
-    <!-- JavaScript -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Form Validation
-            const loginForm = document.getElementById('login-form');
-
-            loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                // Here you would normally send the form data to your server
-                // alert('Connexion réussie! Redirection vers votre tableau de bord...');
-                // Redirect to dashboard or home page
-                window.location.href = 'prendre_rendez_vous';
-            });
-
-            // Password visibility toggle
-            const togglePassword = function(inputId) {
-                const input = document.getElementById(inputId);
-                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-                input.setAttribute('type', type);
-            };
-        });
-    </script>
 </body>
 
 </html>
