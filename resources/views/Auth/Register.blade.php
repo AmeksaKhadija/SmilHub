@@ -300,7 +300,7 @@
             color: #dc3545;
             font-size: 0.8em;
         }
-        
+
         .invalid {
             border-color: #ef4444;
         }
@@ -554,12 +554,17 @@
 
                         <form id="register-form">
                             <div class="form-group">
-                                <label for="register-name" class="form-label">Nom complet</label>
-                                <input type="text" id="register-name" class="form-control" placeholder="Votre nom complet">
+                                <label for="register-nom" class="form-label">Nom</label>
+                                <input type="text" id="register-nom" class="form-control" placeholder="Votre nom">
                                 <i class="fas fa-user form-icon"></i>
-                                <div class="error-message" id="invalidName" style="color: red;"></div>
+                                <div class="error-message" id="invalidNom" style="color: red;"></div>
                             </div>
-
+                            <div class="form-group">
+                                <label for="register-prenom" class="form-label">Prenom</label>
+                                <input type="text" id="register-prenom" class="form-control" placeholder="Votre prenom">
+                                <i class="fas fa-user form-icon"></i>
+                                <div class="error-message" id="invalidPrenom" style="color: red;"></div>
+                            </div>
                             <div class="form-group">
                                 <label for="register-email" class="form-label">Adresse email</label>
                                 <input type="text" id="register-email" class="form-control" placeholder="exemple@email.com">
@@ -618,12 +623,14 @@
     <!-- JavaScript -->
     <script>
         function validateForm() {
-            const nameInput = document.getElementById('register-name');
+            const nomInput = document.getElementById('register-nom');
+            const prenomInput = document.getElementById('register-prenom');
             const emailInput = document.getElementById('register-email');
             const phoneInput = document.getElementById('register-phone');
             const passwordInput = document.getElementById('register-password');
 
-            const registerName = nameInput.value.trim();
+            const registerNom = nomInput.value.trim();
+            const registerPrenom = prenomInput.value.trim();
             const registerEmail = emailInput.value.trim();
             const registerPhone = phoneInput.value.trim();
             const registerPassword = passwordInput.value.trim();
@@ -633,21 +640,29 @@
             const phoneRegex = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
             const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 
-            document.getElementById('invalidName').textContent = "";
+            document.getElementById('invalidNom').textContent = "";
+            document.getElementById('invalidPrenom').textContent = "";
             document.getElementById('invalidEmail').textContent = "";
             document.getElementById('invalidPhone').textContent = "";
             document.getElementById('invalidPassword').textContent = "";
 
-            nameInput.classList.remove('invalid');
+            nomInput.classList.remove('invalid');
+            prenomInput.classList.remove('invalid');
             emailInput.classList.remove('invalid');
             phoneInput.classList.remove('invalid');
             passwordInput.classList.remove('invalid');
 
             let isValid = true;
 
-            if (!registerName.match(nameRegex)) {
-                document.getElementById('invalidName').textContent = "Nom invalide.";
-                nameInput.classList.add('invalid');
+            if (!registerNom.match(nameRegex)) {
+                document.getElementById('invalidNom').textContent = "Nom invalide.";
+                nomInput.classList.add('invalid');
+                isValid = false;
+            }
+
+            if (!registerPrenom.match(nameRegex)) {
+                document.getElementById('invalidPrenom').textContent = "Prenom invalide.";
+                prenomInput.classList.add('invalid');
                 isValid = false;
             }
 
