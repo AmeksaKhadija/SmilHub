@@ -920,14 +920,14 @@
                         <svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <!-- Fond circulaire -->
                             <circle cx="25" cy="25" r="24" fill="#0369a1" />
-                            
+
                             <!-- Dent stylisée -->
                             <path d="M25 10C21.5 10 19 12 18 14C17 16 16 18 15 22C14 26 13 30 15 33C17 36 19 37 21 37C23 37 24 35 25 33C26 35 27 37 29 37C31 37 33 36 35 33C37 30 36 26 35 22C34 18 33 16 32 14C31 12 28.5 10 25 10Z" fill="white" />
-                            
+
                             <!-- Sourire sous la dent -->
                             <path d="M18 28C20 31 23 33 25 33C27 33 30 31 32 28" stroke="white" stroke-width="2" stroke-linecap="round" />
                         </svg>
-                        <span class="logo-text">SmileHub</span>
+                        <a href="/" class="logo-text">SmileHub</a>
                     </div>
                     <nav class="main-nav" id="mainNav">
                         <ul>
@@ -996,7 +996,7 @@
 
                     <div class="health-indicators">
                         <h3 class="health-indicator-title">Indicateurs de santé bucco-dentaire</h3>
-                        
+
                         <div class="health-indicator">
                             <div class="health-indicator-header">
                                 <div class="health-indicator-name">Santé des gencives</div>
@@ -1006,7 +1006,7 @@
                                 <div class="health-indicator-bar good"></div>
                             </div>
                         </div>
-                        
+
                         <div class="health-indicator">
                             <div class="health-indicator-header">
                                 <div class="health-indicator-name">Niveau de plaque</div>
@@ -1016,7 +1016,7 @@
                                 <div class="health-indicator-bar warning"></div>
                             </div>
                         </div>
-                        
+
                         <div class="health-indicator">
                             <div class="health-indicator-header">
                                 <div class="health-indicator-name">Risque de carie</div>
@@ -1071,7 +1071,7 @@
 
                     <div class="treatment-timeline">
                         <h3 class="timeline-title">Chronologie du traitement</h3>
-                        
+
                         <div class="timeline">
                             <div class="timeline-item completed">
                                 <div class="timeline-date">10 Mars 2025</div>
@@ -1089,7 +1089,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="timeline-item completed">
                                 <div class="timeline-date">25 Mars 2025</div>
                                 <div class="timeline-content">
@@ -1106,7 +1106,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="timeline-item current">
                                 <div class="timeline-date">15 Mai 2025</div>
                                 <div class="timeline-content">
@@ -1123,7 +1123,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="timeline-item upcoming">
                                 <div class="timeline-date">10 Juin 2025</div>
                                 <div class="timeline-content">
@@ -1140,7 +1140,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="timeline-item upcoming">
                                 <div class="timeline-date">25 Juin 2025</div>
                                 <div class="timeline-content">
@@ -1163,8 +1163,8 @@
             </div>
         </div>
     </section>
-     <!-- Footer -->
-     <footer class="footer">
+    <!-- Footer -->
+    <footer class="footer">
         <div class="container">
             <div class="footer-container">
                 <div class="footer-about">
@@ -1172,10 +1172,10 @@
                         <svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <!-- Fond circulaire -->
                             <circle cx="25" cy="25" r="24" fill="white" />
-                            
+
                             <!-- Dent stylisée -->
                             <path d="M25 10C21.5 10 19 12 18 14C17 16 16 18 15 22C14 26 13 30 15 33C17 36 19 37 21 37C23 37 24 35 25 33C26 35 27 37 29 37C31 37 33 36 35 33C37 30 36 26 35 22C34 18 33 16 32 14C31 12 28.5 10 25 10Z" fill="#0369a1" />
-                            
+
                             <!-- Sourire sous la dent -->
                             <path d="M18 28C20 31 23 33 25 33C27 33 30 31 32 28" stroke="#0369a1" stroke-width="2" stroke-linecap="round" />
                         </svg>
@@ -1241,6 +1241,6 @@
             </div>
         </div>
     </footer>
-    </body>
+</body>
 
 </html>

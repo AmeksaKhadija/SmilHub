@@ -893,14 +893,14 @@
                         <svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <!-- Fond circulaire -->
                             <circle cx="25" cy="25" r="24" fill="#0369a1" />
-                            
+
                             <!-- Dent stylisée -->
                             <path d="M25 10C21.5 10 19 12 18 14C17 16 16 18 15 22C14 26 13 30 15 33C17 36 19 37 21 37C23 37 24 35 25 33C26 35 27 37 29 37C31 37 33 36 35 33C37 30 36 26 35 22C34 18 33 16 32 14C31 12 28.5 10 25 10Z" fill="white" />
-                            
+
                             <!-- Sourire sous la dent -->
                             <path d="M18 28C20 31 23 33 25 33C27 33 30 31 32 28" stroke="white" stroke-width="2" stroke-linecap="round" />
                         </svg>
-                        <span class="logo-text">SmileHub</span>
+                        <a href="/" class="logo-text">SmileHub</a>
                     </div>
                     <nav class="main-nav" id="mainNav">
                         <ul>
@@ -1164,10 +1164,10 @@
                         <svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <!-- Fond circulaire -->
                             <circle cx="25" cy="25" r="24" fill="white" />
-                            
+
                             <!-- Dent stylisée -->
                             <path d="M25 10C21.5 10 19 12 18 14C17 16 16 18 15 22C14 26 13 30 15 33C17 36 19 37 21 37C23 37 24 35 25 33C26 35 27 37 29 37C31 37 33 36 35 33C37 30 36 26 35 22C34 18 33 16 32 14C31 12 28.5 10 25 10Z" fill="#0369a1" />
-                            
+
                             <!-- Sourire sous la dent -->
                             <path d="M18 28C20 31 23 33 25 33C27 33 30 31 32 28" stroke="#0369a1" stroke-width="2" stroke-linecap="round" />
                         </svg>
@@ -1240,10 +1240,10 @@
             // Mobile Menu Toggle
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const mainNav = document.getElementById('mainNav');
-            
+
             mobileMenuBtn.addEventListener('click', function() {
                 mainNav.classList.toggle('active');
-                
+
                 if (mobileMenuBtn.querySelector('i').classList.contains('fa-bars')) {
                     mobileMenuBtn.querySelector('i').classList.remove('fa-bars');
                     mobileMenuBtn.querySelector('i').classList.add('fa-times');
@@ -1252,122 +1252,115 @@
                     mobileMenuBtn.querySelector('i').classList.add('fa-bars');
                 }
             });
-            
+
             // Dentist Selection
             const dentistCards = document.querySelectorAll('.dentist-card');
-            let selectedDentist = 'dubois'; 
-            
+            let selectedDentist = 'dubois';
+
             dentistCards.forEach(card => {
                 if (card.dataset.dentist === selectedDentist) {
                     card.classList.add('selected');
                 }
-                
+
                 card.addEventListener('click', function() {
                     dentistCards.forEach(c => c.classList.remove('selected'));
                     this.classList.add('selected');
                     selectedDentist = this.dataset.dentist;
-                    
+
                     // Update summary
                     document.getElementById('summaryDentist').textContent = this.querySelector('.dentist-name').textContent;
                 });
             });
-            
+
             // Service Selection
             const serviceOptions = document.querySelectorAll('.service-option');
             let selectedService = 'cleaning'; // Default selected service
-            
+
             serviceOptions.forEach(option => {
                 if (option.dataset.service === selectedService) {
                     option.classList.add('selected');
                 }
-                
+
                 option.addEventListener('click', function() {
                     serviceOptions.forEach(o => o.classList.remove('selected'));
                     this.classList.add('selected');
                     selectedService = this.dataset.service;
-                    
+
                     // Update summary
                     document.getElementById('summaryService').textContent = this.querySelector('.service-option-label').textContent;
                     document.getElementById('summaryDuration').textContent = this.querySelector('.service-option-duration').textContent;
                 });
             });
-            
+
             // Calendar Day Selection
             const calendarDays = document.querySelectorAll('.calendar-day:not(.disabled):not(.other-month)');
-            
+
             calendarDays.forEach(day => {
                 day.addEventListener('click', function() {
                     calendarDays.forEach(d => d.classList.remove('selected'));
                     this.classList.add('selected');
-                    
+
                     // Update summary
                     document.getElementById('summaryDate').textContent = `${this.textContent} Mai 2025`;
-                    
+
                     // Update time slots title
                     document.querySelector('.time-slots-title').textContent = `Créneaux disponibles pour le ${this.textContent} Mai 2025`;
                 });
             });
-            
+
             // Time Slot Selection
             const timeSlots = document.querySelectorAll('.time-slot:not(.disabled)');
-            
+
             timeSlots.forEach(slot => {
                 slot.addEventListener('click', function() {
                     timeSlots.forEach(s => s.classList.remove('selected'));
                     this.classList.add('selected');
-                    
+
                     // Update summary
                     document.getElementById('summaryTime').textContent = this.textContent;
                 });
             });
-            
+
             // Confirmation Modal
             const confirmBtn = document.getElementById('confirmBtn');
             const confirmationModal = document.getElementById('confirmationModal');
             const modalClose = document.getElementById('modalClose');
             const modalOkBtn = document.getElementById('modalOkBtn');
-            
+
             confirmBtn.addEventListener('click', function() {
                 confirmationModal.classList.add('active');
             });
-            
+
             modalClose.addEventListener('click', function() {
                 confirmationModal.classList.remove('active');
             });
-            
+
             modalOkBtn.addEventListener('click', function() {
                 confirmationModal.classList.remove('active');
-                window.location.href = 'appointment-history.html';
+                window.location.href = '/suivi_soin';
             });
-            
+
             // Reset Button
             const resetBtn = document.getElementById('resetBtn');
-            
+
             resetBtn.addEventListener('click', function() {
                 // Reset dentist selection
                 dentistCards.forEach(c => c.classList.remove('selected'));
                 dentistCards[0].classList.add('selected');
                 selectedDentist = dentistCards[0].dataset.dentist;
-                
+
                 // Reset service selection
                 serviceOptions.forEach(o => o.classList.remove('selected'));
                 serviceOptions[1].classList.add('selected');
                 selectedService = serviceOptions[1].dataset.service;
-                
+
                 // Reset calendar day selection
                 calendarDays.forEach(d => d.classList.remove('selected'));
                 document.querySelector('.calendar-day.today').classList.add('selected');
-                
+
                 // Reset time slot selection
                 timeSlots.forEach(s => s.classList.remove('selected'));
                 timeSlots[4].classList.add('selected');
-                
-                // Update summary
-                // document.getElementById('summaryDentist').textContent = 'Dr. Thomas Dubois';
-                // document.getElementById('summaryService').textContent = 'Nettoyage dentaire';
-                // document.getElementById('summaryDate').textContent = '15 Mai 2025';
-                // document.getElementById('summaryTime').textContent = '11:00';
-                // document.getElementById('summaryDuration').textContent = '45 min';
             });
         });
     </script>

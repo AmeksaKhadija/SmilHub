@@ -296,6 +296,21 @@
             box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
         }
 
+        .error-message {
+            color: #dc3545;
+            font-size: 0.8em;
+        }
+        
+        .invalid {
+            border-color: #ef4444;
+        }
+
+        .invalid:hover,
+        .invalid:focus {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
         .form-icon {
             position: absolute;
             top: 42px;
@@ -540,36 +555,40 @@
                         <form id="register-form">
                             <div class="form-group">
                                 <label for="register-name" class="form-label">Nom complet</label>
-                                <input type="text" id="register-name" class="form-control" placeholder="Votre nom complet" required>
+                                <input type="text" id="register-name" class="form-control" placeholder="Votre nom complet">
                                 <i class="fas fa-user form-icon"></i>
+                                <div class="error-message" id="invalidName" style="color: red;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label for="register-email" class="form-label">Adresse email</label>
-                                <input type="email" id="register-email" class="form-control" placeholder="exemple@email.com" required>
+                                <input type="text" id="register-email" class="form-control" placeholder="exemple@email.com">
                                 <i class="fas fa-envelope form-icon"></i>
+                                <div class="error-message" id="invalidEmail" style="color: red;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label for="register-phone" class="form-label">Numéro de téléphone</label>
-                                <input type="tel" id="register-phone" class="form-control" placeholder="+33 6 12 34 56 78" required>
+                                <input type="text" id="register-phone" class="form-control" placeholder="Télephone">
                                 <i class="fas fa-phone form-icon"></i>
+                                <div class="error-message" id="invalidPhone" style="color: red;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label for="register-password" class="form-label">Mot de passe</label>
-                                <input type="password" id="register-password" class="form-control" placeholder="••••••••" required>
+                                <input type="text" id="register-password" class="form-control" placeholder="password">
                                 <i class="fas fa-lock form-icon"></i>
+                                <div class="error-message" id="invalidPassword" style="color: red;"></div>
                             </div>
 
                             <div class="form-check">
                                 <div class="form-check-group">
-                                    <input type="checkbox" id="terms" class="form-check-input" required>
+                                    <input type="checkbox" id="terms" class="form-check-input">
                                     <label for="terms" class="form-check-label">J'accepte les <a href="#" class="form-link">conditions d'utilisation</a> et la <a href="#" class="form-link">politique de confidentialité</a></label>
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-secondary" style="width: 100%;">S'inscrire</button>
+                            <button type="button" onclick="return validateForm()" class="btn btn-secondary" style="width: 100%;">S'inscrire</button>
 
                             <div class="form-divider">
                                 <span>ou continuer avec</span>
@@ -598,34 +617,63 @@
 
     <!-- JavaScript -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Form Validation
-            const registerForm = document.getElementById('register-form');
+        function validateForm() {
+            const nameInput = document.getElementById('register-name');
+            const emailInput = document.getElementById('register-email');
+            const phoneInput = document.getElementById('register-phone');
+            const passwordInput = document.getElementById('register-password');
 
-            registerForm.addEventListener('submit', function(e) {
-                e.preventDefault();
+            const registerName = nameInput.value.trim();
+            const registerEmail = emailInput.value.trim();
+            const registerPhone = phoneInput.value.trim();
+            const registerPassword = passwordInput.value.trim();
 
-                const password = document.getElementById('register-password').value;
+            const nameRegex = /^[a-zA-ZÀ-ÿ\s-]{2,30}$/;
+            const emailRegex = /^[^@]+@[^@]+\.[^@]+$/;
+            const phoneRegex = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
+            const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 
-                if (password.length < 8) {
-                    alert('Le mot de passe doit contenir au moins 8 caractères!');
-                    return;
-                }
+            document.getElementById('invalidName').textContent = "";
+            document.getElementById('invalidEmail').textContent = "";
+            document.getElementById('invalidPhone').textContent = "";
+            document.getElementById('invalidPassword').textContent = "";
 
-                // Here you would normally send the form data to your server
-                alert('Inscription réussie! Vous pouvez maintenant vous connecter.');
+            nameInput.classList.remove('invalid');
+            emailInput.classList.remove('invalid');
+            phoneInput.classList.remove('invalid');
+            passwordInput.classList.remove('invalid');
 
-                // Redirect to login page
-                window.location.href = 'Login';
-            });
+            let isValid = true;
 
-            // Password visibility toggle
-            const togglePassword = function(inputId) {
-                const input = document.getElementById(inputId);
-                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-                input.setAttribute('type', type);
-            };
-        });
+            if (!registerName.match(nameRegex)) {
+                document.getElementById('invalidName').textContent = "Nom invalide.";
+                nameInput.classList.add('invalid');
+                isValid = false;
+            }
+
+            if (!registerEmail.match(emailRegex)) {
+                document.getElementById('invalidEmail').textContent = "Email invalide.";
+                emailInput.classList.add('invalid');
+                isValid = false;
+            }
+
+            if (!registerPhone.match(phoneRegex)) {
+                document.getElementById('invalidPhone').textContent = "Numéro de téléphone invalide.";
+                phoneInput.classList.add('invalid');
+                isValid = false;
+            }
+
+            if (!registerPassword.match(passwordRegex)) {
+                document.getElementById('invalidPassword').textContent = "Mot de passe invalide.";
+                passwordInput.classList.add('invalid');
+                isValid = false;
+            }
+
+            if (isValid) {
+                window.location.href = '/Login';
+            }
+            return isValid;
+        }
     </script>
 </body>
 
