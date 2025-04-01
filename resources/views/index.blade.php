@@ -1317,7 +1317,7 @@
                             <!-- Sourire sous la dent -->
                             <path d="M18 28C20 31 23 33 25 33C27 33 30 31 32 28" stroke="white" stroke-width="2" stroke-linecap="round" />
                         </svg>
-                        <span class="logo-text">SmileHub</span>
+                        <a href="/" class="logo-text">SmileHub</a>
                     </div>
                     <nav class="main-nav" id="mainNav">
                         <ul>
