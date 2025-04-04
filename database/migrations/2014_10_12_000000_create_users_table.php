@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('email')->unique();
             $table->string('phone');
-            $table->unsignedBigInteger('role_id');
-            $table->foreign('role_id')->references('id')->on('roles');
+            $table->enum('role', ['patient', 'dentiste', 'admin'])->default('patient');
+            $table->enum('status', ['active', 'pending', 'blocked'])->default('active');
             $table->timestamp('email_verified_at')->nullable();
             $table->engine = "InnoDB";
             $table->rememberToken();
