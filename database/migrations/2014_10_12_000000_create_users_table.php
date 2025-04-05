@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone');
             $table->enum('role', ['patient', 'dentiste', 'admin'])->default('patient');
-            $table->enum('status', ['active', 'pending', 'blocked'])->default('active');
             $table->timestamp('email_verified_at')->nullable();
             $table->engine = "InnoDB";
             $table->rememberToken();

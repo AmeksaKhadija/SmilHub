@@ -68,16 +68,16 @@ class User extends Authenticatable
 
     public function patient()
     {
-        return $this->hasOne(Patient::class, 'user_id');
+        return $this->hasOne(Patient::class, 'utilisateur_id');
     }
 
     public function dentist()
     {
-        return $this->hasOne(Dentist::class, 'user_id');
+        return $this->hasOne(Dentist::class, 'utilisateur_id');
     }
 
     public function admin()
     {
-        return $this->hasOne(Admin::class, 'user_id');
+        return $this->hasOne(Admin::class, 'utilisateur_id');
     }
 }

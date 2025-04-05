@@ -1,3 +1,5 @@
+@extends('./layouts/app')
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -538,22 +540,29 @@
                         <h3 class="auth-form-title">Connexion</h3>
                         <p class="auth-form-subtitle">Connectez-vous pour accéder à votre compte</p>
 
-                        <form id="login-form">
+                        <form id="login-form" method="POST" action="/loginpost">
+                            @csrf
                             <div class="form-group">
                                 <label for="login-email" class="form-label">Adresse email</label>
-                                <input type="text" id="login-email" class="form-control" placeholder="exemple@email.com">
+                                <input type="text" id="login-email" name="email" class="form-control" placeholder="exemple@email.com">
                                 <i class="fas fa-envelope form-icon"></i>
+                                @error('email')
+                                <div class="error-message" style="color: red;">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="login-password" class="form-label">Mot de passe</label>
-                                <input type="text" id="login-password" class="form-control" placeholder="password">
+                                <input type="password" id="login-password" name="password" class="form-control" placeholder="Votre mot de passe">
                                 <i class="fas fa-lock form-icon"></i>
+                                @error('password')
+                                <div class="error-message" style="color: red;">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="form-check">
                                 <div class="form-check-group">
-                                    <input type="checkbox" id="remember-me" class="form-check-input">
+                                    <input type="checkbox" id="remember-me" name="remember" class="form-check-input">
                                     <label for="remember-me" class="form-check-label">Se souvenir de moi</label>
                                 </div>
                                 <a href="#" class="form-link">Mot de passe oublié?</a>

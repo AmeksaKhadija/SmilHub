@@ -10,14 +10,15 @@ class Dentist extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'utilisateur_id',
         'specialite',
         'available_slots',
+        'status',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'utilisateur_id');
     }
 
     public function appointments()
