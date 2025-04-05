@@ -5,12 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Admin extends Model
+class Dentist extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'utilisateur_id',
+        'specialite',
+        'available_slots',
+        'status',
     ];
 
     public function user()
@@ -18,9 +21,13 @@ class Admin extends Model
         return $this->belongsTo(User::class, 'utilisateur_id');
     }
 
-    // public function manageUserRoles(User $user, string $role)
-    // {
-    //     $user->role = $role;
-    //     return $user->save();
-    // }
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
+    public function contents()
+    {
+        return $this->hasMany(Content::class);
+    }
 }

@@ -13,13 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->enum('type', ['admin', 'dentist', 'patient']);
-            $table->engine = "InnoDB";
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('status')->default('active')->after('role');
         });
     }
 
@@ -30,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
 };

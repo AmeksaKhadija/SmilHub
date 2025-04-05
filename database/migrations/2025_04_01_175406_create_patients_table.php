@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('utilisateur_id');
             $table->json('medical_history')->nullable();
             $table->foreign('utilisateur_id')->references('id')->on('users');
+            $table->enum('status', ['active', 'pending', 'blocked'])->default('active');
             $table->engine = "InnoDB";
             $table->timestamps();
         });

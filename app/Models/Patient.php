@@ -5,22 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Admin extends Model
+class Patient extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'utilisateur_id',
+        'medical_history',
     ];
+
 
     public function user()
     {
         return $this->belongsTo(User::class, 'utilisateur_id');
     }
 
-    // public function manageUserRoles(User $user, string $role)
-    // {
-    //     $user->role = $role;
-    //     return $user->save();
-    // }
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }
