@@ -154,6 +154,40 @@ class AuthController extends Controller
         return view('profileDentiste', compact('user', 'dentist'));
     }
 
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'nom' => 'required|string|min:2|max:30',
+            'prenom' => 'required|string|min:2|max:30',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'phone' => 'required|string',
+        ]);
+
+        $user->nom = $request->nom;
+        $user->prenom = $request->prenom;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->save();
+
+        // Mettre à jour les données spécifiques au rôle
+        if ($user->role === 'patient' && $request->has('medical_history')) {
+            $user->patient->medical_history = $request->medical_history;
+            $user->patient->save();
+        } elseif ($user->role === 'dentiste') {
+            if ($request->has('speciality')) {
+                $user->dentist->speciality = $request->speciality;
+            }
+            if ($request->has('available_slots')) {
+                $user->dentist->available_slots = $request->available_slots;
+            }
+            $user->dentist->save();
+        }
+
+        return redirect()->back()->with('success', 'Votre profil a été mis à jour avec succès.');
+    }//a faire
+
 
     private function redirectBasedOnRole(User $user)
     {

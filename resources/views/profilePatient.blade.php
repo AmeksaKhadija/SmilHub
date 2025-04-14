@@ -423,11 +423,6 @@
                                 </a>
                             </li>
                             <li class="profile-nav-item">
-                                <a href="#security" class="profile-nav-link" data-tab="security">
-                                    <i class="fas fa-lock"></i> Sécurité
-                                </a>
-                            </li>
-                            <li class="profile-nav-item">
                                 <a href="#medical-history" class="profile-nav-link" data-tab="medical-history">
                                     <i class="fas fa-notes-medical"></i> Historique médical
                                 </a>
@@ -537,42 +532,7 @@
                 </div>
                 
                 <!-- Security Tab -->
-                <div id="security" class="tab-content">
-                    <div class="profile-card">
-                        <div class="profile-card-header">
-                            <h2>Changer le mot de passe</h2>
-                        </div>
-                        <div class="profile-info">
-                            <form action="{{ route('profile.password') }}" method="POST">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="current_password" class="form-label">Mot de passe actuel</label>
-                                    <input type="password" class="form-control @error('current_password') is-invalid @enderror" id="current_password" name="current_password">
-                                    @error('current_password')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="password" class="form-label">Nouveau mot de passe</label>
-                                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
-                                    @error('password')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="password_confirmation" class="form-label">Confirmer le nouveau mot de passe</label>
-                                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
-                                </div>
-                                
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-primary">Changer le mot de passe</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+               
                 
                 <!-- Medical History Tab -->
                 <div id="medical-history" class="tab-content">
