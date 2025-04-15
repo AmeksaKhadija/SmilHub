@@ -1,3 +1,5 @@
+@extends('./layouts/app')
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -296,6 +298,21 @@
             box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
         }
 
+        .error-message {
+            color: #dc3545;
+            font-size: 0.8em;
+        }
+
+        .invalid {
+            border-color: #ef4444;
+        }
+
+        .invalid:hover,
+        .invalid:focus {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
         .form-icon {
             position: absolute;
             top: 42px;
@@ -537,40 +554,61 @@
                         <h3 class="auth-form-title">Créez votre compte</h3>
                         <p class="auth-form-subtitle">Rejoignez-nous pour une meilleure santé dentaire</p>
 
-                        <form id="register-form">
+                        <form method="POST" action="/registerpost" id="register-form">
+                            @csrf
                             <div class="form-group">
-                                <label for="register-name" class="form-label">Nom complet</label>
-                                <input type="text" id="register-name" class="form-control" placeholder="Votre nom complet" required>
+                                <label for="register-nom" class="form-label">Nom</label>
+                                <input type="text" id="register-nom" name="nom" class="form-control" placeholder="Votre nom">
                                 <i class="fas fa-user form-icon"></i>
+                                <div class="error-message" id="invalidNom" style="color: red;"></div>
                             </div>
-
+                            <div class="form-group">
+                                <label for="register-prenom" class="form-label">Prenom</label>
+                                <input type="text" id="register-prenom" name="prenom" class="form-control" placeholder="Votre prenom">
+                                <i class="fas fa-user form-icon"></i>
+                                <div class="error-message" id="invalidPrenom" style="color: red;"></div>
+                            </div>
                             <div class="form-group">
                                 <label for="register-email" class="form-label">Adresse email</label>
-                                <input type="email" id="register-email" class="form-control" placeholder="exemple@email.com" required>
+                                <input type="text" id="register-email" name="email" class="form-control" placeholder="exemple@email.com">
                                 <i class="fas fa-envelope form-icon"></i>
+                                <div class="error-message" id="invalidEmail" style="color: red;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label for="register-phone" class="form-label">Numéro de téléphone</label>
-                                <input type="tel" id="register-phone" class="form-control" placeholder="+33 6 12 34 56 78" required>
+                                <input type="text" id="register-phone" name="tele" class="form-control" placeholder="Télephone">
                                 <i class="fas fa-phone form-icon"></i>
+                                <div class="error-message" id="invalidPhone" style="color: red;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label for="register-password" class="form-label">Mot de passe</label>
-                                <input type="password" id="register-password" class="form-control" placeholder="••••••••" required>
+                                <input type="text" id="register-password" name="password" class="form-control" placeholder="password">
                                 <i class="fas fa-lock form-icon"></i>
+                                <div class="error-message" id="invalidPassword" style="color: red;"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-role" class="form-label">Votre rôle</label>
+                                <select id="register-role" name="role" class="form-control">
+                                    <option value="" disabled selected>Sélectionnez votre rôle</option>
+                                    <option value="patient">Patient</option>
+                                    <option value="dentiste">Dentiste</option>
+                                </select>
+                                <i class="fas fa-user-tag form-icon"></i>
+                                <div class="error-message" id="invalidRole" style="color: red;"></div>
                             </div>
 
                             <div class="form-check">
                                 <div class="form-check-group">
-                                    <input type="checkbox" id="terms" class="form-check-input" required>
+                                    <input type="checkbox" id="terms" class="form-check-input">
                                     <label for="terms" class="form-check-label">J'accepte les <a href="#" class="form-link">conditions d'utilisation</a> et la <a href="#" class="form-link">politique de confidentialité</a></label>
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-secondary" style="width: 100%;">S'inscrire</button>
 
+                            <!-- <button type="button" onclick="return validateForm()" class="btn btn-secondary" style="width: 100%;">S'inscrire</button> -->
+                            <button type="button" onclick="validateForm()" class="btn btn-secondary" style="width: 100%;">S'inscrire</button>
                             <div class="form-divider">
                                 <span>ou continuer avec</span>
                             </div>
@@ -598,34 +636,84 @@
 
     <!-- JavaScript -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Form Validation
-            const registerForm = document.getElementById('register-form');
+        function validateForm() {
+            const nomInput = document.getElementById('register-nom');
+            const prenomInput = document.getElementById('register-prenom');
+            const emailInput = document.getElementById('register-email');
+            const phoneInput = document.getElementById('register-phone');
+            const passwordInput = document.getElementById('register-password');
+            const roleInput = document.getElementById('register-role');
 
-            registerForm.addEventListener('submit', function(e) {
-                e.preventDefault();
+            const registerNom = nomInput.value.trim();
+            const registerPrenom = prenomInput.value.trim();
+            const registerEmail = emailInput.value.trim();
+            const registerPhone = phoneInput.value.trim();
+            const registerPassword = passwordInput.value.trim();
+            const registerRole = roleInput.value.trim();
 
-                const password = document.getElementById('register-password').value;
+            const nameRegex = /^[a-zA-ZÀ-ÿ\s-]{2,30}$/;
+            const emailRegex = /^[^@]+@[^@]+\.[^@]+$/;
+            const phoneRegex = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
+            const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 
-                if (password.length < 8) {
-                    alert('Le mot de passe doit contenir au moins 8 caractères!');
-                    return;
-                }
+            document.getElementById('invalidNom').textContent = "";
+            document.getElementById('invalidPrenom').textContent = "";
+            document.getElementById('invalidEmail').textContent = "";
+            document.getElementById('invalidPhone').textContent = "";
+            document.getElementById('invalidPassword').textContent = "";
+            document.getElementById('invalidRole').textContent = "";
 
-                // Here you would normally send the form data to your server
-                alert('Inscription réussie! Vous pouvez maintenant vous connecter.');
+            nomInput.classList.remove('invalid');
+            prenomInput.classList.remove('invalid');
+            emailInput.classList.remove('invalid');
+            phoneInput.classList.remove('invalid');
+            passwordInput.classList.remove('invalid');
+            roleInput.classList.remove('invalid');
 
-                // Redirect to login page
-                window.location.href = 'Login';
-            });
+            let isValid = true;
 
-            // Password visibility toggle
-            const togglePassword = function(inputId) {
-                const input = document.getElementById(inputId);
-                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-                input.setAttribute('type', type);
-            };
-        });
+            if (!registerNom.match(nameRegex)) {
+                document.getElementById('invalidNom').textContent = "Veuillez entrer un nom valide";
+                nomInput.classList.add('invalid');
+                isValid = false;
+            }
+
+            if (!registerPrenom.match(nameRegex)) {
+                document.getElementById('invalidPrenom').textContent = "Veuillez entrer un prenom valide";
+                prenomInput.classList.add('invalid');
+                isValid = false;
+            }
+
+            if (!registerEmail.match(emailRegex)) {
+                document.getElementById('invalidEmail').textContent = "Veuillez entrer un email valide";
+                emailInput.classList.add('invalid');
+                isValid = false;
+            }
+
+            if (!registerPhone.match(phoneRegex)) {
+                document.getElementById('invalidPhone').textContent = "Veuillez entrer un numero de telephone valide";
+                phoneInput.classList.add('invalid');
+                isValid = false;
+            }
+
+            if (!registerPassword.match(passwordRegex)) {
+                document.getElementById('invalidPassword').textContent = "Veuillez entrer un password valide";
+                passwordInput.classList.add('invalid');
+                isValid = false;
+            }
+
+            if (!registerRole) {
+                document.getElementById('invalidRole').textContent = "Veuillez sélectionner un rôle";
+                roleInput.classList.add('invalid');
+                isValid = false;
+            }
+
+            if (isValid) {
+                // window.location.href = '/Login';
+                document.getElementById('register-form').submit();
+            }
+            return isValid;
+        }
     </script>
 </body>
 

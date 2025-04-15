@@ -13,17 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('contents', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
-            $table->string('prenom');
-            $table->string('password');
-            $table->string('email')->unique();
-            $table->string('phone');
-            $table->enum('role', ['patient', 'dentiste', 'admin'])->default('patient');
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('title');
+            $table->string('type');
+            $table->text('content');
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('dentist_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('dentist_id')->references('id')->on('dentists');
             $table->engine = "InnoDB";
-            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -35,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('contents');
     }
 };
