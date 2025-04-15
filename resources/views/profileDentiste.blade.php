@@ -470,11 +470,6 @@
                                     <i class="fas fa-clock"></i> Disponibilité
                                 </a>
                             </li>
-                            <li class="profile-nav-item">
-                                <a href="#appointments" class="profile-nav-link" data-tab="appointments">
-                                    <i class="fas fa-calendar-check"></i> Rendez-vous
-                                </a>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -533,15 +528,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="address" class="form-label">Adresse</label>
-                                    <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" name="address" value="{{ old('address', $user->address ?? '') }}">
-                                    @error('address')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
                                 </div>
@@ -572,30 +558,6 @@
                                         <option value="Pédodontiste" {{ $dentist && $dentist->speciality === 'Pédodontiste' ? 'selected' : '' }}>Pédodontiste</option>
                                     </select>
                                     @error('speciality')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="experience" class="form-label">Années d'expérience</label>
-                                    <input type="number" class="form-control @error('experience') is-invalid @enderror" id="experience" name="experience" value="{{ old('experience', $dentist->experience ?? '') }}">
-                                    @error('experience')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="education" class="form-label">Formation et diplômes</label>
-                                    <textarea class="form-control @error('education') is-invalid @enderror" id="education" name="education" rows="3">{{ old('education', $dentist->education ?? '') }}</textarea>
-                                    @error('education')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="description" class="form-label">Description de votre pratique</label>
-                                    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="4">{{ old('description', $dentist->description ?? '') }}</textarea>
-                                    @error('description')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -691,45 +653,6 @@
                 </div>
             </div>
 
-            <!-- Appointments Tab -->
-            <div id="appointments" class="tab-content">
-                <div class="profile-card">
-                    <div class="profile-card-header">
-                        <h2>Mes rendez-vous</h2>
-                    </div>
-                    <div class="profile-info">
-                        <div class="form-group">
-                            <label for="appointmentFilter" class="form-label">Filtrer par</label>
-                            <select class="form-select" id="appointmentFilter">
-                                <option value="upcoming">À venir</option>
-                                <option value="past">Passés</option>
-                                <option value="all">Tous</option>
-                            </select>
-                        </div>
-
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Heure</th>
-                                        <th>Patient</th>
-                                        <th>Motif</th>
-                                        <th>Statut</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Si vous avez des rendez-vous, vous pouvez les afficher ici -->
-                                    <tr>
-                                        <td colspan="6" class="text-center">Aucun rendez-vous à afficher</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     </div>
