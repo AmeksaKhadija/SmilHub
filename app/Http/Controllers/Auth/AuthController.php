@@ -52,7 +52,7 @@ class AuthController extends Controller
         } elseif ($request->role == 'dentiste') {
             $dentist = new Dentist();
             $dentist->utilisateur_id = $user->id;
-            $dentist->speciality = null;
+            $dentist->specialite = null;
             $dentist->available_slots = json_encode([]);
             $dentist->status = 'pending';
             $dentist->save();
@@ -154,39 +154,176 @@ class AuthController extends Controller
         return view('profileDentiste', compact('user', 'dentist'));
     }
 
-    public function updateProfile(Request $request)
-    {
-        $user = Auth::user();
+    // public function updateProfile(Request $request)
+    // {
+    //     $user = Auth::user();
 
+    //     $request->validate([
+    //         'nom' => 'required|string|min:2|max:30',
+    //         'prenom' => 'required|string|min:2|max:30',
+    //         'email' => 'required|email|unique:users,email,' . $user->id,
+    //         'phone' => 'required|string',
+    //     ]);
+
+    //     $user->nom = $request->nom;
+    //     $user->prenom = $request->prenom;
+    //     $user->email = $request->email;
+    //     $user->phone = $request->phone;
+
+    //     // if ($request->has('address')) {
+    //     //     $user->address = $request->address;
+    //     // }
+
+    //     $user->save();
+
+    //     if ($user->role === 'patient') {
+    //         $patient = Patient::where('utilisateur_id', $user->id)->first();
+    //         if (!$patient) {
+    //             $patient = new Patient();
+    //             $patient->utilisateur_id = $user->id;
+    //         }
+
+    //         if ($request->has('medical_history')) {
+    //             $patient->medical_history = json_encode($request->medical_history);
+    //         }
+
+    //         if ($request->has('date_naissance')) {
+    //             $patient->date_naissance = $request->date_naissance;
+    //         }
+
+    //         if ($request->has('sexe')) {
+    //             $patient->sexe = $request->sexe;
+    //         }
+
+    //         $patient->status = 'active';
+
+    //         $patient->save();
+    //     } else if ($user->role === 'dentiste') {
+    //         $dentist = Dentist::where('utilisateur_id', $user->id)->first();
+    //         if (!$dentist) {
+    //             $dentist = new Dentist();
+    //             $dentist->utilisateur_id = $user->id;
+    //         }
+
+    //         if ($request->has('speciality')) {
+    //             $dentist->specialite = $request->speciality;
+    //         }
+    //         $dentist->specialite = $request->speciality;
+
+
+    //         if ($request->has('experience')) {
+    //             $dentist->experience = $request->experience;
+    //         }
+
+    //         if ($request->has('education')) {
+    //             $dentist->education = $request->education;
+    //         }
+
+    //         if ($request->has('description')) {
+    //             $dentist->description = $request->description;
+    //         }
+
+    //         if ($request->has('available_slots')) {
+    //             $dentist->available_slots = json_encode($request->available_slots);
+    //         }
+
+    //         if ($user->status === 'active') {
+    //             $dentist->status = 'active';
+    //         } else {
+    //             $dentist->status = $user->status;
+    //         }
+
+    //         $dentist->save();
+    //     }
+
+    //     return redirect()->back()->with('success', 'Votre profil a été mis à jour avec succès.');
+    // }
+
+    public function updateProfile(Request $request)
+{
+    $user = Auth::user();
+    
+    // Déterminer quelle section est mise à jour
+    $section = $request->input('section', 'personal'); // Par défaut, on suppose que c'est la section personnelle
+    
+    // Validation en fonction de la section
+    if ($section === 'personal') {
         $request->validate([
             'nom' => 'required|string|min:2|max:30',
             'prenom' => 'required|string|min:2|max:30',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'phone' => 'required|string',
         ]);
-
+        
+        // Mise à jour des informations personnelles
         $user->nom = $request->nom;
         $user->prenom = $request->prenom;
         $user->email = $request->email;
         $user->phone = $request->phone;
-        $user->save();
-
-        // Mettre à jour les données spécifiques au rôle
-        if ($user->role === 'patient' && $request->has('medical_history')) {
-            $user->patient->medical_history = $request->medical_history;
-            $user->patient->save();
-        } elseif ($user->role === 'dentiste') {
-            if ($request->has('speciality')) {
-                $user->dentist->speciality = $request->speciality;
-            }
-            if ($request->has('available_slots')) {
-                $user->dentist->available_slots = $request->available_slots;
-            }
-            $user->dentist->save();
+        
+        if ($request->has('address')) {
+            $user->address = $request->address;
         }
+        
+        $user->save();
+    } 
+    elseif ($section === 'speciality' && $user->role === 'dentiste') {
+        // Mise à jour de la spécialité et des informations professionnelles
+        $dentist = Dentist::where('utilisateur_id', $user->id)->first();
+        if (!$dentist) {
+            $dentist = new Dentist();
+            $dentist->utilisateur_id = $user->id;
+        }
+        
+        if ($request->has('speciality')) {
+            $dentist->specialite = $request->speciality;
+        }
+        
+        if ($request->has('experience')) {
+            $dentist->experience = $request->experience;
+        }
+        
+        if ($request->has('education')) {
+            $dentist->education = $request->education;
+        }
+        
+        if ($request->has('description')) {
+            $dentist->description = $request->description;
+        }
+        
+        $dentist->save();
+    }
+    elseif ($section === 'availability' && $user->role === 'dentiste') {
+        // Mise à jour des disponibilités
+        $dentist = Dentist::where('utilisateur_id', $user->id)->first();
+        if (!$dentist) {
+            $dentist = new Dentist();
+            $dentist->utilisateur_id = $user->id;
+        }
+        
+        if ($request->has('available_slots')) {
+            $dentist->available_slots = json_encode($request->available_slots);
+        }
+        
+        $dentist->save();
+    }
+    elseif ($section === 'medical' && $user->role === 'patient') {
+        // Mise à jour de l'historique médical pour les patients
+        $patient = Patient::where('utilisateur_id', $user->id)->first();
+        if (!$patient) {
+            $patient = new Patient();
+            $patient->utilisateur_id = $user->id;
+        }
+        
+        if ($request->has('medical_history')) {
+            $patient->medical_history = json_encode($request->medical_history);
+        }
+        
+        $patient->save();
+    }
 
-        return redirect()->back()->with('success', 'Votre profil a été mis à jour avec succès.');
-    }//a faire
+    return redirect()->back()->with('success', 'Votre profil a été mis à jour avec succès.');
+}
 
 
     private function redirectBasedOnRole(User $user)
