@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil Patient - MedSmile</title>
-    
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <style>
         :root {
             --primary: #0369a1;
@@ -34,61 +35,61 @@
             --gray: #e2e8f0;
             --dark-gray: #cbd5e1;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Poppins', sans-serif;
             color: var(--text-dark);
             line-height: 1.6;
             background-color: var(--light-gray);
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 15px;
         }
-        
+
         .profile-header {
             background-color: var(--primary);
             color: var(--white);
             padding: 30px 0;
             margin-bottom: 30px;
         }
-        
+
         .profile-header h1 {
             font-size: 2rem;
             font-weight: 600;
         }
-        
+
         .profile-header p {
             opacity: 0.9;
             margin-bottom: 0;
         }
-        
+
         .profile-container {
             display: flex;
             flex-wrap: wrap;
             gap: 30px;
             margin-bottom: 50px;
         }
-        
+
         .profile-sidebar {
             flex: 1;
             min-width: 250px;
             max-width: 300px;
         }
-        
+
         .profile-content {
             flex: 3;
             min-width: 0;
         }
-        
+
         .profile-card {
             background-color: var(--white);
             border-radius: 10px;
@@ -96,23 +97,23 @@
             overflow: hidden;
             margin-bottom: 30px;
         }
-        
+
         .profile-card-header {
             background-color: var(--primary-light);
             color: var(--white);
             padding: 20px;
             position: relative;
         }
-        
+
         .profile-card-header h2 {
             font-size: 1.5rem;
             margin-bottom: 0;
         }
-        
+
         .profile-info {
             padding: 20px;
         }
-        
+
         .profile-avatar {
             width: 120px;
             height: 120px;
@@ -127,30 +128,30 @@
             border: 5px solid var(--white);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
+
         .profile-name {
             font-size: 1.5rem;
             font-weight: 600;
             text-align: center;
             margin-bottom: 5px;
         }
-        
+
         .profile-role {
             color: var(--text-light);
             text-align: center;
             margin-bottom: 20px;
         }
-        
+
         .profile-nav {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        
+
         .profile-nav-item {
             border-bottom: 1px solid var(--gray);
         }
-        
+
         .profile-nav-link {
             display: flex;
             align-items: center;
@@ -159,42 +160,42 @@
             text-decoration: none;
             transition: all 0.3s ease;
         }
-        
+
         .profile-nav-link:hover {
             background-color: var(--light-gray);
             color: var(--primary);
         }
-        
+
         .profile-nav-link.active {
             background-color: var(--primary-light);
             color: var(--white);
         }
-        
+
         .profile-nav-link i {
             margin-right: 10px;
             width: 20px;
             text-align: center;
         }
-        
+
         .tab-content {
             display: none;
         }
-        
+
         .tab-content.active {
             display: block;
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         .form-label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
             color: var(--text-dark);
         }
-        
+
         .form-control {
             width: 100%;
             padding: 12px 15px;
@@ -204,13 +205,13 @@
             font-size: 1rem;
             transition: all 0.3s ease;
         }
-        
+
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(3, 105, 161, 0.1);
         }
-        
+
         .form-select {
             width: 100%;
             padding: 12px 15px;
@@ -225,25 +226,25 @@
             background-position: right 15px center;
             background-size: 16px 12px;
         }
-        
+
         .form-select:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(3, 105, 161, 0.1);
         }
-        
+
         .form-check {
             display: flex;
             align-items: center;
             margin-bottom: 10px;
         }
-        
+
         .form-check-input {
             margin-right: 10px;
             width: 18px;
             height: 18px;
         }
-        
+
         .btn {
             display: inline-block;
             padding: 12px 24px;
@@ -256,68 +257,69 @@
             font-family: 'Poppins', sans-serif;
             font-size: 1rem;
         }
-        
+
         .btn-primary {
             background-color: var(--primary);
             color: var(--white);
         }
-        
+
         .btn-primary:hover {
             background-color: var(--primary-dark);
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
+
         .btn-secondary {
             background-color: var(--secondary);
             color: var(--white);
         }
-        
+
         .btn-secondary:hover {
             background-color: var(--secondary-dark);
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
+
         .alert {
             padding: 15px 20px;
             border-radius: 5px;
             margin-bottom: 20px;
         }
-        
+
         .alert-success {
             background-color: rgba(16, 185, 129, 0.1);
             color: #10b981;
             border-left: 4px solid #10b981;
         }
-        
+
         .alert-danger {
             background-color: rgba(239, 68, 68, 0.1);
             color: #ef4444;
             border-left: 4px solid #ef4444;
         }
-        
+
         .table {
             width: 100%;
             border-collapse: collapse;
         }
-        
-        .table th, .table td {
+
+        .table th,
+        .table td {
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid var(--gray);
         }
-        
+
         .table th {
             font-weight: 600;
             color: var(--text-dark);
             background-color: var(--light-gray);
         }
-        
+
         .table tr:hover {
             background-color: var(--light-gray);
         }
-        
+
         .badge {
             display: inline-block;
             padding: 5px 10px;
@@ -325,53 +327,53 @@
             font-size: 0.75rem;
             font-weight: 500;
         }
-        
+
         .badge-success {
             background-color: rgba(16, 185, 129, 0.1);
             color: #10b981;
         }
-        
+
         .badge-warning {
             background-color: rgba(245, 158, 11, 0.1);
             color: #f59e0b;
         }
-        
+
         .badge-danger {
             background-color: rgba(239, 68, 68, 0.1);
             color: #ef4444;
         }
-        
+
         .text-end {
             text-align: right;
         }
-        
+
         .row {
             display: flex;
             flex-wrap: wrap;
             margin: -10px;
         }
-        
+
         .col-6 {
             flex: 0 0 50%;
             max-width: 50%;
             padding: 10px;
         }
-        
+
         .col-12 {
             flex: 0 0 100%;
             max-width: 100%;
             padding: 10px;
         }
-        
+
         @media (max-width: 992px) {
             .profile-container {
                 flex-direction: column;
             }
-            
+
             .profile-sidebar {
                 max-width: 100%;
             }
-            
+
             .col-6 {
                 flex: 0 0 100%;
                 max-width: 100%;
@@ -379,6 +381,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header class="profile-header">
@@ -387,7 +390,7 @@
             <p>Gérez vos informations personnelles et vos rendez-vous</p>
         </div>
     </header>
-    
+
     <div class="container">
         <!-- Alert Messages -->
         @if(session('success'))
@@ -395,13 +398,13 @@
             {{ session('success') }}
         </div>
         @endif
-        
+
         @if(session('error'))
         <div class="alert alert-danger">
             {{ session('error') }}
         </div>
         @endif
-        
+
         <div class="profile-container">
             <!-- Sidebar -->
             <div class="profile-sidebar">
@@ -415,7 +418,7 @@
                         </div>
                         <h3 class="profile-name">{{ $user->prenom }} {{ $user->nom }}</h3>
                         <p class="profile-role">Patient</p>
-                        
+
                         <ul class="profile-nav">
                             <li class="profile-nav-item">
                                 <a href="#personal-info" class="profile-nav-link active" data-tab="personal-info">
@@ -436,7 +439,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Content -->
             <div class="profile-content">
                 <!-- Personal Information Tab -->
@@ -448,6 +451,7 @@
                         <div class="profile-info">
                             <form action="{{ route('profile.update') }}" method="POST">
                                 @csrf
+                                <input type="hidden" name="section" value="personal">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
@@ -468,7 +472,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
@@ -489,40 +493,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label for="date_naissance" class="form-label">Date de naissance</label>
-                                            <input type="date" class="form-control @error('date_naissance') is-invalid @enderror" id="date_naissance" name="date_naissance" value="{{ old('date_naissance', $user->date_naissance ?? '') }}">
-                                            @error('date_naissance')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label for="sexe" class="form-label">Sexe</label>
-                                            <select class="form-select @error('sexe') is-invalid @enderror" id="sexe" name="sexe">
-                                                <option value="">Sélectionnez</option>
-                                                <option value="M" {{ old('sexe', $user->sexe ?? '') == 'M' ? 'selected' : '' }}>Homme</option>
-                                                <option value="F" {{ old('sexe', $user->sexe ?? '') == 'F' ? 'selected' : '' }}>Femme</option>
-                                            </select>
-                                            @error('sexe')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="address" class="form-label">Adresse</label>
-                                    <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" name="address" value="{{ old('address', $user->address ?? '') }}">
-                                    @error('address')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                
+
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
                                 </div>
@@ -530,10 +501,7 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Security Tab -->
-               
-                
+
                 <!-- Medical History Tab -->
                 <div id="medical-history" class="tab-content">
                     <div class="profile-card">
@@ -543,21 +511,22 @@
                         <div class="profile-info">
                             <form action="{{ route('profile.update') }}" method="POST">
                                 @csrf
+                                <input type="hidden" name="section" value="medical">
                                 <div class="form-group">
                                     <label for="allergies" class="form-label">Allergies</label>
                                     <textarea class="form-control" id="allergies" name="medical_history[allergies]" rows="3">{{ $patient && isset($patient->medical_history['allergies']) ? $patient->medical_history['allergies'] : '' }}</textarea>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label for="conditions" class="form-label">Conditions médicales</label>
                                     <textarea class="form-control" id="conditions" name="medical_history[conditions]" rows="3">{{ $patient && isset($patient->medical_history['conditions']) ? $patient->medical_history['conditions'] : '' }}</textarea>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label for="medications" class="form-label">Médicaments actuels</label>
                                     <textarea class="form-control" id="medications" name="medical_history[medications]" rows="3">{{ $patient && isset($patient->medical_history['medications']) ? $patient->medical_history['medications'] : '' }}</textarea>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="form-label">Antécédents dentaires</label>
                                     <div class="form-check">
@@ -579,7 +548,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                
+
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
                                 </div>
@@ -587,7 +556,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Appointments Tab -->
                 <div id="appointments" class="tab-content">
                     <div class="profile-card">
@@ -624,25 +593,25 @@
             </div>
         </div>
     </div>
-    
+
     <!-- JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Tab Navigation
             const tabLinks = document.querySelectorAll('.profile-nav-link');
             const tabContents = document.querySelectorAll('.tab-content');
-            
+
             tabLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    
+
                     // Remove active class from all links and contents
                     tabLinks.forEach(l => l.classList.remove('active'));
                     tabContents.forEach(c => c.classList.remove('active'));
-                    
+
                     // Add active class to clicked link
                     this.classList.add('active');
-                    
+
                     // Show corresponding content
                     const tabId = this.getAttribute('data-tab');
                     document.getElementById(tabId).classList.add('active');
@@ -651,4 +620,5 @@
         });
     </script>
 </body>
+
 </html>
