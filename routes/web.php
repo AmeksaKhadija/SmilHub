@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\DentistsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
+
+Route::get('/', [DentistsController::class, 'getAllDentist']);
 
 
 Route::get('/Register', [AuthController::class, 'register'])->name('register');
@@ -32,8 +33,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profilePatient', [AuthController::class, 'profilePatient'])->name('profilePatient');
     Route::get('/profileDentiste', [AuthController::class, 'profileDentiste'])->name('profileDentiste');
     Route::post('/profile/update', [AuthController::class, 'updateProfile'])->name('profile.update');
-    // Route::post('/profile/password', [AuthController::class, 'updatePassword'])->name('profile.password');
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/prendre_rendez_vous', [DentistsController::class, 'index'])->name('getAllDentistes');
+    Route::post('/prendre_rendez_vous', [AppointmentController::class, 'store'])->name('appointments.store');
+
+    
+    Route::get('/logout', [AuthController::class, 'logout']);
 });
 
 
@@ -41,9 +45,6 @@ Route::middleware(['auth'])->group(function () {
 
 
 // patient
-Route::get('/prendre_rendez_vous', function () {
-    return view('prendre_rendez_vous');
-});
 
 Route::get('/suivi_soin', function () {
     return view('suivi_soin');
