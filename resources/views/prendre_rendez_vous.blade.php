@@ -80,6 +80,8 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            border: none;
+            font-family: 'Poppins', sans-serif;
         }
 
         .btn-primary {
@@ -289,7 +291,7 @@
             gap: 40px;
         }
 
-        /* Dentist Selection */
+        /* Service Selection */
         .dentist-selection {
             background-color: var(--light-gray);
             border-radius: 10px;
@@ -297,39 +299,136 @@
             box-shadow: var(--shadow);
         }
 
-        .dentist-selection-title {
-            font-size: 1.5rem;
+        .service-selection {
+            margin-bottom: 30px;
+        }
+
+        .service-selection-title {
+            font-size: 1.4rem;
             font-weight: 600;
             margin-bottom: 20px;
             color: var(--primary);
+            position: relative;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-light);
         }
 
-        .dentist-list {
+        .service-options {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 12px;
         }
 
-        .dentist-card {
-            background-color: var(--white);
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: var(--shadow-sm);
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .service-option {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
+            padding: 15px;
+            background-color: var(--white);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
         }
 
-        .dentist-card:hover {
-            transform: translateY(-5px);
+        .service-option:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+            background-color: rgba(3, 105, 161, 0.05);
+        }
+
+        .service-option.selected {
+            background-color: rgba(3, 105, 161, 0.1);
+            border-left: 4px solid var(--primary);
             box-shadow: var(--shadow);
         }
 
-        .dentist-card.selected {
+        .service-option-radio {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .service-option.selected .service-option-radio {
+            border-color: var(--primary);
+        }
+
+        .service-option.selected .service-option-radio::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--primary);
+        }
+
+        .service-option-label {
+            font-weight: 500;
+            font-size: 1.05rem;
+        }
+
+        .service-option-duration {
+            margin-left: auto;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            background-color: var(--light-gray);
+            padding: 4px 10px;
+            border-radius: 15px;
+        }
+
+        /* Calendar Section */
+        .calendar-section {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .calendar-header {
+            margin-bottom: 20px;
+        }
+
+        .calendar-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+
+        /* Dentist Cards */
+        .dentist-availability-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .dentist-availability-section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .dentist-availability-section.selected {
             border-left: 4px solid var(--primary);
             background-color: rgba(3, 105, 161, 0.05);
+        }
+
+        .dentist-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
         }
 
         .dentist-avatar {
@@ -337,7 +436,7 @@
             height: 60px;
             border-radius: 50%;
             overflow: hidden;
-            flex-shrink: 0;
+            border: 3px solid var(--primary-light);
         }
 
         .dentist-avatar img {
@@ -351,14 +450,16 @@
         }
 
         .dentist-name {
+            font-size: 1.2rem;
             font-weight: 600;
-            color: var(--text-dark);
+            color: var(--primary);
             margin-bottom: 5px;
         }
 
         .dentist-specialty {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-light);
+            margin-bottom: 5px;
         }
 
         .dentist-rating {
@@ -366,208 +467,99 @@
             align-items: center;
             gap: 3px;
             color: var(--accent);
-            font-size: 0.8rem;
-            margin-top: 5px;
+            font-size: 0.9rem;
         }
 
-        /* Service Selection */
-        .service-selection {
-            margin-top: 30px;
-        }
-
-        .service-selection-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--primary);
-        }
-
-        .service-options {
+        .availability-days {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
         }
 
-        .service-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 15px;
-            background-color: var(--white);
-            border-radius: 8px;
+        .day-badge {
+            background-color: var(--primary-light);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .service-option:hover {
-            background-color: rgba(3, 105, 161, 0.05);
+        .day-badge:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
-        .service-option.selected {
-            background-color: rgba(3, 105, 161, 0.1);
-            border-left: 4px solid var(--primary);
-        }
-
-        .service-option-radio {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            border: 2px solid var(--gray);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .service-option.selected .service-option-radio {
-            border-color: var(--primary);
-        }
-
-        .service-option.selected .service-option-radio::after {
-            content: '';
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: var(--primary);
-        }
-
-        .service-option-label {
-            font-weight: 500;
-        }
-
-        .service-option-duration {
-            margin-left: auto;
-            font-size: 0.9rem;
-            color: var(--text-light);
-        }
-
-        /* Calendar Section */
-        .calendar-section {
-            background-color: var(--white);
-            border-radius: 10px;
-            padding: 30px;
+        .day-badge.selected {
+            background-color: var(--accent);
             box-shadow: var(--shadow);
         }
 
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .availability-details {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px;
             margin-bottom: 20px;
+            background-color: var(--light-gray);
+            padding: 15px;
+            border-radius: 8px;
         }
 
-        .calendar-title {
-            font-size: 1.5rem;
+        .availability-label {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .availability-value {
+            color: var(--text-light);
+        }
+
+        .time-slots-title {
+            font-size: 1.1rem;
             font-weight: 600;
+            margin: 20px 0 15px;
             color: var(--primary);
-        }
-
-        .calendar-nav {
             display: flex;
+            align-items: center;
             gap: 10px;
         }
 
-        .calendar-nav-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--light-gray);
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .calendar-nav-btn:hover {
-            background-color: var(--gray);
-        }
-
-        .calendar-grid {
-            margin-bottom: 30px;
-        }
-
-        .calendar-weekdays {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            text-align: center;
-            font-weight: 500;
-            color: var(--text-light);
-            margin-bottom: 10px;
-        }
-
-        .calendar-days {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-        }
-
-        .calendar-day {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .calendar-day:hover {
-            background-color: var(--light-gray);
-        }
-
-        .calendar-day.today {
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .calendar-day.selected {
-            background-color: var(--primary);
-            color: var(--white);
-        }
-
-        .calendar-day.disabled {
-            color: var(--dark-gray);
-            cursor: not-allowed;
-        }
-
-        .calendar-day.other-month {
-            color: var(--dark-gray);
-            opacity: 0.5;
-        }
-
-        /* Time Slots */
-        .time-slots-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--primary);
+        .time-slots-title::before {
+            content: '\f017';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: var(--primary-light);
         }
 
         .time-slots-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+            gap: 12px;
         }
 
         .time-slot {
-            padding: 10px;
+            padding: 12px;
             text-align: center;
             border-radius: 8px;
             background-color: var(--light-gray);
             cursor: pointer;
             transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .time-slot:hover {
             background-color: rgba(3, 105, 161, 0.1);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
         }
 
         .time-slot.selected {
             background-color: var(--primary);
             color: var(--white);
+            box-shadow: var(--shadow);
         }
 
         .time-slot.disabled {
@@ -578,38 +570,65 @@
 
         /* Appointment Summary */
         .appointment-summary {
-            margin-top: 30px;
+            margin-top: 40px;
             background-color: var(--light-gray);
-            border-radius: 10px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--primary);
         }
 
         .summary-title {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             color: var(--primary);
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .summary-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-light);
+            border-radius: 2px;
         }
 
         .summary-item {
             display: flex;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
         }
 
         .summary-label {
             width: 120px;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--text-dark);
         }
 
         .summary-value {
+            flex: 1;
             color: var(--text-light);
+            font-weight: 500;
         }
 
         .appointment-actions {
-            margin-top: 20px;
+            margin-top: 25px;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             gap: 15px;
         }
 
@@ -932,64 +951,7 @@
     <section class="appointment-section">
         <div class="container">
             <div class="appointment-container">
-                <!-- Dentist Selection -->
                 <div class="dentist-selection">
-                    <h2 class="dentist-selection-title">Choisissez votre dentiste</h2>
-                    <div class="dentist-list">
-                        <div class="dentist-card" data-dentist="dubois">
-                            <div class="dentist-avatar">
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. Thomas Dubois">
-                            </div>
-                            <div class="dentist-info">
-                                <h3 class="dentist-name">Dr. Thomas Dubois</h3>
-                                <p class="dentist-specialty">Dentiste généraliste</p>
-                                <div class="dentist-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                    <span>(4.5)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="dentist-card" data-dentist="leroy">
-                            <div class="dentist-avatar">
-                                <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Dr. Marie Leroy">
-                            </div>
-                            <div class="dentist-info">
-                                <h3 class="dentist-name">Dr. Marie Leroy</h3>
-                                <p class="dentist-specialty">Orthodontiste</p>
-                                <div class="dentist-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <span>(5.0)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="dentist-card" data-dentist="moreau">
-                            <div class="dentist-avatar">
-                                <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Dr. Pierre Moreau">
-                            </div>
-                            <div class="dentist-info">
-                                <h3 class="dentist-name">Dr. Pierre Moreau</h3>
-                                <p class="dentist-specialty">Implantologue</p>
-                                <div class="dentist-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <span>(4.0)</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Service Selection -->
                     <div class="service-selection">
                         <h2 class="service-selection-title">Sélectionnez un service</h2>
                         <div class="service-options">
@@ -1020,114 +982,145 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="appointment-summary">
+                        <h3 class="summary-title">Résumé du rendez-vous</h3>
+                        <div class="summary-item">
+                            <div class="summary-label">Dentiste:</div>
+                            <div class="summary-value" id="summaryDentist">À sélectionner</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Service:</div>
+                            <div class="summary-value" id="summaryService">À sélectionner</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Jour:</div>
+                            <div class="summary-value" id="summaryDay">À sélectionner</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Heure:</div>
+                            <div class="summary-value" id="summaryTime">À sélectionner</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Durée:</div>
+                            <div class="summary-value" id="summaryDuration">À sélectionner</div>
+                        </div>
+                        <div class="appointment-actions">
+                            <button class="btn btn-outline" id="resetBtn">Réinitialiser</button>
+                            <button class="btn btn-primary" id="confirmBtn">Confirmer le rendez-vous</button>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Calendar Section -->
                 <div class="calendar-section">
                     <div class="calendar-header">
-                        <h2 class="calendar-title">Sélectionnez une date et un horaire</h2>
-                        <div class="calendar-nav">
-                            <button class="calendar-nav-btn" id="prevMonth">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            <button class="calendar-nav-btn" id="nextMonth">
-                                <i class="fas fa-chevron-right"></i>
-                            </button>
-                        </div>
-                    </div>
+                        <h2 class="calendar-title">Créneaux disponibles par dentiste</h2>
 
-                    <div class="calendar-grid">
-                        <div class="calendar-weekdays">
-                            <div>Lun</div>
-                            <div>Mar</div>
-                            <div>Mer</div>
-                            <div>Jeu</div>
-                            <div>Ven</div>
-                            <div>Sam</div>
-                            <div>Dim</div>
-                        </div>
-                        <div class="calendar-days">
-                            <div class="calendar-day other-month">29</div>
-                            <div class="calendar-day other-month">30</div>
-                            <div class="calendar-day">1</div>
-                            <div class="calendar-day">2</div>
-                            <div class="calendar-day">3</div>
-                            <div class="calendar-day">4</div>
-                            <div class="calendar-day disabled">5</div>
-                            <div class="calendar-day">6</div>
-                            <div class="calendar-day">7</div>
-                            <div class="calendar-day">8</div>
-                            <div class="calendar-day">9</div>
-                            <div class="calendar-day">10</div>
-                            <div class="calendar-day">11</div>
-                            <div class="calendar-day disabled">12</div>
-                            <div class="calendar-day">13</div>
-                            <div class="calendar-day">14</div>
-                            <div class="calendar-day today selected">15</div>
-                            <div class="calendar-day">16</div>
-                            <div class="calendar-day">17</div>
-                            <div class="calendar-day">18</div>
-                            <div class="calendar-day disabled">19</div>
-                            <div class="calendar-day">20</div>
-                            <div class="calendar-day">21</div>
-                            <div class="calendar-day">22</div>
-                            <div class="calendar-day">23</div>
-                            <div class="calendar-day">24</div>
-                            <div class="calendar-day">25</div>
-                            <div class="calendar-day disabled">26</div>
-                            <div class="calendar-day">27</div>
-                            <div class="calendar-day">28</div>
-                            <div class="calendar-day">29</div>
-                            <div class="calendar-day">30</div>
-                            <div class="calendar-day">31</div>
-                            <div class="calendar-day other-month">1</div>
-                            <div class="calendar-day other-month disabled">2</div>
-                        </div>
-                    </div>
+                        <!-- Time Slots Section -->
+                        <div class="time-slots">
+                            @foreach($dentists as $dentist)
+                            <div class="dentist-availability-section" data-dentist-id="{{ $dentist->id }}">
+                                <div class="dentist-header">
+                                    <div class="dentist-avatar">
+                                        <img src="{{ $dentist->profile_photo ? asset('storage/'.$dentist->profile_photo) : 'https://randomuser.me/api/portraits/' . ($loop->index % 2 == 0 ? 'men' : 'women') . '/' . (30 + $loop->index) . '.jpg' }}" alt="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}">
+                                    </div>
+                                    <div class="dentist-info">
+                                        <h4 class="dentist-name">Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}</h4>
+                                        <p class="dentist-specialty">{{ $dentist->speciality ?: 'Dentiste généraliste' }}</p>
+                                        <div class="dentist-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                            <span>(4.5)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                @if(isset($dentist->available_slots) && !empty($dentist->available_slots))
+                                    @if(is_array($dentist->available_slots))
+                                        <!-- Si available_slots est un tableau de créneaux par date -->
+                                        @if(isset($dentist->available_slots[0]) && isset($dentist->available_slots[0]['date']))
+                                            @foreach($dentist->available_slots as $slot)
+                                                @if(isset($slot['date']) && isset($slot['slots']) && is_array($slot['slots']))
+                                                    <div>
+                                                        <h5 class="time-slots-title">Pour le {{ $slot['date'] }}</h5>
+                                                        <div class="time-slots-container">
+                                                            @foreach($slot['slots'] as $hour)
+                                                                <div class="time-slot" data-dentist-id="{{ $dentist->id }}" data-dentist-name="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}" data-date="{{ $slot['date'] }}">{{ $hour }}</div>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <!-- Si available_slots est un objet avec jours, heures, etc. -->
+                                            <div>
+                                                <h5 class="time-slots-title">Jours disponibles</h5>
+                                                <div class="availability-days">
+                                                    @if(isset($dentist->available_slots['days']) && is_array($dentist->available_slots['days']))
+                                                        @foreach($dentist->available_slots['days'] as $day)
+                                                            <span class="day-badge" data-dentist-id="{{ $dentist->id }}" data-dentist-name="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}" data-day="{{ $day }}">{{ $day }}</span>
+                                                        @endforeach
+                                                    @endif
+                                                </div>
 
-                    <div class="time-slots">
-                        <h3 class="time-slots-title">Créneaux disponibles pour le 15 Mai 2025</h3>
-                        <div class="time-slots-container">
-                            <div class="time-slot">09:00</div>
-                            <div class="time-slot">09:30</div>
-                            <div class="time-slot">10:00</div>
-                            <div class="time-slot disabled">10:30</div>
-                            <div class="time-slot selected">11:00</div>
-                            <div class="time-slot">11:30</div>
-                            <div class="time-slot disabled">14:00</div>
-                            <div class="time-slot">14:30</div>
-                            <div class="time-slot">15:00</div>
-                            <div class="time-slot">15:30</div>
-                            <div class="time-slot disabled">16:00</div>
-                            <div class="time-slot">16:30</div>
-                        </div>
-                    </div>
+                                                <div class="availability-details">
+                                                    <div class="availability-label">Heures de travail:</div>
+                                                    <div class="availability-value">
+                                                        {{ $dentist->available_slots['start_time'] ?? '09:00' }} -
+                                                        {{ $dentist->available_slots['end_time'] ?? '17:00' }}
+                                                    </div>
 
-                    <div class="appointment-summary">
-                        <h3 class="summary-title">Résumé du rendez-vous</h3>
-                        <div class="summary-item">
-                            <div class="summary-label">Dentiste:</div>
-                            <div class="summary-value" id="summaryDentist">Dr. Thomas Dubois</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-label">Service:</div>
-                            <div class="summary-value" id="summaryService">Nettoyage dentaire</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-label">Date:</div>
-                            <div class="summary-value" id="summaryDate">15 Mai 2025</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-label">Heure:</div>
-                            <div class="summary-value" id="summaryTime">11:00</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-label">Durée:</div>
-                            <div class="summary-value" id="summaryDuration">45 min</div>
-                        </div>
-                        <div class="appointment-actions">
-                            <button class="btn btn-outline" id="resetBtn">Réinitialiser</button>
-                            <button class="btn btn-primary" id="confirmBtn">Confirmer le rendez-vous</button>
+                                                    <div class="availability-label">Pause déjeuner:</div>
+                                                    <div class="availability-value">
+                                                        {{ $dentist->available_slots['break_start'] ?? '12:00' }} -
+                                                        {{ $dentist->available_slots['break_end'] ?? '13:00' }}
+                                                    </div>
+
+                                                    <div class="availability-label">Durée des rendez-vous:</div>
+                                                    <div class="availability-value">{{ $dentist->available_slots['appointment_duration'] ?? '30' }} minutes</div>
+                                                </div>
+
+                                                <!-- Créneaux horaires (initialement cachés) -->
+                                                <div class="day-time-slots" style="display: none;">
+                                                    <h5 class="time-slots-title">Créneaux disponibles</h5>
+                                                    <div class="time-slots-container">
+                                                        @php
+                                                        $start = isset($dentist->available_slots['start_time']) ? strtotime($dentist->available_slots['start_time']) : strtotime('09:00');
+                                                        $end = isset($dentist->available_slots['end_time']) ? strtotime($dentist->available_slots['end_time']) : strtotime('17:00');
+                                                        $breakStart = isset($dentist->available_slots['break_start']) ? strtotime($dentist->available_slots['break_start']) : strtotime('12:00');
+                                                        $breakEnd = isset($dentist->available_slots['break_end']) ? strtotime($dentist->available_slots['break_end']) : strtotime('13:00');
+                                                        $duration = isset($dentist->available_slots['appointment_duration']) ? $dentist->available_slots['appointment_duration'] * 60 : 30 * 60;
+                                                        $today = date('Y-m-d');
+                                                        @endphp
+
+                                                        @for($time = $start; $time < $end; $time += $duration)
+                                                            @if($time < $breakStart || $time >= $breakEnd)
+                                                                <div class="time-slot" data-dentist-id="{{ $dentist->id }}" data-dentist-name="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}" data-date="">{{ date('H:i', $time) }}</div>
+                                                            @endif
+                                                        @endfor
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @elseif(is_object($dentist->available_slots))
+                                        <!-- Si available_slots est un objet -->
+                                        <div>
+                                            <p>Informations de disponibilité stockées sous forme d'objet. Veuillez contacter l'administrateur.</p>
+                                        </div>
+                                    @else
+                                        <div>
+                                            <p>Format de disponibilité non reconnu. Veuillez contacter l'administrateur.</p>
+                                        </div>
+                                    @endif
+                                @else
+                                    <p>Aucune information de disponibilité pour ce dentiste.</p>
+                                @endif
+                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -1253,34 +1246,11 @@
                 }
             });
 
-            // Dentist Selection
-            const dentistCards = document.querySelectorAll('.dentist-card');
-            let selectedDentist = 'dubois';
-
-            dentistCards.forEach(card => {
-                if (card.dataset.dentist === selectedDentist) {
-                    card.classList.add('selected');
-                }
-
-                card.addEventListener('click', function() {
-                    dentistCards.forEach(c => c.classList.remove('selected'));
-                    this.classList.add('selected');
-                    selectedDentist = this.dataset.dentist;
-
-                    // Update summary
-                    document.getElementById('summaryDentist').textContent = this.querySelector('.dentist-name').textContent;
-                });
-            });
-
             // Service Selection
             const serviceOptions = document.querySelectorAll('.service-option');
-            let selectedService = 'cleaning'; // Default selected service
+            let selectedService = null;
 
             serviceOptions.forEach(option => {
-                if (option.dataset.service === selectedService) {
-                    option.classList.add('selected');
-                }
-
                 option.addEventListener('click', function() {
                     serviceOptions.forEach(o => o.classList.remove('selected'));
                     this.classList.add('selected');
@@ -1292,19 +1262,72 @@
                 });
             });
 
-            // Calendar Day Selection
-            const calendarDays = document.querySelectorAll('.calendar-day:not(.disabled):not(.other-month)');
+            // Sélectionner le premier service par défaut
+            if (serviceOptions.length > 0) {
+                serviceOptions[0].click();
+            }
 
-            calendarDays.forEach(day => {
-                day.addEventListener('click', function() {
-                    calendarDays.forEach(d => d.classList.remove('selected'));
+            // Day Badge Selection
+            const dayBadges = document.querySelectorAll('.day-badge');
+            let selectedDentistId = null;
+            let selectedDay = null;
+
+            dayBadges.forEach(badge => {
+                badge.addEventListener('click', function() {
+                    const dentistId = this.dataset.dentistId;
+                    const dentistName = this.dataset.dentistName;
+                    const day = this.dataset.day;
+                    
+                    // Désélectionner tous les badges du même dentiste
+                    document.querySelectorAll(`.day-badge[data-dentist-id="${dentistId}"]`).forEach(b => {
+                        b.classList.remove('selected');
+                    });
+                    
+                    // Sélectionner ce badge
                     this.classList.add('selected');
-
-                    // Update summary
-                    document.getElementById('summaryDate').textContent = `${this.textContent} Mai 2025`;
-
-                    // Update time slots title
-                    document.querySelector('.time-slots-title').textContent = `Créneaux disponibles pour le ${this.textContent} Mai 2025`;
+                    
+                    selectedDentistId = dentistId;
+                    selectedDay = day;
+                    
+                    // Mettre à jour le résumé
+                    document.getElementById('summaryDentist').textContent = dentistName;
+                    document.getElementById('summaryDay').textContent = day;
+                    
+                    // Mettre en évidence la section du dentiste sélectionné
+                    document.querySelectorAll('.dentist-availability-section').forEach(section => {
+                        if (section.dataset.dentistId === dentistId) {
+                            section.classList.add('selected');
+                            
+                            // Afficher les créneaux horaires pour ce jour
+                            const dayTimeSlots = section.querySelector('.day-time-slots');
+                            if (dayTimeSlots) {
+                                dayTimeSlots.style.display = 'block';
+                                
+                                // Mettre à jour la date pour les créneaux horaires
+                                const today = new Date();
+                                const dayIndex = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'].indexOf(day);
+                                
+                                if (dayIndex !== -1) {
+                                    const currentDayIndex = today.getDay();
+                                    const daysToAdd = (dayIndex - currentDayIndex + 7) % 7;
+                                    
+                                    const targetDate = new Date(today);
+                                    targetDate.setDate(today.getDate() + daysToAdd);
+                                    
+                                    const formattedDate = targetDate.toISOString().split('T')[0];
+                                    const displayDate = `${targetDate.getDate()}/${targetDate.getMonth() + 1}/${targetDate.getFullYear()}`;
+                                                                    
+                                    // Mettre à jour les attributs data-date des créneaux horaires
+                                    dayTimeSlots.querySelectorAll('.time-slot').forEach(slot => {
+                                        slot.dataset.date = displayDate;
+                                        slot.dataset.day = day;
+                                    });
+                                }
+                            }
+                        } else {
+                            section.classList.remove('selected');
+                        }
+                    });
                 });
             });
 
@@ -1313,11 +1336,22 @@
 
             timeSlots.forEach(slot => {
                 slot.addEventListener('click', function() {
+                    // Désélectionner tous les créneaux
                     timeSlots.forEach(s => s.classList.remove('selected'));
+                    // Sélectionner ce créneau
                     this.classList.add('selected');
 
-                    // Update summary
-                    document.getElementById('summaryTime').textContent = this.textContent;
+                    // Récupérer les informations du dentiste et du créneau
+                    const dentistId = this.dataset.dentistId;
+                    const dentistName = this.dataset.dentistName;
+                    const date = this.dataset.date;
+                    const day = this.dataset.day;
+                    const time = this.textContent.trim();
+
+                    // Mettre à jour le résumé
+                    document.getElementById('summaryDentist').textContent = dentistName;
+                    if (day) document.getElementById('summaryDay').textContent = day;
+                    document.getElementById('summaryTime').textContent = time;
                 });
             });
 
@@ -1328,6 +1362,24 @@
             const modalOkBtn = document.getElementById('modalOkBtn');
 
             confirmBtn.addEventListener('click', function() {
+                // Valider les sélections
+                if (document.getElementById('summaryDentist').textContent === 'À sélectionner') {
+                    alert('Veuillez sélectionner un dentiste en choisissant un jour disponible.');
+                    return;
+                }
+                if (document.getElementById('summaryService').textContent === 'À sélectionner') {
+                    alert('Veuillez sélectionner un service.');
+                    return;
+                }
+                if (document.getElementById('summaryDay').textContent === 'À sélectionner') {
+                    alert('Veuillez sélectionner un jour disponible.');
+                    return;
+                }
+                if (document.getElementById('summaryTime').textContent === 'À sélectionner') {
+                    alert('Veuillez sélectionner un horaire.');
+                    return;
+                }
+
                 confirmationModal.classList.add('active');
             });
 
@@ -1344,23 +1396,36 @@
             const resetBtn = document.getElementById('resetBtn');
 
             resetBtn.addEventListener('click', function() {
-                // Reset dentist selection
-                dentistCards.forEach(c => c.classList.remove('selected'));
-                dentistCards[0].classList.add('selected');
-                selectedDentist = dentistCards[0].dataset.dentist;
-
-                // Reset service selection
+                // Réinitialiser la sélection de service
                 serviceOptions.forEach(o => o.classList.remove('selected'));
-                serviceOptions[1].classList.add('selected');
-                selectedService = serviceOptions[1].dataset.service;
+                if (serviceOptions.length > 0) {
+                    serviceOptions[0].click();
+                } else {
+                    selectedService = null;
+                    document.getElementById('summaryService').textContent = 'À sélectionner';
+                    document.getElementById('summaryDuration').textContent = 'À sélectionner';
+                }
+                
+                // Réinitialiser la sélection de jour
+                dayBadges.forEach(b => b.classList.remove('selected'));
+                
+                // Cacher tous les créneaux horaires
+                document.querySelectorAll('.day-time-slots').forEach(slots => {
+                    slots.style.display = 'none';
+                });
 
-                // Reset calendar day selection
-                calendarDays.forEach(d => d.classList.remove('selected'));
-                document.querySelector('.calendar-day.today').classList.add('selected');
-
-                // Reset time slot selection
+                // Réinitialiser la sélection de créneau
                 timeSlots.forEach(s => s.classList.remove('selected'));
-                timeSlots[4].classList.add('selected');
+                
+                // Réinitialiser la mise en évidence des sections de dentiste
+                document.querySelectorAll('.dentist-availability-section').forEach(section => {
+                    section.classList.remove('selected');
+                });
+
+                // Réinitialiser le résumé
+                document.getElementById('summaryDentist').textContent = 'À sélectionner';
+                document.getElementById('summaryDay').textContent = 'À sélectionner';
+                document.getElementById('summaryTime').textContent = 'À sélectionner';
             });
         });
     </script>

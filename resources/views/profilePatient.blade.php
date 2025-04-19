@@ -417,7 +417,7 @@
                             <i class="fas fa-user"></i>
                         </div>
                         <h3 class="profile-name">{{ $user->prenom }} {{ $user->nom }}</h3>
-                        <p class="profile-role">Patient</p>
+                        <p class="profile-role">{{ $user->role }}</p>
 
                         <ul class="profile-nav">
                             <li class="profile-nav-item">

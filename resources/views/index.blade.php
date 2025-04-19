@@ -1475,81 +1475,7 @@
         </div>
     </section>
 
-    <!-- Appointment Section -->
-    <section class="appointment">
-        <div class="container">
-            <div class="appointment-container">
-                <div class="appointment-content">
-                    <h2 class="section-title">Prenez rendez-vous</h2>
-                    <p class="appointment-text">Nous sommes là pour répondre à tous vos besoins en matière de soins dentaires. Prenez rendez-vous dès aujourd'hui et faites le premier pas vers un sourire plus sain.</p>
-                    <div class="appointment-info">
-                        <div class="appointment-info-item">
-                            <div class="appointment-info-icon">
-                                <i class="fas fa-phone-alt"></i>
-                            </div>
-                            <div>
-                                <h4>Appelez-nous</h4>
-                                <p>+33 1 23 45 67 89</p>
-                            </div>
-                        </div>
-                        <div class="appointment-info-item">
-                            <div class="appointment-info-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div>
-                                <h4>Envoyez-nous un email</h4>
-                                <p>contact@SmileHub.fr</p>
-                            </div>
-                        </div>
-                        <div class="appointment-info-item">
-                            <div class="appointment-info-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div>
-                                <h4>Horaires d'ouverture</h4>
-                                <p>Lun-Ven: 9h-19h | Sam: 9h-17h</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="appointment-form-container">
-                    <form class="appointment-form">
-                        <h3 class="form-title">Formulaire de rendez-vous</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Votre nom" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" class="form-control" placeholder="Votre email" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <input type="tel" class="form-control" placeholder="Votre téléphone" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="date" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control" required>
-                                <option value="" disabled selected>Sélectionnez un service</option>
-                                <option value="check-up">Examen de routine</option>
-                                <option value="cleaning">Nettoyage dentaire</option>
-                                <option value="whitening">Blanchiment des dents</option>
-                                <option value="implants">Implants dentaires</option>
-                                <option value="orthodontics">Orthodontie</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-control" rows="4" placeholder="Votre message (optionnel)"></textarea>
-                        </div>
-                        <button type="submit" class="form-btn">Confirmer le rendez-vous</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- Team Section -->
     <section class="team">
@@ -1559,13 +1485,14 @@
                 <p class="section-subtitle">Rencontrez nos dentistes expérimentés qui s'engagent à vous offrir les meilleurs soins dentaires</p>
             </div>
             <div class="team-container">
+                @foreach($dentists as $dentist)
                 <div class="team-card">
                     <div class="team-image">
                         <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=1964&auto=format&fit=crop" alt="Dr. Sophie Martin">
                     </div>
                     <div class="team-content">
-                        <h3 class="team-name">Dr. Sophie Martin</h3>
-                        <p class="team-position">Dentiste généraliste</p>
+                        <h3 class="team-name">Dr. {{$dentist->user->nom}} {{ $dentist->user->prenom }}</h3>
+                        <p class="team-position">{{$dentist->speciality}}</p>
                         <div class="team-social">
                             <a href="#" class="team-social-link"><i class="fab fa-facebook-f"></i></a>
                             <a href="#" class="team-social-link"><i class="fab fa-twitter"></i></a>
@@ -1573,48 +1500,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="team-card">
-                    <div class="team-image">
-                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=2070&auto=format&fit=crop" alt="Dr. Thomas Dubois">
-                    </div>
-                    <div class="team-content">
-                        <h3 class="team-name">Dr. Thomas Dubois</h3>
-                        <p class="team-position">Orthodontiste</p>
-                        <div class="team-social">
-                            <a href="#" class="team-social-link"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="team-social-link"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="team-social-link"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="team-card">
-                    <div class="team-image">
-                        <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=1974&auto=format&fit=crop" alt="Dr. Marie Leroy">
-                    </div>
-                    <div class="team-content">
-                        <h3 class="team-name">Dr. Marie Leroy</h3>
-                        <p class="team-position">Chirurgienne dentiste</p>
-                        <div class="team-social">
-                            <a href="#" class="team-social-link"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="team-social-link"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="team-social-link"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="team-card">
-                    <div class="team-image">
-                        <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=2070&auto=format&fit=crop" alt="Dr. Pierre Moreau">
-                    </div>
-                    <div class="team-content">
-                        <h3 class="team-name">Dr. Pierre Moreau</h3>
-                        <p class="team-position">Implantologue</p>
-                        <div class="team-social">
-                            <a href="#" class="team-social-link"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="team-social-link"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="team-social-link"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>

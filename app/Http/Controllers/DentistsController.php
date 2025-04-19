@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dentists;
 use App\Http\Requests\StoreDentistsRequest;
 use App\Http\Requests\UpdateDentistsRequest;
+use App\Models\Dentist;
 
 class DentistsController extends Controller
 {
@@ -15,12 +16,27 @@ class DentistsController extends Controller
      */
     public function index()
     {
-        //
+        $dentists = Dentist::all();
+
+        foreach ($dentists as $dentist) {
+            $dentist->available_slots = json_decode($dentist->available_slots, true);
+        }
+
+        return view('/prendre_rendez_vous', compact('dentists'));
     }
 
+    public function getAllDentist()
+    {
+        $dentists = Dentist::all();
+
+        foreach ($dentists as $dentist) {
+            $dentist->available_slots = json_decode($dentist->available_slots, true);
+        }
+        return view('/index', ['dentists' => $dentists]);
+    }
     /**
      * Show the form for creating a new resource.
-     *
+     *x
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -45,7 +61,7 @@ class DentistsController extends Controller
      * @param  \App\Models\Dentists  $dentists
      * @return \Illuminate\Http\Response
      */
-    public function show(Dentists $dentists)
+    public function show(Dentist $dentist)
     {
         //
     }
@@ -56,7 +72,7 @@ class DentistsController extends Controller
      * @param  \App\Models\Dentists  $dentists
      * @return \Illuminate\Http\Response
      */
-    public function edit(Dentists $dentists)
+    public function edit(Dentist $dentist)
     {
         //
     }
@@ -68,7 +84,7 @@ class DentistsController extends Controller
      * @param  \App\Models\Dentists  $dentists
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDentistsRequest $request, Dentists $dentists)
+    public function update(UpdateDentistsRequest $request, Dentist $dentist)
     {
         //
     }
@@ -79,7 +95,7 @@ class DentistsController extends Controller
      * @param  \App\Models\Dentists  $dentists
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Dentists $dentists)
+    public function destroy(Dentist $dentist)
     {
         //
     }
