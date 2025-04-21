@@ -1136,7 +1136,7 @@
                     <div class="content-grid">
                         @forelse($contents as $content)
                         <div class="content-card" data-category="{{ $content->category_id }}">
-                            <img src="{{ asset('images/dental-' . rand(1, 5) . '.jpg') }}" alt="{{ $content->title }}" class="content-card-img">
+                            <img src="{{ $content->image }}" alt="{{ $content->title }}" class="content-card-img">
                             <div class="content-card-body">
                                 <span class="content-card-category">{{ $content->categorie->name }}</span>
                                 <h3 class="content-card-title">{{ $content->title }}</h3>

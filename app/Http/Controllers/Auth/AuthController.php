@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -149,13 +150,18 @@ class AuthController extends Controller
                 'prenom' => 'required|string|min:2|max:30',
                 'email' => 'required|email|unique:users,email,' . $user->id,
                 'phone' => 'required|string',
+                'image' => 'required',
             ]);
 
             $user->nom = $request->nom;
             $user->prenom = $request->prenom;
             $user->email = $request->email;
             $user->phone = $request->phone;
-
+            if ($request->hasFile('image')) {
+                $imageName = Str::slug($request->name) . '-' . time() . '.' . $request->image->extension();
+                $request->image->storeAs('public/users', $imageName);
+                $user->image = 'storage/users/' . $imageName;
+            }
             $user->save();
         } elseif ($section === 'speciality' && $user->role === 'dentiste') {
 

@@ -30,26 +30,38 @@ Route::post('/loginpost', [AuthController::class, 'loginPost'])->name('loginpost
 
 
 
-Route::middleware(['auth'])->group(function () {
-    // Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
-    Route::get('/profilePatient', [AuthController::class, 'profilePatient'])->name('profilePatient');
-    Route::get('/profileDentiste', [AuthController::class, 'profileDentiste'])->name('profileDentiste');
-    Route::post('/profile/update', [AuthController::class, 'updateProfile'])->name('profile.update');
-    Route::get('/prendre_rendez_vous', [DentistsController::class, 'index'])->name('getAllDentistes');
-    Route::post('/prendre_rendez_vous', [AppointmentController::class, 'store'])->name('appointments.store');
+// Route::middleware(['auth'])->group(function () {
+// Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+Route::get('/profilePatient', [AuthController::class, 'profilePatient'])->name('profilePatient');
+Route::get('/profileDentiste', [AuthController::class, 'profileDentiste'])->name('profileDentiste');
+Route::post('/profile/update', [AuthController::class, 'updateProfile'])->name('profile.update');
+Route::get('/prendre_rendez_vous', [DentistsController::class, 'index'])->name('getAllDentistes');
+Route::post('/prendre_rendez_vous', [AppointmentController::class, 'store'])->name('appointments.store');
 
 
 
-    Route::resource('contents', ContentController::class);
-    Route::get('/contents/dentist/{dentistId}', [ContentController::class, 'getByDentist'])->name('contents.by.dentist');
-    Route::get('/contents/category/{categoryId}', [ContentController::class, 'getByCategory'])->name('contents.by.category');
+Route::get('/contents', [ContentController::class, 'index'])->name('contents.index');
+Route::get('/contents/create', [ContentController::class, 'create'])->name('contents.create');
+Route::post('/contents', [ContentController::class, 'store'])->name('contents.store');
+Route::get('/contents/{content}', [ContentController::class, 'show'])->name('contents.show');
+Route::get('/contents/{content}/edit', [ContentController::class, 'edit'])->name('contents.edit');
+Route::put('/contents/{content}', [ContentController::class, 'update'])->name('contents.update');
+Route::delete('/contents/{content}', [ContentController::class, 'destroy'])->name('contents.destroy');
+
+// API routes for content
+Route::get('/api/contents/dentist/{dentistId}', [ContentController::class, 'getByDentist'])->name('api.contents.by.dentist');
+Route::get('/api/contents/category/{categoryId}', [ContentController::class, 'getByCategory'])->name('api.contents.by.category');
+
+// Category routes
+Route::get('/contents/dentist/{dentistId}', [ContentController::class, 'getByDentist'])->name('contents.by.dentist');
+Route::get('/contents/category/{categoryId}', [ContentController::class, 'getByCategory'])->name('contents.by.category');
 
 
-    Route::resource('categories', CategorieController::class);
-    Route::get('/all-categories', [CategorieController::class, 'getAllCategories'])->name('categories.all');
+Route::resource('categories', CategorieController::class);
+Route::get('/all-categories', [CategorieController::class, 'getAllCategories'])->name('categories.all');
 
-    Route::get('/logout', [AuthController::class, 'logout']);
-});
+Route::get('/logout', [AuthController::class, 'logout']);
+// });
 
 
 // middleware

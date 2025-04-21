@@ -11,10 +11,11 @@ class Content extends Model
 
     protected $fillable = [
         'title',
-        'body',
+        'content',
         'type',
         'dentist_id',
-        'categorie_id',
+        'category_id',
+        'image',
     ];
 
     public function dentist()
@@ -24,8 +25,6 @@ class Content extends Model
 
     public function categorie()
     {
-        return $this->belongsTo(Categorie::class);
+        return $this->belongsTo(Categorie::class, 'category_id');
     }
-
-
 }

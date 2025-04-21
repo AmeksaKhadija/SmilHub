@@ -1488,7 +1488,7 @@
                 @foreach($dentists as $dentist)
                 <div class="team-card">
                     <div class="team-image">
-                        <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=1964&auto=format&fit=crop" alt="Dr. Sophie Martin">
+                        <img src="{{$dentist->user->image}}" alt="Dr. {{$dentist->user->nom}} {{ $dentist->user->prenom }}">
                     </div>
                     <div class="team-content">
                         <h3 class="team-name">Dr. {{$dentist->user->nom}} {{ $dentist->user->prenom }}</h3>

@@ -485,7 +485,7 @@
                             <h2>Informations personnelles</h2>
                         </div>
                         <div class="profile-info">
-                            <form action="{{ route('profile.update') }}" method="POST">
+                            <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="section" value="personal">
                                 <div class="row">
@@ -524,6 +524,17 @@
                                             <label for="phone" class="form-label">Téléphone</label>
                                             <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone', $user->phone) }}">
                                             @error('phone')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="image" class="form-label">Image</label>
+                                            <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" value="{{ old('image', $user->image) }}">
+                                            @error('image')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>

@@ -1,4 +1,495 @@
 @extends('dentist.layout')
+@section('style')
+<style>
+    /* Dashboard Content */
+    .dashboard-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .dashboard-subtitle {
+        color: var(--text-light);
+        margin-bottom: 30px;
+    }
+
+    /* Stats Cards */
+    .stats-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .stats-card {
+        background-color: var(--white);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .stats-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .stats-card-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+    }
+
+    .stats-card-icon.blue {
+        background-color: rgba(3, 105, 161, 0.1);
+        color: var(--primary);
+    }
+
+    .stats-card-icon.green {
+        background-color: rgba(20, 184, 166, 0.1);
+        color: var(--secondary);
+    }
+
+    .stats-card-icon.orange {
+        background-color: rgba(249, 115, 22, 0.1);
+        color: var(--accent);
+    }
+
+    .stats-card-icon.purple {
+        background-color: rgba(124, 58, 237, 0.1);
+        color: #7c3aed;
+    }
+
+    .stats-card-content {
+        flex: 1;
+    }
+
+    .stats-card-title {
+        color: var(--text-light);
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+
+    .stats-card-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
+
+    .stats-card-change {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.8rem;
+        margin-top: 5px;
+    }
+
+    .stats-card-change.up {
+        color: var(--success);
+    }
+
+    .stats-card-change.down {
+        color: var(--danger);
+    }
+
+    /* Dashboard Grid */
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .dashboard-card {
+        background-color: var(--white);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+    }
+
+    .dashboard-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .dashboard-card-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    .dashboard-card-action {
+        color: var(--primary);
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .dashboard-card-action:hover {
+        text-decoration: underline;
+    }
+
+    /* Appointments */
+    .appointment-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .appointment-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--gray);
+    }
+
+    .appointment-item:last-child {
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .appointment-time {
+        width: 80px;
+        text-align: center;
+        font-weight: 600;
+        color: var(--primary);
+    }
+
+    .appointment-patient {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .appointment-patient-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .appointment-patient-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .appointment-patient-name {
+        font-weight: 600;
+    }
+
+    .appointment-patient-service {
+        color: var(--text-light);
+        font-size: 0.85rem;
+    }
+
+    .appointment-status {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .appointment-status.confirmed {
+        background-color: rgba(34, 197, 94, 0.1);
+        color: var(--success);
+    }
+
+    .appointment-status.pending {
+        background-color: rgba(234, 179, 8, 0.1);
+        color: var(--warning);
+    }
+
+    .appointment-status.cancelled {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--danger);
+    }
+
+    .appointment-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .appointment-action {
+        width: 30px;
+        height: 30px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .appointment-action.view {
+        background-color: var(--info);
+    }
+
+    .appointment-action.edit {
+        background-color: var(--warning);
+    }
+
+    .appointment-action.delete {
+        background-color: var(--danger);
+    }
+
+    .appointment-action:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+    }
+
+    /* Recent Patients */
+    .patient-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .patient-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--gray);
+    }
+
+    .patient-item:last-child {
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .patient-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .patient-info {
+        flex: 1;
+    }
+
+    .patient-name {
+        font-weight: 600;
+        margin-bottom: 3px;
+    }
+
+    .patient-details {
+        display: flex;
+        gap: 15px;
+        color: var(--text-light);
+        font-size: 0.85rem;
+    }
+
+    .patient-detail {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .patient-action {
+        color: var(--primary);
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .patient-action:hover {
+        color: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+
+    /* Calendar */
+    .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .calendar-title {
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .calendar-nav {
+        display: flex;
+        gap: 10px;
+    }
+
+    .calendar-nav-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--light-gray);
+        color: var(--text-dark);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+    .calendar-nav-btn:hover {
+        background-color: var(--gray);
+    }
+
+    .calendar {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .calendar th {
+        padding: 10px;
+        text-align: center;
+        font-weight: 500;
+        color: var(--text-light);
+        font-size: 0.9rem;
+    }
+
+    .calendar td {
+        padding: 5px;
+        text-align: center;
+    }
+
+    .calendar-day {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .calendar-day:hover {
+        background-color: var(--light-gray);
+    }
+
+    .calendar-day.today {
+        background-color: var(--primary-light);
+        color: var(--white);
+        font-weight: 600;
+    }
+
+    .calendar-day.has-events::after {
+        content: '';
+        position: absolute;
+        bottom: 2px;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: var(--accent);
+    }
+
+    .calendar-day.other-month {
+        color: var(--text-lighter);
+        opacity: 0.5;
+    }
+
+    /* Performance Chart */
+    .chart-container {
+        height: 300px;
+        margin-top: 20px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+        .stats-cards {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 992px) {
+        .sidebar {
+            transform: translateX(-100%);
+            z-index: 1000;
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar-close {
+            display: block;
+        }
+
+        .main-content {
+            margin-left: 0;
+        }
+
+        .menu-toggle {
+            display: block;
+        }
+
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .header-search input {
+            width: 200px;
+        }
+
+        .stats-cards {
+            grid-template-columns: 1fr;
+        }
+
+        .header-profile-info {
+            display: none;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .header-search {
+            width: 100%;
+        }
+
+        .header-search input {
+            width: 100%;
+        }
+
+        .header-right {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .appointment-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .appointment-time {
+            width: auto;
+            text-align: left;
+        }
+
+        .appointment-actions {
+            align-self: flex-end;
+        }
+    }
+</style>
+@endsection
 @section('content')
     <!-- Stats Cards -->
     <div class="stats-cards">

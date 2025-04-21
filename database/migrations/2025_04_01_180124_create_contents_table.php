@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('type');
             $table->text('content');
+            $table->string('image');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('dentist_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories');

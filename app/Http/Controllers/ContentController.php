@@ -7,6 +7,8 @@ use App\Models\Categorie;
 use App\Models\Dentist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 
 class ContentController extends Controller
@@ -20,8 +22,8 @@ class ContentController extends Controller
     {
         $contents = Content::with(['categorie', 'dentist'])->latest()->paginate(10);
         $categories = Categorie::all();
-        
-        return view('contents.index', compact('contents', 'categories'));
+
+        return view('dentist.contents', compact('contents', 'categories'));
     }
 
     /**
@@ -32,7 +34,7 @@ class ContentController extends Controller
     public function create()
     {
         $categories = Categorie::all();
-        return view('contents.create', compact('categories'));
+        return view('dentist.contents.create', compact('categories'));
     }
 
     /**
@@ -48,14 +50,16 @@ class ContentController extends Controller
             'type' => 'required|string|max:50',
             'content' => 'required|string',
             'category_id' => 'required|exists:categories,id',
-            'dentist_id' => 'required|exists:dentists,id',
+            'dentist_id' => 'required',
+            'image' => 'required',
         ]);
-
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
+        // dd($request);
+
 
         $content = Content::create([
             'title' => $request->title,
@@ -63,9 +67,16 @@ class ContentController extends Controller
             'content' => $request->content,
             'category_id' => $request->category_id,
             'dentist_id' => $request->dentist_id,
+            'image' => 'image.png',
         ]);
+        if ($request->hasFile('image')) {
 
-        return redirect()->route('dentists.profile')
+            $imageName = Str::slug($request->title) . '-' . time() . '.' . $request->image->extension();
+            $request->image->storeAs('public/contents', $imageName);
+            $content->image = 'storage/contents/' . $imageName;
+        }
+        $content->save();
+        return redirect()->route('contents.index')
             ->with('success', 'Article créé avec succès!');
     }
 
@@ -78,7 +89,7 @@ class ContentController extends Controller
     public function show(Content $content)
     {
         $content->load(['categorie', 'dentist']);
-        return view('contents.show', compact('content'));
+        return view('dentist.contents.show', compact('content'));
     }
 
     /**
@@ -90,7 +101,7 @@ class ContentController extends Controller
     public function edit(Content $content)
     {
         $categories = Categorie::all();
-        return view('contents.edit', compact('content', 'categories'));
+        return view('dentist.contents.edit', compact('content', 'categories'));
     }
 
     /**
@@ -107,6 +118,7 @@ class ContentController extends Controller
             'type' => 'required|string|max:50',
             'content' => 'required|string',
             'category_id' => 'required|exists:categories,id',
+            'image' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -120,9 +132,21 @@ class ContentController extends Controller
             'type' => $request->type,
             'content' => $request->content,
             'category_id' => $request->category_id,
+            'image' => 'image.png',
         ]);
 
-        return redirect()->route('dentists.profile')
+        if ($request->hasFile('image')) {
+            if ($content->image && Storage::exists('public/' . str_replace('storage/', '', $content->image))) {
+                Storage::delete('public/' . str_replace('storage/', '', $content->image));
+            }
+
+            $imageName = Str::slug($request->name) . '-' . time() . '.' . $request->image->extension();
+            $request->image->storeAs('public/contents', $imageName);
+            $content->image = 'storage/contents/' . $imageName;
+        }
+
+        $content->save();
+        return redirect()->route('contents.index')
             ->with('success', 'Article mis à jour avec succès!');
     }
 
@@ -135,8 +159,8 @@ class ContentController extends Controller
     public function destroy(Content $content)
     {
         $content->delete();
-        
-        return redirect()->route('dentists.profile')
+
+        return redirect()->route('contents.index')
             ->with('success', 'Article supprimé avec succès!');
     }
 
@@ -153,7 +177,7 @@ class ContentController extends Controller
             ->with('categorie')
             ->latest()
             ->get();
-        
+
         return response()->json([
             'success' => true,
             'data' => $contents
@@ -172,10 +196,10 @@ class ContentController extends Controller
             ->with(['categorie', 'dentist'])
             ->latest()
             ->get();
-        
+
         return response()->json([
             'success' => true,
             'data' => $contents
-        ]); 
+        ]);
     }
 }

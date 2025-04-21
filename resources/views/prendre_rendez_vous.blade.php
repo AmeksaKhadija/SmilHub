@@ -1114,7 +1114,7 @@
                     <div class="dentist-header">
                         <div class="dentist-head">
                             <div class="dentist-avatar">
-                                <img src="{{ $dentist->image ? asset('storage/'.$dentist->profile_photo) : 'https://randomuser.me/api/portraits/' . ($loop->index % 2 == 0 ? 'men' : 'women') . '/' . (30 + $loop->index) . '.jpg' }}" alt="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}">
+                                <img src="{{ $dentist->user->image }}" alt="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}">
                             </div>
                             <div class="dentist-info">
                                 <h4 class="dentist-name">Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}</h4>

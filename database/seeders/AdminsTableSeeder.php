@@ -4,8 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class CategorieSeeder extends Seeder
+class AdminsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +15,10 @@ class CategorieSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('admins')->insert([
+            'utilisateur_id' => 1,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
     }
 }

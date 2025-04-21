@@ -494,6 +494,18 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="image" class="form-label">Image</label>
+                                            <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" value="{{ old('image', $user->image) }}">
+                                            @error('image')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
                                 </div>

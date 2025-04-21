@@ -22,6 +22,7 @@ class User extends Authenticatable
         'prenom',
         'email',
         'tele',
+        'image',
         'password',
         'role',
     ];
@@ -50,7 +51,7 @@ class User extends Authenticatable
         return $this->hasMany(Notification::class);
     }
 
-   
+
     public function isPatient()
     {
         return $this->role === 'patient';
