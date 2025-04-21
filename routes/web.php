@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\ContentController;
 use App\Http\Controllers\DentistsController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,8 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', [DentistsController::class, 'getAllDentist']);
-
+Route::get('/', [DentistsController::class, 'getAllDentist'])->name('home');
+Route::get('/dentists/{dentist}', [DentistsController::class, 'show'])->name('dentists.show');
 
 Route::get('/Register', [AuthController::class, 'register'])->name('register');
 Route::post('/registerpost', [AuthController::class, 'registerPost'])->name('registerPost');
@@ -36,14 +38,25 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/prendre_rendez_vous', [DentistsController::class, 'index'])->name('getAllDentistes');
     Route::post('/prendre_rendez_vous', [AppointmentController::class, 'store'])->name('appointments.store');
 
-    
+
+
+    Route::resource('contents', ContentController::class);
+    Route::get('/contents/dentist/{dentistId}', [ContentController::class, 'getByDentist'])->name('contents.by.dentist');
+    Route::get('/contents/category/{categoryId}', [ContentController::class, 'getByCategory'])->name('contents.by.category');
+
+
+    Route::resource('categories', CategorieController::class);
+    Route::get('/all-categories', [CategorieController::class, 'getAllCategories'])->name('categories.all');
+
     Route::get('/logout', [AuthController::class, 'logout']);
 });
 
 
 // middleware
 
-
+Route::get('/detailDentist', function () {
+    return view('detailDentist');
+});
 // patient
 
 Route::get('/suivi_soin', function () {

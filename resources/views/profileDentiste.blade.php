@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Dentiste - MedSmile</title>
+    <title>Profil Dentiste - SmileHub</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -470,6 +470,7 @@
                                     <i class="fas fa-clock"></i> Disponibilité
                                 </a>
                             </li>
+                            
                         </ul>
                     </div>
                 </div>
@@ -540,7 +541,7 @@
                 <div id="speciality" class="tab-content">
                     <div class="profile-card">
                         <div class="profile-card-header">
-                            <h2>Spécialité et informations professionnelles</h2>
+                            <h2>Spécialité</h2>
                         </div>
                         <div class="profile-info">
                             <form action="{{ route('profile.update') }}" method="POST">
@@ -651,6 +652,7 @@
                         </form>
                     </div>
                 </div>
+
             </div>
 
         </div>
@@ -660,7 +662,6 @@
     <!-- JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Tab Navigation
             const tabLinks = document.querySelectorAll('.profile-nav-link');
             const tabContents = document.querySelectorAll('.tab-content');
 
@@ -668,14 +669,11 @@
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
 
-                    // Remove active class from all links and contents
                     tabLinks.forEach(l => l.classList.remove('active'));
                     tabContents.forEach(c => c.classList.remove('active'));
 
-                    // Add active class to clicked link
                     this.classList.add('active');
 
-                    // Show corresponding content
                     const tabId = this.getAttribute('data-tab');
                     document.getElementById(tabId).classList.add('active');
                 });

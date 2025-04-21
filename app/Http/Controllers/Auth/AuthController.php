@@ -113,25 +113,6 @@ class AuthController extends Controller
         return $this->redirectBasedOnRole($user);
     }
 
-    // public function profile()
-    // {
-    //     $user = Auth::user();
-
-    //     if (!$user) {
-    //         return redirect()->route('login')->with('info', 'Veuillez vous connecter pour accéder à votre profil.');
-    //     }
-
-    //     if ($user->role === 'patient') {
-    //         $patient = $user->patient;
-    //         return view('profilePatient', compact('user', 'patient'));
-    //     } elseif ($user->role === 'dentiste') {
-    //         $dentist = $user->dentist;
-    //         return view('profileDentiste', compact('user', 'dentist'));
-    //     } else {
-    //         return redirect()->route('/')->with('error', 'Accès non autorisé.');
-    //     }
-    // }
-
     public function profilePatient()
     {
         $user = Auth::user();
@@ -242,6 +223,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/')->with('success', 'Vous avez été déconnecté avec succès.');
+        return redirect()->route('home')->with('success', 'Vous avez été déconnecté avec succès.');
     }
 }

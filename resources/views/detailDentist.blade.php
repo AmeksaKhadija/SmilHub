@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prise de Rendez-vous - SmileHub</title>
+    <title>details dentiste - SmileHub</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -119,6 +119,11 @@
             color: var(--white);
             transform: translateY(-3px);
             box-shadow: var(--shadow-md);
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.9rem;
         }
 
         .section-title {
@@ -309,14 +314,14 @@
             opacity: 0.9;
         }
 
-        /* Style global pour la section de rendez-vous */
-        .appointment-section {
+        /* Dentist Profile Section */
+        .dentist-profile-section {
             padding: 80px 0;
             background-color: var(--off-white);
             position: relative;
         }
 
-        .appointment-section::before {
+        .dentist-profile-section::before {
             content: '';
             position: absolute;
             top: 0;
@@ -326,376 +331,452 @@
             background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230369a1' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
 
-        .appointment-container {
+        .profile-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
+            gap: 40px;
             position: relative;
             z-index: 1;
         }
 
-        .calendar-header {
-            margin-bottom: 40px;
+        /* Dentist Profile Card */
+        .dentist-profile-card {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 350px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
         }
 
-        .calendar-title {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            position: relative;
-            display: inline-block;
-            padding-bottom: 15px;
+        .dentist-profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         }
 
-        .calendar-title::after {
+        .dentist-avatar-large {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--primary-light);
+            box-shadow: 0 4px 10px rgba(3, 105, 161, 0.2);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .dentist-profile-card:hover .dentist-avatar-large {
+            transform: scale(1.05);
+        }
+
+        .dentist-name-large {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .dentist-specialty-large {
+            font-size: 16px;
+            color: var(--text-light);
+            background-color: var(--light-gray);
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .dentist-rating-large {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .dentist-rating-large i {
+            color: #FFD700;
+            font-size: 18px;
+        }
+
+        .dentist-rating-large span {
+            font-size: 16px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .dentist-bio {
+            color: var(--text-light);
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        .dentist-contact-info {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .contact-item i {
+            color: var(--primary);
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .appointment-btn {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        /* Content Section */
+        .content-section {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .content-header {
+            margin-bottom: 30px;
+        }
+
+        .content-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .content-title::after {
             content: '';
             position: absolute;
             bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 0;
             width: 60px;
             height: 4px;
             background: var(--secondary);
             border-radius: 2px;
         }
 
-        /* Style pour la carte du dentiste */
-        .dentist-availability-section {
-            background: var(--white);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            width: 100%;
-            max-width: 1200px;
+        /* Category Filter */
+        .category-filter {
             display: flex;
-            justify-content: space-between;
-            padding: 30px;
-            margin-bottom: 40px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .dentist-availability-section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Ligne séparatrice entre les deux parties (dentiste et formulaire) */
-        .dentist-availability-section::before {
-            content: '';
-            position: absolute;
-            top: 10%;
-            left: 50%;
-            height: 80%;
-            width: 1px;
-            background-color: var(--gray);
-            transform: translateX(-50%);
-        }
-
-        /* Section gauche : informations du dentiste */
-        .dentist-header {
-            display: flex;
-            align-items: start;
-            gap: 20px;
-            width: 45%;
-            flex-direction: column;
-            padding: 20px;
-        }
-
-        .dentist-head {
-            display: flex;
-            gap: 21px;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .dentist-avatar img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--primary-light);
-            box-shadow: 0 4px 10px rgba(3, 105, 161, 0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .dentist-availability-section:hover .dentist-avatar img {
-            transform: scale(1.05);
-        }
-
-        .dentist-info {
-            display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             gap: 10px;
+            margin-bottom: 30px;
         }
 
-        .dentist-name {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-
-        .dentist-specialty {
-            font-size: 15px;
-            color: var(--text-light);
+        .category-btn {
+            padding: 8px 16px;
             background-color: var(--light-gray);
-            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background-color: var(--primary);
+            color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Content Cards */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .content-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .content-card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .content-card-body {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-card-category {
+            font-size: 12px;
+            color: var(--primary);
+            background-color: rgba(3, 105, 161, 0.1);
+            padding: 4px 10px;
             border-radius: 20px;
             display: inline-block;
             margin-bottom: 10px;
         }
 
-        .dentist-rating {
-            display: flex;
-            gap: 5px;
-            align-items: center;
-        }
-
-        .dentist-rating i {
-            color: #FFD700;
-            font-size: 16px;
-        }
-
-        .dentist-rating span {
-            font-size: 14px;
-            color: var(--text-light);
-            font-weight: 500;
-        }
-
-        /* Disponibilité */
-        .available-days {
-            background-color: var(--light-gray);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .available-days-title {
+        .content-card-title {
             font-size: 18px;
-            color: var(--primary);
-            margin-bottom: 15px;
             font-weight: 600;
-            position: relative;
-            padding-left: 28px;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            line-height: 1.4;
         }
 
-        .available-days-title::before {
-            content: '\f073';
-            font-family: 'Font Awesome 5 Free';
-            font-weight: 900;
-            position: absolute;
-            left: 0;
-            color: var(--primary);
-        }
-
-        .days-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .day-item {
-            background-color: var(--white);
-            padding: 8px 15px;
-            border-radius: 20px;
+        .content-card-excerpt {
+            color: var(--text-light);
             font-size: 14px;
-            font-weight: 500;
-            color: var(--primary);
-            border: 1px solid var(--primary-light);
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            flex: 1;
         }
 
-        .day-item::before {
-            content: '\f058';
-            font-family: 'Font Awesome 5 Free';
-            font-weight: 900;
-            color: var(--secondary);
+        .content-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .content-card-date {
             font-size: 12px;
+            color: var(--text-lighter);
         }
 
-        .availability-details {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .availability-label {
+        .read-more {
             font-size: 14px;
-            color: var(--text-light);
+            color: var(--primary);
+            font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 5px;
+            transition: all 0.3s ease;
         }
 
-        .availability-label::before {
-            content: '\f017';
-            font-family: 'Font Awesome 5 Free';
-            font-weight: 900;
-            color: var(--secondary);
+        .read-more:hover {
+            color: var(--primary-dark);
+            transform: translateX(3px);
         }
 
-        .time-slots-title {
-            font-size: 18px;
-            color: var(--primary);
-            margin-bottom: 15px;
-            font-weight: 600;
-            position: relative;
-            padding-left: 28px;
-            margin-top: 25px;
+        .read-more i {
+            font-size: 12px;
+            transition: transform 0.3s ease;
         }
 
-        .time-slots-title::before {
-            content: '\f017';
-            font-family: 'Font Awesome 5 Free';
-            font-weight: 400;
-            position: absolute;
+        .read-more:hover i {
+            transform: translateX(3px);
+        }
+
+        /* Content Modal */
+        .modal {
+            position: fixed;
+            top: 0;
             left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
             color: var(--primary);
         }
 
-        .time-slots-container {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-
-        .time-slot {
-            background-color: var(--light-gray);
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-size: 14px;
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-light);
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 1px solid transparent;
-            font-weight: 500;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .time-slot:hover {
-            background-color: var(--primary-light);
-            color: var(--white);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(3, 105, 161, 0.2);
+        .modal-close:hover {
+            color: var(--text-dark);
+            background-color: var(--light-gray);
         }
 
-        .time-slot.active {
+        .modal-category {
+            font-size: 14px;
+            color: var(--primary);
+            background-color: rgba(3, 105, 161, 0.1);
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .modal-body {
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .modal-body p {
+            margin-bottom: 15px;
+        }
+
+        .modal-body img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .modal-body h2,
+        .modal-body h3 {
+            margin-top: 25px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .modal-body ul,
+        .modal-body ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .modal-body li {
+            margin-bottom: 8px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray);
+        }
+
+        .modal-date {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .modal-share {
+            display: flex;
+            gap: 10px;
+        }
+
+        .share-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .share-btn:hover {
             background-color: var(--primary);
             color: var(--white);
-            border-color: var(--primary-dark);
-            box-shadow: 0 4px 8px rgba(3, 105, 161, 0.2);
+            transform: translateY(-3px);
         }
 
-        /* Section droite : formulaire résumé du rendez-vous */
-        .appointment-summary {
-            width: 45%;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+        /* No Content Message */
+        .no-content {
+            text-align: center;
+            padding: 40px;
             background-color: var(--white);
-            padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 100px;
+            box-shadow: var(--shadow);
         }
 
-        .appointment-summary h3 {
-            font-size: 22px;
-            color: var(--primary);
-            font-weight: 700;
+        .no-content i {
+            font-size: 48px;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .no-content h3 {
+            font-size: 20px;
+            color: var(--text-dark);
             margin-bottom: 10px;
-            position: relative;
-            padding-bottom: 15px;
         }
 
-        .appointment-summary h3::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background: var(--secondary);
-            border-radius: 2px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
-        label {
-            font-size: 15px;
-            color: var(--text-dark);
-            font-weight: 500;
-        }
-
-        .form-control, .form-select {
-            padding: 12px 15px;
-            font-size: 15px;
-            border-radius: 8px;
-            border: 1px solid var(--gray);
-            width: 100%;
-            background-color: var(--light-gray);
-            transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .form-control:focus, .form-select:focus {
-            border-color: var(--primary-light);
-            background-color: var(--white);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(3, 105, 161, 0.1);
-        }
-
-        .form-select {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230369a1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            padding-right: 40px;
-        }
-
-        .alert {
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .alert-danger {
-            background-color: #fee2e2;
-            border: 1px solid #fecaca;
-            color: #b91c1c;
-        }
-
-        .alert ul {
-            list-style: disc;
-            margin-left: 20px;
-        }
-
-        .date-instruction {
-            background-color: #e0f2fe;
-            border-left: 4px solid var(--primary);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            line-height: 1.6;
-            color: var(--text-dark);
-        }
-
-        .date-instruction i {
-            color: var(--primary);
-            margin-right: 8px;
+        .no-content p {
+            color: var(--text-light);
         }
 
         /* Footer */
@@ -704,6 +785,7 @@
             color: var(--white);
             padding-top: 80px;
             position: relative;
+            margin-top: 80px;
         }
 
         .footer::before {
@@ -820,98 +902,12 @@
             font-size: 0.9rem;
         }
 
-        /* Modal */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background-color: var(--white);
-            border-radius: 16px;
-            padding: 40px;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-20px);
-            transition: all 0.3s ease;
-        }
-
-        .modal.active .modal-content {
-            transform: translateY(0);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .modal-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--text-light);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-close:hover {
-            color: var(--text-dark);
-            background-color: var(--light-gray);
-        }
-
-        .modal-body {
-            margin-bottom: 30px;
-            line-height: 1.8;
-        }
-
-        .modal-body p {
-            margin-bottom: 15px;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-        }
-
         /* Responsive Styles */
         @media (max-width: 1200px) {
             .container {
                 padding: 0 30px;
             }
-            
+
             .footer-container {
                 grid-template-columns: 1fr 1fr;
                 gap: 40px 60px;
@@ -919,28 +915,21 @@
         }
 
         @media (max-width: 992px) {
-            .dentist-availability-section {
+            .profile-container {
                 flex-direction: column;
-                padding: 25px;
+                align-items: center;
             }
-            
-            .dentist-availability-section::before {
-                display: none;
+
+            .dentist-profile-card {
+                max-width: 100%;
             }
-            
-            .dentist-header, .appointment-summary {
+
+            .content-section {
                 width: 100%;
             }
-            
-            .dentist-header {
-                margin-bottom: 30px;
-                padding: 0;
-            }
-            
-            .appointment-summary {
-                position: static;
-                padding: 25px;
-                margin-top: 20px;
+
+            .content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
         }
 
@@ -948,19 +937,19 @@
             .page-title {
                 font-size: 2.5rem;
             }
-            
+
             .page-subtitle {
                 font-size: 1.1rem;
             }
-            
-            .appointment-section {
+
+            .dentist-profile-section {
                 padding: 60px 0;
             }
-            
-            .calendar-title {
-                font-size: 1.8rem;
+
+            .content-title {
+                font-size: 24px;
             }
-            
+
             .main-nav {
                 display: none;
                 position: absolute;
@@ -985,20 +974,25 @@
             .mobile-menu-btn {
                 display: block;
             }
-            
+
             .footer-container {
                 grid-template-columns: 1fr;
                 gap: 40px;
             }
-            
+
             .contact-info {
                 flex-direction: column;
                 gap: 10px;
             }
-            
+
             .top-header-content {
                 flex-direction: column;
                 gap: 15px;
+            }
+
+            .modal-content {
+                padding: 25px;
+                max-width: 90%;
             }
         }
 
@@ -1006,26 +1000,16 @@
             .page-header {
                 padding: 70px 0;
             }
-            
+
             .page-title {
                 font-size: 2rem;
             }
-            
-            .dentist-head {
-                flex-direction: column;
-                text-align: center;
-                align-items: center;
+
+            .content-grid {
+                grid-template-columns: 1fr;
             }
-            
-            .dentist-info {
-                align-items: center;
-            }
-            
-            .modal-content {
-                padding: 25px;
-            }
-            
-            .days-list {
+
+            .category-filter {
                 justify-content: center;
             }
         }
@@ -1096,156 +1080,106 @@
 
     <section class="page-header">
         <div class="container">
-            <h1 class="page-title">Prendre Rendez-vous</h1>
-            <p class="page-subtitle">Réservez facilement un rendez-vous avec l'un de nos dentistes qualifiés en quelques clics</p>
+            <h1 class="page-title">Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}</h1>
+            <p class="page-subtitle">Découvrez les articles et ressources éducatives de notre spécialiste</p>
         </div>
     </section>
 
-    <!-- Appointment Section -->
-    <section class="appointment-section">
+    <!-- Dentist Profile Section -->
+    <section class="dentist-profile-section">
         <div class="container">
-            <div class="calendar-header">
-                <h2 class="calendar-title">Créneaux disponibles par dentiste</h2>
-            </div>
-            <div class="appointment-container">
-                <!-- Dentist Cards -->
-                @foreach($dentists as $dentist)
-                <div class="dentist-availability-section" data-dentist-id="{{ $dentist->id }}">
-                    <div class="dentist-header">
-                        <div class="dentist-head">
-                            <div class="dentist-avatar">
-                                <img src="{{ $dentist->image ? asset('storage/'.$dentist->profile_photo) : 'https://randomuser.me/api/portraits/' . ($loop->index % 2 == 0 ? 'men' : 'women') . '/' . (30 + $loop->index) . '.jpg' }}" alt="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}">
-                            </div>
-                            <div class="dentist-info">
-                                <h4 class="dentist-name">Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}</h4>
-                                <input type="hidden" name="dentist_id" value="{{ $dentist->id }}">
-                                <p class="dentist-specialty">{{ $dentist->speciality ?: 'Dentiste généraliste' }}</p>
-                                <div class="dentist-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                    <span>(4.5)</span>
-                                </div>
-                            </div>
-                        </div>
+            <div class="profile-container">
+                <!-- Dentist Profile Card -->
+                <div class="dentist-profile-card">
+                    <img src="{{ $dentist->image ? asset('storage/'.$dentist->profile_photo) : 'https://randomuser.me/api/portraits/' . (rand(0, 1) == 0 ? 'men' : 'women') . '/' . rand(30, 50) . '.jpg' }}" alt="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}" class="dentist-avatar-large">
+                    <h2 class="dentist-name-large">Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}</h2>
+                    <span class="dentist-specialty-large">{{ $dentist->speciality ?: 'Dentiste généraliste' }}</span>
+                    <div class="dentist-rating-large">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>(4.5)</span>
+                    </div>
+                    <p class="dentist-bio">{{ $dentist->bio ?? 'Dr. ' . $dentist->user->nom . ' ' . $dentist->user->prenom . ' est un dentiste expérimenté spécialisé dans ' . ($dentist->speciality) . '. Avec plusieurs années d\'expérience, il/elle s\'engage à fournir des soins dentaires de qualité dans un environnement confortable et accueillant.' }}</p>
 
-                        <!-- Available Days Section -->
-                        @if(isset($dentist->available_slots) && !empty($dentist->available_slots))
-                            @if(is_array($dentist->available_slots))
-                                <!-- Si available_slots est un tableau de créneaux par date -->
-                                @if(isset($dentist->available_slots[0]) && isset($dentist->available_slots[0]['date']))
-                                    @foreach($dentist->available_slots as $slot)
-                                        @if(isset($slot['date']) && isset($slot['slots']) && is_array($slot['slots']))
-                                            <div>
-                                                <h5 class="time-slots-title">Pour le {{ $slot['date'] }}</h5>
-                                                <div class="time-slots-container">
-                                                    @foreach($slot['slots'] as $hour)
-                                                        <div class="time-slot" data-dentist-id="{{ $dentist->id }}" data-dentist-name="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}" data-date="{{ $slot['date'] }}" data-time="{{ $hour }}">
-                                                            {{ $hour }}
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                @else
-                                    <!-- Si available_slots est un objet avec jours, heures, etc. -->
-                                    <div class="available-days">
-                                        <h5 class="available-days-title">Jours disponibles</h5>
-                                        <div class="days-list">
-                                            @if(isset($dentist->available_slots['days']) && is_array($dentist->available_slots['days']))
-                                                @foreach($dentist->available_slots['days'] as $day)
-                                                    <span class="day-item">{{ $day }}</span>
-                                                @endforeach
-                                            @endif
-                                        </div>
-                                        
-                                        <div class="availability-details">
-                                            <div class="availability-label">Heures de travail: 
-                                                {{ $dentist->available_slots['start_time'] }} -
-                                                {{ $dentist->available_slots['end_time'] }}
-                                            </div>
-                                            <div class="availability-label">Pause déjeuner: 
-                                                {{ $dentist->available_slots['break_start'] }} -
-                                                {{ $dentist->available_slots['break_end'] }}
-                                            </div>
-                                            <div class="availability-label">Durée des rendez-vous: 
-                                                {{ $dentist->available_slots['appointment_duration'] }} minutes
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            @elseif(is_object($dentist->available_slots))
-                                <div>
-                                    <p>Informations de disponibilité stockées sous forme d'objet. Veuillez contacter l'administrateur.</p>
-                                </div>
-                            @else
-                                <div>
-                                    <p>Format de disponibilité non reconnu. Veuillez contacter l'administrateur.</p>
-                                </div>
-                            @endif
-                        @else
-                            <p>Aucune information de disponibilité pour ce dentiste.</p>
-                        @endif
+                    <div class="dentist-contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>{{ $dentist->user->email}}</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>{{ $dentist->phone ?? '+33 1 23 45 67 89' }}</span>
+                        </div>
                     </div>
 
-                    <div class="appointment-summary">
-                        @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        @endif
+                </div>
 
-                        <h3>Résumé du rendez-vous</h3>
-                        
-                        <div class="date-instruction">
-                            <i class="fas fa-info-circle"></i>
-                            Veuillez sélectionner une date parmi les jours disponibles indiqués à gauche. Seuls les rendez-vous pris durant ces jours seront acceptés.
+                <!-- Content Section -->
+                <div class="content-section">
+                    <div class="content-header">
+                        <h2 class="content-title">Articles et ressources</h2>
+                        <p>Découvrez les articles éducatifs et conseils de santé dentaire rédigés par Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}.</p>
+                    </div>
+
+                    <!-- Category Filter -->
+                    <div class="category-filter">
+                        <button class="category-btn active" data-category="all">Tous</button>
+                        @foreach($categories as $category)
+                        <button class="category-btn" data-category="{{ $category->id }}">{{ $category->name }}</button>
+                        @endforeach
+                    </div>
+
+                    <!-- Content Grid -->
+                    <div class="content-grid">
+                        @forelse($contents as $content)
+                        <div class="content-card" data-category="{{ $content->category_id }}">
+                            <img src="{{ asset('images/dental-' . rand(1, 5) . '.jpg') }}" alt="{{ $content->title }}" class="content-card-img">
+                            <div class="content-card-body">
+                                <span class="content-card-category">{{ $content->categorie->name }}</span>
+                                <h3 class="content-card-title">{{ $content->title }}</h3>
+                                <p class="content-card-excerpt">{{ Str::limit(strip_tags($content->content), 120) }}</p>
+                                <div class="content-card-footer">
+                                    <span class="content-card-date">{{ $content->created_at->format('d M Y') }}</span>
+                                    <a href="#" class="read-more" data-content-id="{{ $content->id }}">Lire plus <i class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
                         </div>
-                        
-                        <form method="POST" action="{{ route('appointments.store') }}">
-                            @csrf
-                            <input type="hidden" name="dentist_id" value="{{ $dentist->id }}">
-                            
-                            <div class="form-group">
-                                <label for="date">Date</label>
-                                <input type="date" id="date" name="date" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="time">Heure</label>
-                                <input type="time" id="time" name="time" class="form-control">
-                            </div>
-                            <button type="submit" name="submit" class="btn btn-primary">Réserver</button>
-                        </form>
+                        @empty
+                        <div class="no-content">
+                            <i class="fas fa-file-alt"></i>
+                            <h3>Aucun contenu disponible</h3>
+                            <p>Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }} n'a pas encore publié d'articles ou de ressources.</p>
+                        </div>
+                        @endforelse
                     </div>
                 </div>
-                @endforeach
             </div>
         </div>
     </section>
 
-    <!-- Confirmation Modal -->
-    <div class="modal" id="confirmationModal">
+    <!-- Content Modal -->
+    <div class="modal" id="contentModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Confirmation du rendez-vous</h2>
+                <h2 class="modal-title" id="modalTitle"></h2>
                 <button class="modal-close" id="modalClose">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="modal-body">
-                <p>Votre rendez-vous a été confirmé avec succès !</p>
-                <p>Vous recevrez bientôt un email de confirmation avec les détails de votre rendez-vous.</p>
-                <p>Un rappel vous sera également envoyé 24 heures avant votre rendez-vous.</p>
+            <span class="modal-category" id="modalCategory"></span>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be loaded here -->
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" id="modalOkBtn">OK</button>
+                <span class="modal-date" id="modalDate"></span>
+                <div class="modal-share">
+                    <a href="#" class="share-btn"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="share-btn"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="share-btn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
             </div>
         </div>
     </div>
@@ -1330,55 +1264,89 @@
     </footer>
 
     <script>
-        // Time slot selection
         document.addEventListener('DOMContentLoaded', function() {
-            const timeSlots = document.querySelectorAll('.time-slot');
-            
-            timeSlots.forEach(slot => {
-                slot.addEventListener('click', function() {
-                    // Remove active class from all slots
-                    timeSlots.forEach(s => s.classList.remove('active'));
-                    
-                    // Add active class to clicked slot
+            // Category filter
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const contentCards = document.querySelectorAll('.content-card');
+
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+
+                    // Add active class to clicked button
                     this.classList.add('active');
-                    
-                    // Get data attributes
-                    const dentistId = this.getAttribute('data-dentist-id');
-                    const date = this.getAttribute('data-date');
-                    const time = this.getAttribute('data-time');
-                    
-                    // Find the corresponding form
-                    const form = document.querySelector(`.dentist-availability-section[data-dentist-id="${dentistId}"] form`);
-                    
-                    if (form) {
-                        // Update form fields
-                        form.querySelector('#date').value = date;
-                        form.querySelector('#time').value = time;
-                    }
+
+                    // Get selected category
+                    const selectedCategory = this.getAttribute('data-category');
+
+                    // Show/hide content cards based on category
+                    contentCards.forEach(card => {
+                        if (selectedCategory === 'all' || card.getAttribute('data-category') === selectedCategory) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
                 });
             });
-            
+
             // Modal handling
-            const modal = document.getElementById('confirmationModal');
+            const modal = document.getElementById('contentModal');
             const closeBtn = document.getElementById('modalClose');
-            const okBtn = document.getElementById('modalOkBtn');
-            
+            const readMoreLinks = document.querySelectorAll('.read-more');
+
+            // Close modal
             if (closeBtn) {
                 closeBtn.addEventListener('click', function() {
                     modal.classList.remove('active');
                 });
             }
-            
-            if (okBtn) {
-                okBtn.addEventListener('click', function() {
-                    modal.classList.remove('active');
+
+            // Open modal with content
+            readMoreLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const contentId = this.getAttribute('data-content-id');
+
+                    // In a real application, you would fetch the content from the server
+                    // For this example, we'll use the data already in the page
+                    const card = this.closest('.content-card');
+                    const title = card.querySelector('.content-card-title').textContent;
+                    const category = card.querySelector('.content-card-category').textContent;
+                    const date = card.querySelector('.content-card-date').textContent;
+
+                    // Set modal content
+                    document.getElementById('modalTitle').textContent = title;
+                    document.getElementById('modalCategory').textContent = category;
+                    document.getElementById('modalDate').textContent = date;
+
+                    // For demo purposes, we'll create some dummy content
+                    // In a real app, you would fetch the full content from the server
+                    document.getElementById('modalBody').innerHTML = `
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.</p>
+                        <p>Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.</p>
+                        <img src="${card.querySelector('.content-card-img').src}" alt="${title}">
+                        <h3>Sous-titre important</h3>
+                        <p>Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.</p>
+                        <ul>
+                            <li>Point important numéro 1</li>
+                            <li>Point important numéro 2</li>
+                            <li>Point important numéro 3</li>
+                        </ul>
+                        <p>Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.</p>
+                    `;
+
+                    // Show modal
+                    modal.classList.add('active');
                 });
-            }
-            
+            });
+
             // Mobile menu toggle
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const mainNav = document.getElementById('mainNav');
-            
+
             if (mobileMenuBtn && mainNav) {
                 mobileMenuBtn.addEventListener('click', function() {
                     mainNav.classList.toggle('active');

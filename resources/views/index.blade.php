@@ -1498,6 +1498,7 @@
                             <a href="#" class="team-social-link"><i class="fab fa-twitter"></i></a>
                             <a href="#" class="team-social-link"><i class="fab fa-linkedin-in"></i></a>
                         </div>
+                        <a href="{{ route('dentists.show', $dentist->id) }}" style="margin-top:10%" class="btn btn-secondary">Voir plus</a>
                     </div>
                 </div>
                 @endforeach

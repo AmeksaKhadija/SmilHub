@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Dentists;
 use App\Http\Requests\StoreDentistsRequest;
 use App\Http\Requests\UpdateDentistsRequest;
+use App\Models\Categorie;
+use App\Models\Content;
 use App\Models\Dentist;
+use Illuminate\Support\Facades\Auth;
 
 class DentistsController extends Controller
 {
@@ -61,9 +64,16 @@ class DentistsController extends Controller
      * @param  \App\Models\Dentists  $dentists
      * @return \Illuminate\Http\Response
      */
-    public function show(Dentist $dentist)
+    public function show($id)
     {
-        //
+        $dentist = Dentist::with('user')->findOrFail($id);
+        $contents = Content::where('dentist_id', $id)
+            ->with('categorie')
+            ->latest()
+            ->get();
+        $categories = Categorie::all();
+
+        return view('detailDentist', compact('dentist', 'contents', 'categories'));
     }
 
     /**
@@ -98,5 +108,42 @@ class DentistsController extends Controller
     public function destroy(Dentist $dentist)
     {
         //
+    }
+
+
+
+    public function profile()
+    {
+        // Récupérer le dentiste connecté
+        $user = Auth::user();
+        $dentist = Dentist::where('user_id', $user->id)->firstOrFail();
+
+        $contents = Content::where('dentist_id', $dentist->id)
+            ->with('categorie')
+            ->latest()
+            ->get();
+        $categories = Categorie::all();
+
+        return view('dentist-profile', compact('dentist', 'contents', 'categories'));
+    }
+
+    /**
+     * Get dentist's contents
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getContents($id)
+    {
+        $dentist = Dentist::findOrFail($id);
+        $contents = Content::where('dentist_id', $dentist)
+            ->with('categorie')
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $contents
+        ]);
     }
 }
