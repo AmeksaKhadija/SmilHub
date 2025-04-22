@@ -669,6 +669,28 @@
             <div class="calendar-header">
                 <h2 class="calendar-title">Créneaux disponibles par dentiste</h2>
             </div>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if (session('success'))
+                <div class="alert alert-success"
+                    style="background-color: #10b981; color: white; padding: 15px; margin: 20px 0; border-radius: 8px;">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger"
+                    style="background-color: #ef4444; color: white; padding: 15px; margin: 20px 0; border-radius: 8px;">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="appointment-container">
                 <!-- Dentist Cards -->
                 @foreach ($dentists as $dentist)
@@ -759,15 +781,7 @@
                         </div>
 
                         <div class="appointment-summary">
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
+
 
                             <h3>Résumé du rendez-vous</h3>
 

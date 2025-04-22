@@ -28,16 +28,20 @@ class AppointmentController extends Controller
             'date' => 'required|date|after_or_equal:today',
             'time' => 'required|date_format:H:i',
         ]);
-        dd($validated);
+        // dd($validated);
         try {
             $dentist = Dentist::findOrFail($validated['dentist_id']);
             $patient = Auth::user();
-            $appointmentDate = Carbon::parse($validated['date']);
-            $appointmentTime = $validated['time'];
 
-            $appointmentDateTime = Carbon::parse(
-                $appointmentDate->format('Y-m-d') . ' ' . $appointmentTime
-            );
+            Carbon::setLocale('fr');
+
+
+            $appointmentDay = Carbon::parse($validated['date'])->translatedFormat('l');
+            $appointmentTime = Carbon::parse($validated['time'])->format('H:i');
+
+            $appointmentDayAndTime = $validated['date'] . ' ' . $validated['time'] . ':00';
+            // dd($appointmentDayAndTime);
+
 
             DB::beginTransaction();
 
@@ -45,9 +49,70 @@ class AppointmentController extends Controller
                 $appointment = new Appointment();
                 $appointment->patient_id = $patient->id;
                 $appointment->dentist_id = $dentist->id;
-                $appointment->date = $appointmentDateTime;
+                $appointment->date = $appointmentDay;
                 $appointment->status = 'En attente';
-                $appointment->save();
+
+                $av_days = json_decode($dentist->available_slots, true)['days'];
+
+                $start_time = json_decode($dentist->available_slots, true)['start_time'];
+                $startTime = Carbon::createFromFormat('H:i', $start_time);
+
+                $break_start = json_decode($dentist->available_slots, true)['break_start'];
+                $breakStart = Carbon::createFromFormat('H:i', $break_start)
+                    ->copy()
+                    ->subMinutes(intval(json_decode($dentist->available_slots, true)['appointment_duration']));
+
+                $break_end  = json_decode($dentist->available_slots, true)['break_end'];
+                $breakEnd = Carbon::createFromFormat('H:i', $break_end);
+
+                $end_time  = json_decode($dentist->available_slots, true)['end_time'];
+                $endTime = Carbon::createFromFormat('H:i', $end_time)
+                    ->copy()
+                    ->subMinutes(intval(json_decode($dentist->available_slots, true)['appointment_duration']));
+
+                $appointmentTimeFormat = Carbon::createFromFormat('H:i', $appointmentTime);
+
+                // dd($av_days, $startTime, $breakStart, $breakEnd, $endTime);
+
+                foreach ($av_days as $day) {
+                    // dd($day);
+                    if (strtolower($appointmentDay) == strtolower($day)) {
+                        // dd($day);
+                        if ($appointmentTimeFormat->between($startTime, $breakStart) || $appointmentTimeFormat->between($breakEnd, $endTime)) {
+                            // dd($day);
+                            foreach ($dentist->appointments as $appointement) {
+                                // dd($appointement->date);
+                                $apt_date = Carbon::createFromFormat('Y-m-d H:i:s', $appointement->date);
+
+                                $apt_date_end =  $apt_date->copy()
+                                    ->addMinutes(intval(json_decode($dentist->available_slots, true)['appointment_duration']));
+
+                                $apt_date_and_time = Carbon::createFromFormat('Y-m-d H:i:s', $appointmentDayAndTime);
+
+                                // dd($apt_date, $apt_date_end, $apt_date_and_time);
+
+                                if ($apt_date_and_time->between($apt_date, $apt_date_end)) {
+                                    // return redirect()->back()
+                                    //     ->with('error', 'Une erreur est survenue lors de la prise de rendez-vous, la date selectionee est occupee . Veuillez réessayer.')
+                                    //     ->withInput();
+                                    dd('occupe');
+                                } else {
+                                    // if () {
+                                    //     # code...
+                                    // } else {
+                                    echo "good range";
+                                    dd();
+                                    // }
+                                }
+                                dd($appointment->date);
+                            }
+                            // $appointment->save();
+                            dd('ssss');
+                        } else {
+                            dd('nope');
+                        }
+                    }
+                }
 
                 // $patient->notify(new AppointmentConfirmation($appointment));
 

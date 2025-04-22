@@ -129,6 +129,13 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
+        .avatar-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
         .profile-name {
             font-size: 1.5rem;
             font-weight: 600;
@@ -393,16 +400,16 @@
 
     <div class="container">
         <!-- Alert Messages -->
-        @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
         @endif
 
-        @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
         @endif
 
         <div class="profile-container">
@@ -413,8 +420,13 @@
                         <h2>Mon Profil</h2>
                     </div>
                     <div class="profile-info">
+
                         <div class="profile-avatar">
-                            <i class="fas fa-user"></i>
+                            @if ($user->image)
+                                <img src="{{ $user->image }}" alt="Photo de profil" class="avatar-img">
+                            @else
+                                <i class="fas fa-user"></i>
+                            @endif
                         </div>
                         <h3 class="profile-name">{{ $user->prenom }} {{ $user->nom }}</h3>
                         <p class="profile-role">{{ $user->role }}</p>
@@ -449,25 +461,30 @@
                             <h2>Informations personnelles</h2>
                         </div>
                         <div class="profile-info">
-                            <form action="{{ route('profile.update') }}" method="POST">
+                            <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="section" value="personal">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="nom" class="form-label">Nom</label>
-                                            <input type="text" class="form-control @error('nom') is-invalid @enderror" id="nom" name="nom" value="{{ old('nom', $user->nom) }}">
+                                            <input type="text"
+                                                class="form-control @error('nom') is-invalid @enderror" id="nom"
+                                                name="nom" value="{{ old('nom', $user->nom) }}">
                                             @error('nom')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="prenom" class="form-label">Prénom</label>
-                                            <input type="text" class="form-control @error('prenom') is-invalid @enderror" id="prenom" name="prenom" value="{{ old('prenom', $user->prenom) }}">
+                                            <input type="text"
+                                                class="form-control @error('prenom') is-invalid @enderror"
+                                                id="prenom" name="prenom"
+                                                value="{{ old('prenom', $user->prenom) }}">
                                             @error('prenom')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
@@ -477,18 +494,22 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="email" class="form-label">Email</label>
-                                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $user->email) }}">
+                                            <input type="email"
+                                                class="form-control @error('email') is-invalid @enderror" id="email"
+                                                name="email" value="{{ old('email', $user->email) }}">
                                             @error('email')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="phone" class="form-label">Téléphone</label>
-                                            <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone', $user->phone) }}">
+                                            <input type="text"
+                                                class="form-control @error('phone') is-invalid @enderror" id="phone"
+                                                name="phone" value="{{ old('phone', $user->phone) }}">
                                             @error('phone')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
@@ -498,16 +519,20 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="image" class="form-label">Image</label>
-                                            <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" value="{{ old('image', $user->image) }}">
+                                            <input type="file"
+                                                class="form-control @error('image') is-invalid @enderror"
+                                                id="image" name="image"
+                                                value="{{ old('image', $user->image) }}">
                                             @error('image')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                                    <button type="submit" class="btn btn-primary">Enregistrer les
+                                        modifications</button>
                                 </div>
                             </form>
                         </div>
@@ -542,19 +567,25 @@
                                 <div class="form-group">
                                     <label class="form-label">Antécédents dentaires</label>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="previous_surgery" name="medical_history[previous_surgery]" {{ $patient && isset($patient->medical_history['previous_surgery']) && $patient->medical_history['previous_surgery'] ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="checkbox" id="previous_surgery"
+                                            name="medical_history[previous_surgery]"
+                                            {{ $patient && isset($patient->medical_history['previous_surgery']) && $patient->medical_history['previous_surgery'] ? 'checked' : '' }}>
                                         <label class="form-check-label" for="previous_surgery">
                                             Chirurgie dentaire précédente
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="braces" name="medical_history[braces]" {{ $patient && isset($patient->medical_history['braces']) && $patient->medical_history['braces'] ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="checkbox" id="braces"
+                                            name="medical_history[braces]"
+                                            {{ $patient && isset($patient->medical_history['braces']) && $patient->medical_history['braces'] ? 'checked' : '' }}>
                                         <label class="form-check-label" for="braces">
                                             Appareil dentaire précédent
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="gum_disease" name="medical_history[gum_disease]" {{ $patient && isset($patient->medical_history['gum_disease']) && $patient->medical_history['gum_disease'] ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="checkbox" id="gum_disease"
+                                            name="medical_history[gum_disease]"
+                                            {{ $patient && isset($patient->medical_history['gum_disease']) && $patient->medical_history['gum_disease'] ? 'checked' : '' }}>
                                         <label class="form-check-label" for="gum_disease">
                                             Maladie des gencives
                                         </label>
@@ -562,7 +593,8 @@
                                 </div>
 
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                                    <button type="submit" class="btn btn-primary">Enregistrer les
+                                        modifications</button>
                                 </div>
                             </form>
                         </div>

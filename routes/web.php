@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [DentistsController::class, 'getAllDentist'])->name('home');
 Route::get('/dentists/{dentist}', [DentistsController::class, 'show'])->name('dentists.show');
 
+
 Route::get('/Register', [AuthController::class, 'register'])->name('register');
 Route::post('/registerpost', [AuthController::class, 'registerPost'])->name('registerPost');
 Route::get('/Login', [AuthController::class, 'login'])->name('login');
@@ -29,9 +30,7 @@ Route::post('/loginpost', [AuthController::class, 'loginPost'])->name('loginpost
 
 
 
-
 // Route::middleware(['auth'])->group(function () {
-// Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
 Route::get('/profilePatient', [AuthController::class, 'profilePatient'])->name('profilePatient');
 Route::get('/profileDentiste', [AuthController::class, 'profileDentiste'])->name('profileDentiste');
 Route::post('/profile/update', [AuthController::class, 'updateProfile'])->name('profile.update');
@@ -77,8 +76,8 @@ Route::get('/suivi_soin', function () {
 
 // dentiste
 Route::get('/dentistDashboard', function () {
-    return view('dentistDashboard');
-});
+    return view('./dentist/dentistDashboard');
+})->name('dentistDashboard');
 
 // admin
 Route::get('/adminDashboard', function () {

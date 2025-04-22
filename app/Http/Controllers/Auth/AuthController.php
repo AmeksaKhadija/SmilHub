@@ -157,6 +157,7 @@ class AuthController extends Controller
             $user->prenom = $request->prenom;
             $user->email = $request->email;
             $user->phone = $request->phone;
+            // dd($request->hasFile('image'));
             if ($request->hasFile('image')) {
                 $imageName = Str::slug($request->name) . '-' . time() . '.' . $request->image->extension();
                 $request->image->storeAs('public/users', $imageName);

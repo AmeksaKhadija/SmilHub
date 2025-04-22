@@ -373,7 +373,7 @@
             <h4 class="sidebar-nav-title">Menu principal</h4>
             <ul class="sidebar-nav-items">
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link">
+                    <a href="{{ route('dentistDashboard') }}" class="sidebar-nav-link">
                         <i class="fas fa-home sidebar-nav-icon"></i>
                         Tableau de bord
                     </a>
@@ -479,7 +479,7 @@
         @endif
 
         @yield('content')
-        
+        @yield('dentistDashbord')
     </main>
     @yield('scriptContent')
 

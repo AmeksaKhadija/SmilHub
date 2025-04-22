@@ -157,6 +157,45 @@
             transform: translateX(-50%);
         }
 
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .auth-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--white);
+        }
+
+        .login-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .register-btn {
+            background-color: var(--secondary);
+            color: var(--white);
+        }
+
+        .register-btn:hover {
+            background-color: var(--secondary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
         /* Header Styles */
         .header {
             background-color: var(--white);
@@ -402,6 +441,19 @@
                             <span>123 Avenue de la Santé, 75001 Paris</span>
                         </div>
                     </div>
+                    @if (auth()->user())
+                        <div class="auth-buttons">
+                            <a href="logout" class="auth-btn login-btn"><i class="fa-solid fa-right-from-bracket"></i>
+                                Logout</a>
+                        </div>
+                    @else
+                        <div class="auth-buttons">
+                            <a href="Login" class="auth-btn login-btn"><i class="fas fa-sign-in-alt"></i>
+                                Connexion</a>
+                            <a href="Register" class="auth-btn register-btn"><i class="fas fa-user-plus"></i>
+                                Inscription</a>
+                        </div>
+                    @endif
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
