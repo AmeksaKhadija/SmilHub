@@ -25,7 +25,7 @@ class DentistsController extends Controller
             $dentist->available_slots = json_decode($dentist->available_slots, true);
         }
 
-        return view('/prendre_rendez_vous', compact('dentists'));
+        return view('patient.prendre_rendez_vous', compact('dentists'));
     }
 
     public function getAllDentist()
@@ -73,7 +73,7 @@ class DentistsController extends Controller
             ->get();
         $categories = Categorie::all();
 
-        return view('detailDentist', compact('dentist', 'contents', 'categories'));
+        return view('client.detailDentist', compact('dentist', 'contents', 'categories'));
     }
 
     /**
