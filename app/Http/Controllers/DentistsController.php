@@ -17,26 +17,33 @@ class DentistsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    private function getAllDentistsAndReturn($viewName)
     {
         $dentists = Dentist::all();
 
         foreach ($dentists as $dentist) {
             $dentist->available_slots = json_decode($dentist->available_slots, true);
         }
-
-        return view('patient.prendre_rendez_vous', compact('dentists'));
+        return view($viewName, compact('dentists'));
     }
 
-    public function getAllDentist()
+    public function getDentisteToTakeAppointement()
     {
-        $dentists = Dentist::all();
-
-        foreach ($dentists as $dentist) {
-            $dentist->available_slots = json_decode($dentist->available_slots, true);
-        }
-        return view('/index', ['dentists' => $dentists]);
+        return $this->getAllDentistsAndReturn('patient.prendre_rendez_vous');
     }
+
+
+    public function getAllDentistInHomePage()
+    {
+        return $this->getAllDentistsAndReturn('/index');
+    }
+
+    public function getDentistInAdminDashboard()
+    {
+        return $this->getAllDentistsAndReturn('./admin/dentists');
+    }
+
     /**
      * Show the form for creating a new resource.
      *x

@@ -20,7 +20,7 @@ class ContentController extends Controller
      */
     public function index()
     {
-        $contents = Content::with(['categorie', 'dentist'])->latest()->paginate(10);
+        $contents = Content::with(['categorie', 'dentist'])->paginate(10);
         $categories = Categorie::all();
 
         return view('dentist.contents', compact('contents', 'categories'));
@@ -49,7 +49,7 @@ class ContentController extends Controller
             'title' => 'required|string|max:255',
             'type' => 'required|string|max:50',
             'content' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
+            'categorie_id' => 'required|exists:categories,id',
             'dentist_id' => 'required',
             'image' => 'required',
         ]);
@@ -65,7 +65,7 @@ class ContentController extends Controller
             'title' => $request->title,
             'type' => $request->type,
             'content' => $request->content,
-            'category_id' => $request->category_id,
+            'categorie_id' => $request->categorie_id,
             'dentist_id' => $request->dentist_id,
             'image' => 'image.png',
         ]);
@@ -117,7 +117,7 @@ class ContentController extends Controller
             'title' => 'required|string|max:255',
             'type' => 'required|string|max:50',
             'content' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
+            'categorie_id' => 'required|exists:categories,id',
             'image' => 'required',
         ]);
 
@@ -131,7 +131,7 @@ class ContentController extends Controller
             'title' => $request->title,
             'type' => $request->type,
             'content' => $request->content,
-            'category_id' => $request->category_id,
+            'categorie_id' => $request->categorie_id,
             'image' => 'image.png',
         ]);
 
@@ -192,7 +192,7 @@ class ContentController extends Controller
      */
     public function getByCategory($categoryId)
     {
-        $contents = Content::where('category_id', $categoryId)
+        $contents = Content::where('categorie_id', $categoryId)
             ->with(['categorie', 'dentist'])
             ->latest()
             ->get();

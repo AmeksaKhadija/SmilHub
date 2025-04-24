@@ -14,7 +14,7 @@ class Content extends Model
         'content',
         'type',
         'dentist_id',
-        'category_id',
+        'categorie_id',
         'image',
     ];
 
@@ -25,6 +25,6 @@ class Content extends Model
 
     public function categorie()
     {
-        return $this->belongsTo(Categorie::class, 'category_id');
+        return $this->belongsTo(Categorie::class, 'categorie_id');
     }
 }

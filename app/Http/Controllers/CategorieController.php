@@ -15,8 +15,8 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        $categories = Categorie::withCount('contents')->paginate(10);
-        return view('categories.index', compact('categories'));
+        $categories = Categorie::all();
+        return view('./admin/categories', compact('categories'));
     }
 
     /**
@@ -26,7 +26,7 @@ class CategorieController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        return view('admin.categories.create');
     }
 
     /**
@@ -42,6 +42,8 @@ class CategorieController extends Controller
             'description' => 'nullable|string',
         ]);
 
+        // dd($request);
+
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
@@ -50,7 +52,7 @@ class CategorieController extends Controller
 
         $category = Categorie::create([
             'name' => $request->name,
-            'description' => $request->description,
+            'description_courte' => $request->description,
         ]);
 
         return redirect()->route('categories.index')
@@ -63,10 +65,9 @@ class CategorieController extends Controller
      * @param  \App\Models\Categorie  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Categorie $category)
+    public function show(Categorie $categorie)
     {
-        $contents = $category->contents()->with('dentist')->latest()->paginate(10);
-        return view('categories.show', compact('category', 'contents'));
+        return view('admin.categories.show', compact('categorie'));
     }
 
     /**
@@ -75,9 +76,9 @@ class CategorieController extends Controller
      * @param  \App\Models\Categorie  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Categorie $category)
+    public function edit(Categorie $categorie)
     {
-        return view('categories.edit', compact('category'));
+        return view('admin.categories.edit', compact('categorie'));
     }
 
     /**
@@ -87,10 +88,10 @@ class CategorieController extends Controller
      * @param  \App\Models\Categorie  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Categorie $category)
+    public function update(Request $request, Categorie $categorie)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
+            'name' => 'required|string|max:255|unique:categories,name,' . $categorie->id,
             'description' => 'nullable|string',
         ]);
 
@@ -100,9 +101,9 @@ class CategorieController extends Controller
                 ->withInput();
         }
 
-        $category->update([
+        $categorie->update([
             'name' => $request->name,
-            'description' => $request->description,
+            'description_courte' => $request->description,
         ]);
 
         return redirect()->route('categories.index')
@@ -115,15 +116,15 @@ class CategorieController extends Controller
      * @param  \App\Models\Categorie  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Categorie $category)
+    public function destroy(Categorie $categorie)
     {
         // Check if category has contents
-        if ($category->contents()->count() > 0) {
+        if ($categorie->contents()->count() > 0) {
             return redirect()->route('categories.index')
                 ->with('error', 'Impossible de supprimer cette catégorie car elle contient des articles.');
         }
 
-        $category->delete();
+        $categorie->delete();
 
         return redirect()->route('categories.index')
             ->with('success', 'Catégorie supprimée avec succès!');

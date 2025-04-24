@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de Bord Dentiste - SmileHub</title>
+    <title>Tableau de Bord Administrateur - SmileHub</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -14,6 +14,7 @@
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         :root {
             --primary: #0369a1;
@@ -29,6 +30,12 @@
             --warning: #eab308;
             --danger: #ef4444;
             --info: #3b82f6;
+            --purple: #8b5cf6;
+            --purple-light: #a78bfa;
+            --purple-dark: #7c3aed;
+            --pink: #ec4899;
+            --pink-light: #f472b6;
+            --pink-dark: #db2777;
             --text-dark: #1e293b;
             --text-light: #64748b;
             --text-lighter: #94a3b8;
@@ -67,7 +74,7 @@
         /* Sidebar */
         .sidebar {
             width: 280px;
-            background-color: var(--white);
+            background-color: var(--text-dark);
             height: 100vh;
             position: fixed;
             left: 0;
@@ -76,14 +83,15 @@
             box-shadow: var(--shadow);
             z-index: 100;
             transition: all 0.3s ease;
+            color: var(--white);
         }
 
         .sidebar-header {
             padding: 20px;
             display: flex;
             align-items: center;
-            background-color: var(--primary);
-            color: var(--white);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .sidebar-logo {
@@ -112,12 +120,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            border-bottom: 1px solid var(--gray);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .sidebar-profile-img {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid var(--primary-light);
@@ -131,7 +139,7 @@
         }
 
         .sidebar-profile-role {
-            color: var(--text-light);
+            color: var(--text-lighter);
             font-size: 0.9rem;
             margin-bottom: 10px;
         }
@@ -164,6 +172,7 @@
             color: var(--text-lighter);
             font-weight: 600;
             margin-bottom: 10px;
+            margin-top: 20px;
         }
 
         .sidebar-nav-items {
@@ -178,21 +187,21 @@
             display: flex;
             align-items: center;
             padding: 12px 20px;
-            color: var(--text-light);
+            color: var(--text-lighter);
             font-weight: 500;
             transition: all 0.3s ease;
             border-left: 3px solid transparent;
         }
 
         .sidebar-nav-link.active {
-            background-color: var(--light-gray);
-            color: var(--primary);
+            background-color: rgba(170, 221, 155, 0.099);
+            color: var(--white);
             border-left-color: var(--primary);
         }
 
         .sidebar-nav-link:hover {
-            background-color: var(--light-gray);
-            color: var(--primary);
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--white);
         }
 
         .sidebar-nav-icon {
@@ -333,8 +342,19 @@
             color: var(--text-light);
             font-size: 0.8rem;
         }
+
+        /* Dashboard Content */
+        .dashboard-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .dashboard-subtitle {
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
     </style>
-    @yield('style')
 </head>
 
 <body>
@@ -356,83 +376,77 @@
                     <path d="M18 28C20 31 23 33 25 33C27 33 30 31 32 28" stroke="#0369a1" stroke-width="2"
                         stroke-linecap="round" />
                 </svg>
-                <a href="/" class="sidebar-logo-text">SmileHub</a>
+                <span class="sidebar-logo-text">SmileHub</span>
             </div>
             <button class="sidebar-close" id="sidebarClose">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <div class="sidebar-profile">
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. Thomas Dubois"
-                class="sidebar-profile-img">
-            <h3 class="sidebar-profile-name">Dr. Thomas Dubois</h3>
-            <p class="sidebar-profile-role">Dentiste</p>
+            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Admin" class="sidebar-profile-img">
+            <h3 class="sidebar-profile-name">Alexandre Martin</h3>
+            <p class="sidebar-profile-role">Administrateur</p>
             <div class="sidebar-profile-status online">En ligne</div>
         </div>
         <div class="sidebar-nav">
             <h4 class="sidebar-nav-title">Menu principal</h4>
             <ul class="sidebar-nav-items">
                 <li class="sidebar-nav-item">
-                    <a href="{{ route('dentistDashboard') }}" class="sidebar-nav-link">
-                        <i class="fas fa-home sidebar-nav-icon"></i>
+                    <a href="{{ route('dentist.dashbord') }}" class="sidebar-nav-link">
+                        <i class="fas fa-tachometer-alt sidebar-nav-icon"></i>
                         Tableau de bord
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link">
-                        <i class="fas fa-calendar-alt sidebar-nav-icon"></i>
-                        Rendez-vous
-                        <span class="sidebar-nav-badge">4</span>
+                    <a href="{{ route('dentists.index') }}" class="sidebar-nav-link">
+                        <i class="fas fa-user-md sidebar-nav-icon"></i>
+                        Dentistes
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link">
+                    <a href="{{ route('patients.index') }}" class="sidebar-nav-link">
                         <i class="fas fa-users sidebar-nav-icon"></i>
                         Patients
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link">
-                        <i class="fas fa-clipboard-list sidebar-nav-icon"></i>
-                        Traitements
+                    <a href="categoriess" class="sidebar-nav-link">
+                        <i class="fa fa-tag sidebar-nav-icon" aria-hidden="true"></i>
+                        Categories
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link">
+                    <a href="{{ route('rendez_vous.index') }}" class="sidebar-nav-link">
+                        <i class="fas fa-calendar-alt sidebar-nav-icon"></i>
+                        Rendez-vous
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="{{ route('statistics.index') }}" class="sidebar-nav-link">
                         <i class="fas fa-chart-line sidebar-nav-icon"></i>
                         Statistiques
                     </a>
                 </li>
-                <li class="sidebar-nav-item">
-                    <a href="{{ route('contents.index') }}" class="sidebar-nav-link">
-                        <i class="fas fa-chart-line sidebar-nav-icon"></i>
-                        Contenu
-                    </a>
-                </li>
             </ul>
-            <h4 class="sidebar-nav-title" style="margin-top: 20px;">Gestion</h4>
+            <h4 class="sidebar-nav-title">Support</h4>
             <ul class="sidebar-nav-items">
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link">
-                        <i class="fas fa-file-invoice-dollar sidebar-nav-icon"></i>
-                        Facturation
+                    <a href="" class="sidebar-nav-link">
+                        <i class="fas fa-question-circle sidebar-nav-icon"></i>
+                        Aide
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link">
-                        <i class="fas fa-pills sidebar-nav-icon"></i>
-                        Médicaments
-                    </a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link">
-                        <i class="fas fa-cog sidebar-nav-icon"></i>
-                        Paramètres
+                    <a href="logout" class="sidebar-nav-link">
+                        <i class="fas fa-sign-out-alt sidebar-nav-icon"></i>
+                        Déconnexion
                     </a>
                 </li>
             </ul>
         </div>
     </aside>
+
+    <!-- Main Content -->
     <main class="main-content">
         <!-- Header -->
         <header class="header">
@@ -448,22 +462,25 @@
             <div class="header-right">
                 <div class="header-icon">
                     <i class="far fa-bell"></i>
-                    <span class="header-icon-badge">3</span>
+                    <span class="header-icon-badge">5</span>
                 </div>
                 <div class="header-icon">
                     <i class="far fa-envelope"></i>
-                    <span class="header-icon-badge">5</span>
+                    <span class="header-icon-badge">3</span>
                 </div>
                 <div class="header-profile">
-                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. Thomas Dubois"
-                        class="header-profile-img">
+                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Admin" class="header-profile-img">
                     <div class="header-profile-info">
-                        <span class="header-profile-name">Dr. Thomas Dubois</span>
-                        <span class="header-profile-role">Dentiste</span>
+                        <span class="header-profile-name">Alexandre Martin</span>
+                        <span class="header-profile-role">Administrateur</span>
                     </div>
                 </div>
             </div>
         </header>
+
+        <!-- Dashboard Content -->
+        <h1 class="dashboard-title">Tableau de bord administrateur</h1>
+        <p class="dashboard-subtitle">Bienvenue, Alexandre ! Voici un aperçu de la plateforme SmileHub.</p>
         @if (session('success'))
             <div class="alert alert-success"
                 style="background-color: #10b981; color: white; padding: 15px; margin: 20px 0; border-radius: 8px;">
@@ -477,11 +494,28 @@
                 {{ session('error') }}
             </div>
         @endif
-
-        @yield('content')
-        @yield('dentistDashbord')
+        @yield('dashbord')
+        @yield('dentists')
+        @yield('patients')
+        @yield('categories')
+        @yield('rendez_vous')
+        @yield('statistics')
     </main>
-    @yield('scriptContent')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentUrl = window.location.pathname;
+            const navLinks = document.querySelectorAll(".sidebar-nav-link");
+
+            navLinks.forEach(link => {
+                const linkPath = new URL(link.href).pathname;
+
+                if (currentUrl === linkPath) {
+                    link.classList.add("active");
+                    // console.log("Lien actif trouvé :", link.href);
+                }
+            });
+        });
+    </script>
 
 </body>
 

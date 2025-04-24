@@ -298,14 +298,6 @@
                 <option value="faq">FAQ</option>
             </select>
         </div>
-        <div class="filter-item">
-            <label class="filter-label">Statut:</label>
-            <select class="filter-select" id="statusFilter">
-                <option value="">Tous les statuts</option>
-                <option value="published">Publié</option>
-                <option value="draft">Brouillon</option>
-            </select>
-        </div>
     </div>
 
     <div class="content-table-container">
@@ -316,22 +308,17 @@
                     <th>Catégorie</th>
                     <th>Type</th>
                     <th>Date de création</th>
-                    <th>Statut</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
+                {{-- {{ dd( $contents)}} --}}
                 @forelse($contents as $content)
                     <tr>
                         <td>{{ $content->title }}</td>
                         <td><span class="content-category">{{ $content->categorie->name }}</span></td>
                         <td>{{ ucfirst($content->type) }}</td>
                         <td>{{ $content->created_at->format('d/m/Y') }}</td>
-                        <td>
-                            <span class="content-status {{ $content->status == 'published' ? 'published' : 'draft' }}">
-                                {{ $content->status == 'published' ? 'Publié' : 'Brouillon' }}
-                            </span>
-                        </td>
                         <td>
                             <div class="content-actions-cell">
                                 <a href="{{ route('contents.show', $content->id) }}" class="content-action view">
@@ -384,26 +371,23 @@
             // Simple filtering functionality
             const categoryFilter = document.getElementById('categoryFilter');
             const typeFilter = document.getElementById('typeFilter');
-            const statusFilter = document.getElementById('statusFilter');
 
             const tableRows = document.querySelectorAll('.content-table tbody tr');
 
             function applyFilters() {
                 const categoryValue = categoryFilter.value;
                 const typeValue = typeFilter.value;
-                const statusValue = statusFilter.value;
 
                 tableRows.forEach(row => {
                     const categoryCell = row.querySelector('td:nth-child(2)').textContent;
                     const typeCell = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
                     const statusCell = row.querySelector('td:nth-child(5)').textContent.trim()
-                .toLowerCase();
+                        .toLowerCase();
 
                     const categoryMatch = !categoryValue || categoryCell.includes(categoryValue);
                     const typeMatch = !typeValue || typeCell === typeValue;
-                    const statusMatch = !statusValue || statusCell === statusValue;
 
-                    if (categoryMatch && typeMatch && statusMatch) {
+                    if (categoryMatch && typeMatch) {
                         row.style.display = '';
                     } else {
                         row.style.display = 'none';
@@ -413,7 +397,6 @@
 
             categoryFilter.addEventListener('change', applyFilters);
             typeFilter.addEventListener('change', applyFilters);
-            statusFilter.addEventListener('change', applyFilters);
         });
     </script>
 @endsection

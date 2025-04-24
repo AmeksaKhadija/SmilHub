@@ -11,7 +11,7 @@ class Categorie extends Model
 
     protected $fillable = [
         'name',
-        'description',
+        'description_courte',
     ];
 
     public function contents()

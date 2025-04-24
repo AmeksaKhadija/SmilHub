@@ -213,7 +213,7 @@ class AuthController extends Controller
     {
         switch ($user->role) {
             case 'admin':
-                return redirect('/adminDashboard');
+                return redirect('/dashbord');
             case 'dentiste':
                 return redirect('/profileDentiste');
             case 'patient':

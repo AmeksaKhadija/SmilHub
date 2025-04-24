@@ -1,6 +1,5 @@
-@extends('dentist.layout')
+@extends('./admin.layout')
 
-@section('style')
 <style>
     /* Form styles */
     .content-header {
@@ -202,15 +201,15 @@
         border-radius: 50%;
     }
 
-    input:checked + .toggle-slider {
+    input:checked+.toggle-slider {
         background-color: var(--success);
     }
 
-    input:focus + .toggle-slider {
+    input:focus+.toggle-slider {
         box-shadow: 0 0 1px var(--success);
     }
 
-    input:checked + .toggle-slider:before {
+    input:checked+.toggle-slider:before {
         transform: translateX(30px);
     }
 
@@ -227,101 +226,51 @@
         color: var(--success);
     }
 </style>
-@endsection
 
-@section('content')
-<div class="content-header">
-    <h1 class="content-title">Modifier l'article</h1>
-    <div class="content-actions">
-        <a href="{{ route('contents.index') }}" class="btn btn-outline">
-            <i class="fas fa-arrow-left"></i> Retour à la liste
-        </a>
+@section('categories')
+    <div class="content-header">
+        <h1 class="content-title">Modifier la categorie</h1>
+        <div class="content-actions">
+            <a href="{{ route('categories.index') }}" class="btn btn-outline">
+                <i class="fas fa-arrow-left"></i> Retour à la liste
+            </a>
+        </div>
     </div>
-</div>
 
-<div class="form-container">
-    @if ($errors->any())
-        <div class="alert alert-danger" style="margin-bottom: 20px; padding: 15px; background-color: #fee2e2; border-radius: 8px; color: #ef4444;">
-            <ul style="margin: 0; padding-left: 20px;">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <div class="form-container">
+        @if ($errors->any())
+            <div class="alert alert-danger"
+                style="margin-bottom: 20px; padding: 15px; background-color: #fee2e2; border-radius: 8px; color: #ef4444;">
+                <ul style="margin: 0; padding-left: 20px;">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-    <form action="{{ route('contents.update', $content->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-        
-        <div class="form-group">
-            <label for="title" class="form-label">Titre</label>
-            <input type="text" id="title" name="title" class="form-control" value="{{ old('title', $content->title) }}" required>
-            <p class="form-help">Choisissez un titre clair et descriptif pour votre article.</p>
-        </div>
-        
-        <div class="form-group">
-            <label for="type" class="form-label">Type</label>
-            <select id="type" name="type" class="form-select" required>
-                <option value="">Sélectionnez un type</option>
-                <option value="article" {{ old('type', $content->type) == 'article' ? 'selected' : '' }}>Article</option>
-                <option value="guide" {{ old('type', $content->type) == 'guide' ? 'selected' : '' }}>Guide</option>
-                <option value="conseil" {{ old('type', $content->type) == 'conseil' ? 'selected' : '' }}>Conseil</option>
-                <option value="faq" {{ old('type', $content->type) == 'faq' ? 'selected' : '' }}>FAQ</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="categorie_id" class="form-label">Catégorie</label>
-            <select id="categorie_id" name="categorie_id" class="form-select" required>
-                <option value="">Sélectionnez une catégorie</option>
-                @foreach($categories as $category)
-                    <option value="{{ $category->id }}" {{ old('categorie_id', $content->categorie_id) == $category->id ? 'selected' : '' }}>
-                        {{ $category->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="content" class="form-label">Contenu</label>
-            <textarea id="content" name="content" class="form-control form-textarea" required>{{ old('content', $content->content) }}</textarea>
-            <p class="form-help">Rédigez votre contenu en utilisant les outils de mise en forme ci-dessus.</p>
-        </div>
-        
-        <div class="form-group">
-            <label for="content" class="form-label">Image</label>
-            <input type="file" id="image" name="image" class="form-control" value="{{ old('image', $content->image) }}" required>
-            <p class="form-help">Rédigez votre contenu en utilisant les outils de mise en forme ci-dessus.</p>
-        </div>
-        
-        <div class="form-footer">
-            <a href="{{ route('contents.index') }}" class="btn btn-outline">Annuler</a>
-            <button type="submit" class="btn btn-primary">Mettre à jour</button>
-        </div>
-    </form>
-</div>
-@endsection
+        <form action="{{ route('categories.update', $categorie->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
 
-@section('scriptContent')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {        
-        // Status toggle
-        const statusToggle = document.getElementById('statusToggle');
-        const statusText = document.getElementById('statusText');
-        const statusInput = document.getElementById('statusInput');
-        
-        statusToggle.addEventListener('change', function() {
-            if (this.checked) {
-                statusText.textContent = 'Publié';
-                statusText.className = 'toggle-status published';
-                statusInput.value = 'published';
-            } else {
-                statusText.textContent = 'Brouillon';
-                statusText.className = 'toggle-status draft';
-                statusInput.value = 'draft';
-            }
-        });
-    });
-</script>
+            <div class="form-group">
+                <label for="title" class="form-label">Titre</label>
+                <input type="text" id="title" name="name" class="form-control"
+                    value="{{ old('title', $categorie->name) }}" required>
+                <p class="form-help">Choisissez un titre clair pour votre categorie.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="descritpino" class="form-label">Description courte</label>
+                <textarea id="description" name="description" class="form-control form-textarea" required>{{ old('categorie', $categorie->description_courte) }}</textarea>
+                <p class="form-help">Rédigez une description courte clair pour votre categorie.</p>
+            </div>
+
+
+            <div class="form-footer">
+                <a href="{{ route('categories.index') }}" class="btn btn-outline">Annuler</a>
+                <button type="submit" class="btn btn-primary">Mettre à jour</button>
+            </div>
+        </form>
+    </div>
 @endsection

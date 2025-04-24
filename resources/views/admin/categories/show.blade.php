@@ -1,6 +1,5 @@
-@extends('dentist.layout')
+@extends('./admin.layout')
 
-@section('style')
 <style>
     .content-header {
         display: flex;
@@ -141,7 +140,12 @@
         padding: 30px;
     }
 
-    .content-body h1, .content-body h2, .content-body h3, .content-body h4, .content-body h5, .content-body h6 {
+    .content-body h1,
+    .content-body h2,
+    .content-body h3,
+    .content-body h4,
+    .content-body h5,
+    .content-body h6 {
         color: var(--text-dark);
         margin-top: 1.5em;
         margin-bottom: 0.5em;
@@ -164,7 +168,8 @@
         line-height: 1.7;
     }
 
-    .content-body ul, .content-body ol {
+    .content-body ul,
+    .content-body ol {
         margin-bottom: 1em;
         padding-left: 2em;
     }
@@ -204,7 +209,8 @@
         margin-bottom: 1em;
     }
 
-    .content-body table th, .content-body table td {
+    .content-body table th,
+    .content-body table td {
         border: 1px solid var(--gray);
         padding: 0.5em;
     }
@@ -250,69 +256,52 @@
         box-shadow: var(--shadow-sm);
     }
 </style>
-@endsection
 
-@section('content')
-<div class="content-header">
-    <h1 class="content-title">Détails de l'article</h1>
-    <div class="content-actions">
-        <a href="{{ route('contents.index') }}" class="btn btn-outline">
-            <i class="fas fa-arrow-left"></i> Retour à la liste
-        </a>
-        <a href="{{ route('contents.edit', $content->id) }}" class="btn btn-primary">
-            <i class="fas fa-edit"></i> Modifier
-        </a>
-        <form action="{{ route('contents.destroy', $content->id) }}" method="POST" style="display: inline;">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article?')">
-                <i class="fas fa-trash"></i> Supprimer
-            </button>
-        </form>
+@section('categories')
+    <div class="content-header">
+        <h1 class="content-title">Détails du catégorie</h1>
+        <div class="content-actions">
+            <a href="{{ route('categories.index') }}" class="btn btn-outline">
+                <i class="fas fa-arrow-left"></i> Retour à la liste
+            </a>
+            <a href="{{ route('categories.edit', $categorie->id) }}" class="btn btn-primary">
+                <i class="fas fa-edit"></i> Modifier
+            </a>
+            <form action="{{ route('categories.destroy', $categorie->id) }}" method="POST" style="display: inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger"
+                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article?')">
+                    <i class="fas fa-trash"></i> Supprimer
+                </button>
+            </form>
+        </div>
     </div>
-</div>
 
-<div class="content-container">
-    <div class="content-meta">
-        <div class="content-meta-item">
-            <span class="content-meta-label">Catégorie:</span>
-            <span class="content-category">{{ $content->categorie->name }}</span>
+    <div class="content-container">
+        <div class="content-meta">
+            <div class="content-meta-item">
+                <span class="content-meta-label">Nom du categorie</span>
+                <span class="content-category">{{ $categorie->name }}</span>
+            </div>
+            <div class="content-meta-item">
+                <span class="content-meta-label">Description du categorie:</span>
+                <span class="content-meta-value">{{ $categorie->description_courte }}</span>
+            </div>
+            <div class="content-meta-item">
+                <span class="content-meta-label">categorie in content </span>
+                <span class="content-meta-value">{{ $categorie->contents->count() }}</span>
+            </div>
+            <div class="content-meta-item">
+                <span class="content-meta-label">Dernière modification:</span>
+                <span class="content-meta-value">{{ $categorie->updated_at->format('d/m/Y à H:i') }}</span>
+            </div>
         </div>
-        <div class="content-meta-item">
-            <span class="content-meta-label">Type:</span>
-            <span class="content-meta-value">{{ ucfirst($content->type) }}</span>
-        </div>
-        <div class="content-meta-item">
-            <span class="content-meta-label">Créé le:</span>
-            <span class="content-meta-value">{{ $content->created_at->format('d/m/Y à H:i') }}</span>
-        </div>
-        <div class="content-meta-item">
-            <span class="content-meta-label">Dernière modification:</span>
-            <span class="content-meta-value">{{ $content->updated_at->format('d/m/Y à H:i') }}</span>
-        </div>
-    </div>
-    <div class="content-body">
-        <h1>{{ $content->title }}</h1>
-        {!! $content->content !!}
-    </div>
-    <div class="content-footer">
-        <div class="content-footer-left">
-            <span>Auteur: Dr. {{ $content->dentist->user->nom }} {{ $content->dentist->user->prenom }}</span>
-        </div>
-        <div class="content-footer-right">
-            <a href="#" class="share-btn" title="Partager sur Facebook">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="share-btn" title="Partager sur Twitter">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="share-btn" title="Partager sur LinkedIn">
-                <i class="fab fa-linkedin-in"></i>
-            </a>
-            <a href="#" class="share-btn" title="Partager par email">
-                <i class="fas fa-envelope"></i>
-            </a>
+        <div class="content-body">
+            <h1>{{ $categorie->name }}</h1>
+            <div class="content-footer-left">
+                <span>Description courte {{ $categorie->description_courte }}</span>
+            </div>
         </div>
     </div>
-</div>
 @endsection
