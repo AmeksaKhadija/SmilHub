@@ -471,7 +471,6 @@
                     <th>Dernière visite</th>
                     <th>Prochain RDV</th>
                     <th>Statut</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -510,19 +509,6 @@
                             @endif
                         </td>
                         <td><span class="patient-status active">{{ $patient->status }}</span></td>
-                        <td>
-                            <div class="patient-actions">
-                                <button class="patient-action view" title="Voir le profil">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="patient-action edit" title="Modifier">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="patient-action delete" title="Supprimer">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -577,45 +563,6 @@
             dentistFilter.addEventListener('change', applyFilters);
             searchInput.addEventListener('input', applyFilters);
 
-            // Actions des boutons
-            const viewButtons = document.querySelectorAll('.patient-action.view');
-            const editButtons = document.querySelectorAll('.patient-action.edit');
-            const deleteButtons = document.querySelectorAll('.patient-action.delete');
-
-            viewButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const row = this.closest('tr');
-                    const name = row.querySelector('.patient-profile-name').textContent;
-                    alert(`Affichage du profil de ${name}`);
-                    // Redirection vers la page de profil du patient
-                    // window.location.href = `/admin/patients/${patientId}`;
-                });
-            });
-
-            editButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const row = this.closest('tr');
-                    const name = row.querySelector('.patient-profile-name').textContent;
-                    alert(`Modification du profil de ${name}`);
-                    // Redirection vers la page d'édition du patient
-                    // window.location.href = `/admin/patients/${patientId}/edit`;
-                });
-            });
-
-            deleteButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const row = this.closest('tr');
-                    const name = row.querySelector('.patient-profile-name').textContent;
-
-                    if (confirm(`Êtes-vous sûr de vouloir supprimer ${name} ?`)) {
-                        // Simuler la suppression
-                        row.style.opacity = '0.5';
-                        setTimeout(() => {
-                            row.remove();
-                        }, 500);
-                    }
-                });
-            });
         });
     </script>
 @endsection

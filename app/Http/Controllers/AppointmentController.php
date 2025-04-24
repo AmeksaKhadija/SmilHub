@@ -134,4 +134,12 @@ class AppointmentController extends Controller
                 ->withInput();
         }
     }
+
+    public function index()
+    {
+        // dd('aa');
+        $appointements = Appointment::with(['dentist.user', 'patient.user'])->get();
+        // dd($appointements);
+        return view('admin.rendez_vous', compact('appointements'));
+    }
 }

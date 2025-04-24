@@ -505,8 +505,8 @@
                     <th>Spécialité</th>
                     <th>Date d'inscription</th>
                     <th>Rendez-vous</th>
+                    <th>numero de contenu</th>
                     <th>Statut</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -525,24 +525,11 @@
                         <td>{{ $dentist->speciality }}</td>
                         <td>{{ $dentist->created_at }}</td>
                         <td>{{ $dentist->appointments->count() }}</td>
-
-                        <td><span class="dentist-status active">{{ $dentist->user->status }}</span></td>
-                        <td>
-                            <div class="dentist-actions">
-                                @if ($dentist->user->status === 'pending')
-                                    <form action="{{ route('admin.dentists', $dentist->id) }}" method="POST">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="btn btn-success" title="Activer">
-                                            <i class="fa fa-check" aria-hidden="true" title="Activer"></i>
-                                        </button>
-                                    </form>
-                                @endif
-                                <button class="dentist-action delete" title="Supprimer">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
+                        <td>{{ $dentist->contents->count() }}</td>
+                        <td><span
+                                class="dentist-status {{ strtolower($dentist->user->status) }}">{{ $dentist->user->status }}</span>
                         </td>
+
                         {{-- desactivate dentist  --}}
                     </tr>
                 @endforeach

@@ -392,9 +392,9 @@
             <h4 class="sidebar-nav-title">Menu principal</h4>
             <ul class="sidebar-nav-items">
                 <li class="sidebar-nav-item">
-                    <a href="{{ route('dentist.dashbord') }}" class="sidebar-nav-link">
-                        <i class="fas fa-tachometer-alt sidebar-nav-icon"></i>
-                        Tableau de bord
+                    <a href="{{ route('statistics.dashboard') }}" class="sidebar-nav-link">
+                        <i class="fas fa-chart-line sidebar-nav-icon"></i>
+                        Statistiques
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
@@ -419,12 +419,6 @@
                     <a href="{{ route('rendez_vous.index') }}" class="sidebar-nav-link">
                         <i class="fas fa-calendar-alt sidebar-nav-icon"></i>
                         Rendez-vous
-                    </a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="{{ route('statistics.index') }}" class="sidebar-nav-link">
-                        <i class="fas fa-chart-line sidebar-nav-icon"></i>
-                        Statistiques
                     </a>
                 </li>
             </ul>

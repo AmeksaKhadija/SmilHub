@@ -53,51 +53,6 @@
             box-shadow: var(--shadow-sm);
         }
 
-        .appointment-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            overflow-x: auto;
-            padding-bottom: 5px;
-        }
-
-        .appointment-tab {
-            padding: 10px 20px;
-            background-color: var(--white);
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .appointment-tab.active {
-            background-color: var(--primary);
-            color: var(--white);
-            box-shadow: var(--shadow);
-        }
-
-        .appointment-tab:hover:not(.active) {
-            background-color: var(--light-gray);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow);
-        }
-
-        .appointment-tab-badge {
-            display: inline-block;
-            background-color: var(--light-gray);
-            color: var(--text-dark);
-            border-radius: 20px;
-            padding: 2px 8px;
-            font-size: 0.8rem;
-            margin-left: 5px;
-        }
-
-        .appointment-tab.active .appointment-tab-badge {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: var(--white);
-        }
 
         .filter-bar {
             display: flex;
@@ -312,12 +267,7 @@
             transform: translateY(-2px);
         }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
+
 
         .page-item {
             width: 40px;
@@ -378,11 +328,6 @@
                 align-items: flex-start;
                 gap: 15px;
             }
-
-            .appointment-tabs {
-                width: 100%;
-                overflow-x: auto;
-            }
         }
     </style>
 
@@ -390,15 +335,6 @@
         <h2 class="page-title">Gestion des rendez-vous</h2>
     </div>
 
-    <div class="appointment-tabs">
-        <div class="appointment-tab active">Tous <span class="appointment-tab-badge">328</span></div>
-        <div class="appointment-tab">Aujourd'hui <span class="appointment-tab-badge">12</span></div>
-        <div class="appointment-tab">Cette semaine <span class="appointment-tab-badge">58</span></div>
-        <div class="appointment-tab">Confirmés <span class="appointment-tab-badge">245</span></div>
-        <div class="appointment-tab">En attente <span class="appointment-tab-badge">42</span></div>
-        <div class="appointment-tab">Annulés <span class="appointment-tab-badge">25</span></div>
-        <div class="appointment-tab">Terminés <span class="appointment-tab-badge">16</span></div>
-    </div>
 
     <div class="filter-bar">
         <div class="filter-item">
@@ -438,214 +374,50 @@
                     <th>Patient</th>
                     <th>Dentiste</th>
                     <th>Date & Heure</th>
-                    <th>Type</th>
                     <th>Statut</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <div class="appointment-patient">
-                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Sophie Martin"
-                                class="appointment-patient-img">
-                            <div class="appointment-patient-info">
-                                <div class="appointment-patient-name">Sophie Martin</div>
-                                <div class="appointment-patient-email">sophie.martin@gmail.com</div>
+                @foreach ($appointements as $appointement)
+                    <tr>
+                        <td>
+                            <div class="appointment-patient">
+                                <img src="{{ $appointement->patient->user->image }}" alt="Sophie Martin"
+                                    class="appointment-patient-img">
+                                <div class="appointment-patient-info">
+                                    <div class="appointment-patient-name">{{ $appointement->patient->user->nom }}
+                                        {{ $appointement->patient->user->prenom }}</div>
+                                    <div class="appointment-patient-email">{{ $appointement->patient->user->email }}</div>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="appointment-dentist">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. Thomas Dubois"
-                                class="appointment-dentist-img">
-                            <div class="appointment-dentist-info">
-                                <div class="appointment-dentist-name">Dr. Thomas Dubois</div>
-                                <div class="appointment-dentist-specialty">Dentiste général</div>
+                        </td>
+                        <td>
+                            <div class="appointment-dentist">
+                                <img src="{{ $appointement->dentist->user->image }}" alt="Dr. Thomas Dubois"
+                                    class="appointment-dentist-img">
+                                <div class="appointment-dentist-info">
+                                    <div class="appointment-dentist-name">Dr. {{ $appointement->dentist->user->nom }}
+                                        {{ $appointement->dentist->user->prenom }}</div>
+                                    <div class="appointment-dentist-specialty">{{ $appointement->dentist->speciality }}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td>15/05/2023 - 09:00</td>
-                    <td>Nettoyage dentaire</td>
-                    <td><span class="appointment-status confirmed">Confirmé</span></td>
-                    <td>
-                        <div class="appointment-actions">
-                            <button class="appointment-action view" title="Voir les détails">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="appointment-action edit" title="Modifier">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="appointment-action delete" title="Supprimer">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="appointment-patient">
-                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Jean Dupont"
-                                class="appointment-patient-img">
-                            <div class="appointment-patient-info">
-                                <div class="appointment-patient-name">Jean Dupont</div>
-                                <div class="appointment-patient-email">jean.dupont@outlook.com</div>
+                        </td>
+                        <td>{{ Carbon\Carbon::parse($appointement->date)->format('M d, Y H:i') }}</td>
+                        <td><span class="appointment-status {{ strtolower($appointement->status) }}">{{ $appointement->status }}</span></td>
+                        <td>
+                            <div class="appointment-actions">
+                                <button class="appointment-action view" title="Voir les détails">
+                                    <i class="fas fa-eye"></i>
+                                </button>
                             </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="appointment-dentist">
-                            <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Dr. Marie Leroy"
-                                class="appointment-dentist-img">
-                            <div class="appointment-dentist-info">
-                                <div class="appointment-dentist-name">Dr. Marie Leroy</div>
-                                <div class="appointment-dentist-specialty">Orthodontiste</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>15/05/2023 - 10:30</td>
-                    <td>Consultation orthodontique</td>
-                    <td><span class="appointment-status pending">En attente</span></td>
-                    <td>
-                        <div class="appointment-actions">
-                            <button class="appointment-action view" title="Voir les détails">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="appointment-action edit" title="Modifier">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="appointment-action delete" title="Supprimer">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="appointment-patient">
-                            <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Marie Lefevre"
-                                class="appointment-patient-img">
-                            <div class="appointment-patient-info">
-                                <div class="appointment-patient-name">Marie Lefevre</div>
-                                <div class="appointment-patient-email">marie.lefevre@gmail.com</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="appointment-dentist">
-                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Dr. Pierre Moreau"
-                                class="appointment-dentist-img">
-                            <div class="appointment-dentist-info">
-                                <div class="appointment-dentist-name">Dr. Pierre Moreau</div>
-                                <div class="appointment-dentist-specialty">Implantologue</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>15/05/2023 - 14:00</td>
-                    <td>Traitement de canal</td>
-                    <td><span class="appointment-status cancelled">Annulé</span></td>
-                    <td>
-                        <div class="appointment-actions">
-                            <button class="appointment-action view" title="Voir les détails">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="appointment-action edit" title="Modifier">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="appointment-action delete" title="Supprimer">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="appointment-patient">
-                            <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Pierre Moreau"
-                                class="appointment-patient-img">
-                            <div class="appointment-patient-info">
-                                <div class="appointment-patient-name">Pierre Moreau</div>
-                                <div class="appointment-patient-email">pierre.moreau@gmail.com</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="appointment-dentist">
-                            <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Dr. Claire Dubois"
-                                class="appointment-dentist-img">
-                            <div class="appointment-dentist-info">
-                                <div class="appointment-dentist-name">Dr. Claire Dubois</div>
-                                <div class="appointment-dentist-specialty">Pédodontiste</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>15/05/2023 - 16:30</td>
-                    <td>Extraction dentaire</td>
-                    <td><span class="appointment-status completed">Terminé</span></td>
-                    <td>
-                        <div class="appointment-actions">
-                            <button class="appointment-action view" title="Voir les détails">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="appointment-action edit" title="Modifier">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="appointment-action delete" title="Supprimer">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="appointment-patient">
-                            <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Claire Dubois"
-                                class="appointment-patient-img">
-                            <div class="appointment-patient-info">
-                                <div class="appointment-patient-name">Claire Dubois</div>
-                                <div class="appointment-patient-email">claire.dubois@gmail.com</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="appointment-dentist">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. Thomas Dubois"
-                                class="appointment-dentist-img">
-                            <div class="appointment-dentist-info">
-                                <div class="appointment-dentist-name">Dr. Thomas Dubois</div>
-                                <div class="appointment-dentist-specialty">Dentiste général</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>16/05/2023 - 09:30</td>
-                    <td>Examen de routine</td>
-                    <td><span class="appointment-status confirmed">Confirmé</span></td>
-                    <td>
-                        <div class="appointment-actions">
-                            <button class="appointment-action view" title="Voir les détails">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="appointment-action edit" title="Modifier">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="appointment-action delete" title="Supprimer">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
-
-    <div class="pagination">
-        <a href="#" class="page-item disabled"><i class="fas fa-chevron-left"></i></a>
-        <a href="#" class="page-item active">1</a>
-        <a href="#" class="page-item">2</a>
-        <a href="#" class="page-item">3</a>
-        <a href="#" class="page-item"><i class="fas fa-chevron-right"></i></a>
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Gestion des onglets
@@ -758,7 +530,8 @@
                     const date = row.querySelector('td:nth-child(3)').textContent;
 
                     alert(
-                        `Détails du rendez-vous:\nPatient: ${patient}\nDentiste: ${dentist}\nDate: ${date}`);
+                        `Détails du rendez-vous:\nPatient: ${patient}\nDentiste: ${dentist}\nDate: ${date}`
+                    );
                 });
             });
 
@@ -780,7 +553,7 @@
 
                     if (confirm(
                             `Êtes-vous sûr de vouloir supprimer le rendez-vous de ${patient} avec ${dentist} ?`
-                            )) {
+                        )) {
                         // Simuler la suppression
                         row.style.opacity = '0.5';
                         setTimeout(() => {
