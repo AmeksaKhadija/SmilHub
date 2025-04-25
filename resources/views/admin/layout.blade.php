@@ -383,8 +383,8 @@
             </button>
         </div>
         <div class="sidebar-profile">
-            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Admin" class="sidebar-profile-img">
-            <h3 class="sidebar-profile-name">Alexandre Martin</h3>
+            <img src="{{ auth()->user()->image }}" alt="Admin" class="sidebar-profile-img">
+            <h3 class="sidebar-profile-name">{{ auth()->user()->nom }} {{ auth()->user()->prenom }}</h3>
             <p class="sidebar-profile-role">Administrateur</p>
             <div class="sidebar-profile-status online">En ligne</div>
         </div>

@@ -383,8 +383,8 @@
                     <tr>
                         <td>
                             <div class="appointment-patient">
-                                <img src="{{ $appointement->patient->user->image }}" alt="Sophie Martin"
-                                    class="appointment-patient-img">
+                                <img src="{{ $appointement->patient->user->image }}"
+                                    alt="{{ $appointement->patient->user->nom }}" class="appointment-patient-img">
                                 <div class="appointment-patient-info">
                                     <div class="appointment-patient-name">{{ $appointement->patient->user->nom }}
                                         {{ $appointement->patient->user->prenom }}</div>
@@ -405,7 +405,9 @@
                             </div>
                         </td>
                         <td>{{ Carbon\Carbon::parse($appointement->date)->format('M d, Y H:i') }}</td>
-                        <td><span class="appointment-status {{ strtolower($appointement->status) }}">{{ $appointement->status }}</span></td>
+                        <td><span
+                                class="appointment-status {{ strtolower($appointement->status) }}">{{ $appointement->status }}</span>
+                        </td>
                         <td>
                             <div class="appointment-actions">
                                 <button class="appointment-action view" title="Voir les détails">

@@ -1,4 +1,5 @@
 @extends('./admin/layout')
+
 @section('dashbord')
     <style>
         /* Stats Cards */
@@ -473,6 +474,222 @@
                 align-self: flex-end;
             }
         }
+
+        /* Modal styles */
+        .dentist-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .dentist-modal-content {
+            position: relative;
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 0;
+            width: 60%;
+            max-width: 1000px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.4s;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            color: #aaa;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+            transition: color 0.2s;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 24px;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        .dentist-profile {
+            text-align: center;
+            background-color: #f9f9f9;
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        .dentist-profile img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #fff;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .dentist-profile h3 {
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .dentist-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .status-badge,
+        .specialty-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-badge.active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.inactive {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .specialty-badge {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+
+        .dentist-contact {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .dentist-contact p {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        .dentist-contact i {
+            width: 20px;
+            color: #666;
+            margin-right: 8px;
+        }
+
+        .content-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .content-item {
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #4a90e2;
+            transition: transform 0.2s;
+        }
+
+        .content-item:hover {
+            transform: translateX(5px);
+            background-color: #f0f4f8;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .content-title {
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+
+        .content-date {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .content-category {
+            display: inline-block;
+            font-size: 13px;
+            padding: 3px 10px;
+            background-color: #e9ecef;
+            color: #495057;
+            border-radius: 15px;
+            margin-top: 5px;
+        }
+
+        .empty-content {
+            padding: 30px;
+            text-align: center;
+            color: #777;
+            font-style: italic;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
     </style>
     <!-- Stats Cards -->
     <div class="stats-cards">
@@ -547,8 +764,23 @@
             </div>
             @foreach ($dentists as $dentist)
                 <div class="dentist-list">
-                    <div class="dentist-item">
-                        <img src="{{ $dentist->user->image }}" alt="Dr. Thomas Dubois" class="dentist-img">
+                    <div class="dentist-item" data-id="{{ $dentist->id }}"
+                        data-name="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}"
+                        data-image="{{ $dentist->user->image }}" data-email="{{ $dentist->user->email }}"
+                        data-status="{{ $dentist->user->status }}" data-specialty="{{ $dentist->speciality }}"
+                        data-phone="{{ $dentist->user->phone ?? 'Non spécifié' }}"
+                        data-address="{{ $dentist->user->address ?? 'Non spécifié' }}"
+                        data-contents="{{ json_encode(
+                            $dentist->contents->map(function ($content) {
+                                return [
+                                    'title' => $content->title,
+                                    'created_at' => $content->created_at->format('d/m/Y'),
+                                    'category' => $content->categorie ? $content->categorie->name : 'Sans catégorie',
+                                ];
+                            }),
+                        ) }}">
+                        <img src="{{ $dentist->user->image }}"
+                            alt="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}" class="dentist-img">
                         <div class="dentist-info">
                             <h4 class="dentist-name">Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}</h4>
                             <div class="dentist-details">
@@ -615,7 +847,8 @@
                                 <div class="user-table-actions">
                                     <div class="user-table-action">
                                         @if ($dentist->user->status)
-                                            <form action="{{ route('admin.Statistics.desactive', $user->id) }}" method="POST">
+                                            <form action="{{ route('admin.Statistics.desactive', $user->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 @method('PATCH')
                                                 <button type="submit" class="user-table-btn" title="Rendre inactif">
@@ -626,7 +859,8 @@
                                     </div>
                                     <div class="user-table-action">
                                         @if ($dentist->user->status)
-                                            <form action="{{ route('admin.Statistics.active', $user->id) }}" method="POST">
+                                            <form action="{{ route('admin.Statistics.active', $user->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 @method('PATCH')
                                                 <button type="submit" class="user-table-btn-unlock" title="Rendre active">
@@ -644,6 +878,40 @@
         </div>
     </div>
 
+    <!-- Modal Détails Dentiste -->
+    <div id="dentistModal" class="dentist-modal">
+        <div class="dentist-modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>Détails du Dentiste</h2>
+            </div>
+            <div class="modal-body">
+                <div class="modal-grid">
+                    <div class="modal-left">
+                        <div class="dentist-profile">
+                            <img id="modal-dentist-img" src="" alt="Photo du dentiste">
+                            <h3 id="modal-dentist-name"></h3>
+                            <p id="modal-dentist-email"></p>
+                            <div class="dentist-badges">
+                                <span id="modal-dentist-status" class="status-badge"></span>
+                                <span id="modal-dentist-specialty" class="specialty-badge"></span>
+                            </div>
+                            <div class="dentist-contact">
+                                <p><i class="fas fa-phone"></i> <span id="modal-dentist-phone"></span></p>
+                                <p><i class="fas fa-map-marker-alt"></i> <span id="modal-dentist-address"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-right">
+                        <h3>Contenus publiés</h3>
+                        <div id="modal-dentist-contents" class="content-list">
+                            <!-- Le contenu sera chargé dynamiquement -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     </main>
 
     <!-- JavaScript -->
@@ -664,14 +932,93 @@
             });
 
             // Dentist Actions
+            // Sélectionner les éléments du DOM
             const viewButtons = document.querySelectorAll('.dentist-action.view');
+            const modal = document.getElementById('dentistModal');
+            const closeModalBtn = document.querySelector('.close-modal');
 
+            // Fonction pour ouvrir le modal avec les détails du dentiste
+            function openDentistModal(dentistItem) {
+                // Récupérer les données depuis les attributs data
+                const dentistData = dentistItem.dataset;
+                const contents = JSON.parse(dentistData.contents || '[]');
+
+                // Remplir le modal avec les données
+                document.getElementById('modal-dentist-name').textContent = dentistData.name;
+                document.getElementById('modal-dentist-img').src = dentistData.image ||
+                    '/images/default-avatar.png';
+                document.getElementById('modal-dentist-email').textContent = dentistData.email;
+                document.getElementById('modal-dentist-phone').textContent = dentistData.phone;
+                document.getElementById('modal-dentist-address').textContent = dentistData.address;
+
+                // Status badge
+                const statusBadge = document.getElementById('modal-dentist-status');
+                statusBadge.textContent = dentistData.status;
+                statusBadge.className = `status-badge ${dentistData.status.toLowerCase()}`;
+
+                // Specialty badge
+                document.getElementById('modal-dentist-specialty').textContent = dentistData.specialty;
+
+                // Contenus
+                const contentsContainer = document.getElementById('modal-dentist-contents');
+                contentsContainer.innerHTML = '';
+
+                if (contents && contents.length > 0) {
+                    contents.forEach(content => {
+                        const contentItem = document.createElement('div');
+                        contentItem.className = 'content-item';
+                        contentItem.innerHTML = `
+                <div class="content-header">
+                    <h4 class="content-title">${content.title}</h4>
+                    <span class="content-date">${content.created_at}</span>
+                </div>
+                <span class="content-category">${content.category}</span>
+            `;
+                        contentsContainer.appendChild(contentItem);
+                    });
+                } else {
+                    contentsContainer.innerHTML = `
+            <div class="empty-content">
+                <i class="fas fa-file-alt fa-2x mb-3"></i>
+                <p>Ce dentiste n'a pas encore publié de contenu.</p>
+            </div>
+        `;
+                }
+
+                // Afficher le modal
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Empêcher le défilement de la page
+            }
+
+            // Fonction pour fermer le modal
+            function closeModal() {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Réactiver le défilement de la page
+            }
+
+            // Événements
             viewButtons.forEach(button => {
                 button.addEventListener('click', function() {
+                    // Trouver l'élément parent dentist-item qui contient les données
                     const dentistItem = this.closest('.dentist-item');
-                    const dentistName = dentistItem.querySelector('.dentist-name').textContent;
-                    alert(`Affichage du profil de ${dentistName}`);
+                    openDentistModal(dentistItem);
                 });
+            });
+
+            closeModalBtn.addEventListener('click', closeModal);
+
+            // Fermer le modal en cliquant à l'extérieur
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Fermer le modal avec la touche Escape
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && modal.style.display === 'block') {
+                    closeModal();
+                }
             });
 
 
