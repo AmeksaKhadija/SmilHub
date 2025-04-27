@@ -7,6 +7,8 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\DentistsController;
 use App\Http\Controllers\PatientsController;
+use App\Http\Controllers\TreatmentController;
+use App\Models\Treatment;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -75,7 +77,20 @@ Route::get('/rendez_vous', [AppointmentController::class, 'index'])->name('rende
 Route::get('/statistics', [AdminController::class, 'statisticsDashboard'])->name('statistics.dashboard');
 Route::get('/admin/dentists/{dentist}/details', [DentistsController::class, 'getDetails'])->name('dentists.details');
 
-// Route::get('/statistics', [DentistsController::class, 'getDentistInStatistics'])->name('statistics.dashboard');
+
+// dentist
+// dentiste
+Route::get('/mesRendezVous', [DentistsController::class, 'getAppointementByDentist'])->name('mesRendezVous.index');
+Route::patch('/dentist/appointement/{id}/accepter', [DentistsController::class, 'accepterAppointement'])->name('dentist.appointement.accepter');
+Route::patch('/dentist/appointement/{id}/annuler', [DentistsController::class, 'annulerAppointement'])->name('dentist.appointement.annuler');
+Route::patch('/dentist/appointement/{id}/compliter', [DentistsController::class, 'compliterAppointement'])->name('dentist.appointement.compliter');
+Route::get('/mesPatients', [DentistsController::class, 'index'])->name('mesPatients.index');
+Route::post('appointment/addTreatment', [TreatmentController::class, 'store'])->name('dentist.appointement.addTraitement');
+
+
+Route::get('/dentistDashboard', function () {
+    return view('./dentist/dentistDashboard');
+})->name('dentistDashboard');
 
 
 // });
@@ -92,9 +107,5 @@ Route::get('/suivi_soin', function () {
     return view('suivi_soin');
 });
 
-// dentiste
-Route::get('/dentistDashboard', function () {
-    return view('./dentist/dentistDashboard');
-})->name('dentistDashboard');
 
 // admin

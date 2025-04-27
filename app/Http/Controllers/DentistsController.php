@@ -47,11 +47,6 @@ class DentistsController extends Controller
         return $this->getAllDentistsAndReturn('./admin/dentists');
     }
 
-    // public function getDentistInStatistics()
-    // {
-    //     return $this->getAllDentistsAndReturn('admin.statistics');
-    // }
-
 
     /**
      * Display the specified resource.
@@ -71,7 +66,7 @@ class DentistsController extends Controller
         return view('client.detailDentist', compact('dentist', 'contents', 'categories'));
     }
 
-    
+
 
     public function getDetails($id)
     {
@@ -85,5 +80,68 @@ class DentistsController extends Controller
             'dentist' => $dentist,
             'contents' => $contents
         ]);
+    }
+
+
+    public function getAppointementByDentist()
+    {
+        $user = Auth::user();
+        // dd($user);
+        $dentistId = $user->dentist->id;
+
+        $appointements = Appointment::with(['dentist.user', 'patient.user'])
+            ->where('dentist_id', $dentistId)
+            ->get();
+
+        return view('dentist.rendez_vous', compact('appointements'));
+    }
+
+    public function accepterAppointement($id)
+    {
+        $appointement = Appointment::findOrFail($id);
+
+        if ($appointement->status == 'pending' || $appointement->status == 'cancelled') {
+            $appointement->status = 'confirmed';
+            $appointement->save();
+
+            return redirect()->back()->with('success', 'Statut du rendez vous confirmée avec succès.');
+        }
+
+        return redirect()->back()->with('error', 'Le statut du rendez vous ne peut pas être mis à jour.');
+    }
+
+    public function annulerAppointement($id)
+    {
+        $appointement = Appointment::findOrFail($id);
+
+        if ($appointement->status == 'pending' || $appointement->status == 'confirmed') {
+            $appointement->status = 'cancelled';
+            $appointement->save();
+
+            return redirect()->back()->with('success', 'Rendez vous annulée avec succès.');
+        }
+
+        return redirect()->back()->with('error', 'Le statut du rendez vous ne peut pas être mis à jour.');
+    }
+
+    public function compliterAppointement($id)
+    {
+        $appointement = Appointment::findOrFail($id);
+
+        if ($appointement->status == 'confirmed') {
+            $appointement->status = 'completed';
+            $appointement->save();
+
+            return redirect()->back()->with('success', 'Rendez vous complitée avec succès.');
+        }
+
+        return redirect()->back()->with('error', 'Le statut du rendez vous ne peut pas être mis à jour.');
+    }
+
+    public function index()
+    {
+        $patients = Patient::with(['user', 'appointments'])->get();
+
+        return view('dentist.patients', compact('patients'));
     }
 }

@@ -28,4 +28,9 @@ class Appointment extends Model
     {
         return $this->belongsTo(Dentist::class);
     }
+
+    public function treatment()
+    {
+        return $this->hasOne(Treatment::class);
+    }
 }

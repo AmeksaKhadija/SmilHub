@@ -383,7 +383,8 @@
             </button>
         </div>
         <div class="sidebar-profile">
-            <img src="{{ auth()->user()->image }}" alt="Admin" class="sidebar-profile-img">
+            <img src="{{ auth()->user()->image }}" alt="{{ auth()->user()->nom }} {{ auth()->user()->prenom }}"
+                class="sidebar-profile-img">
             <h3 class="sidebar-profile-name">{{ auth()->user()->nom }} {{ auth()->user()->prenom }}</h3>
             <p class="sidebar-profile-role">Administrateur</p>
             <div class="sidebar-profile-status online">En ligne</div>
@@ -463,9 +464,10 @@
                     <span class="header-icon-badge">3</span>
                 </div>
                 <div class="header-profile">
-                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Admin" class="header-profile-img">
+                    <img src="{{ auth()->user()->image }}" alt="Admin" class="header-profile-img">
                     <div class="header-profile-info">
-                        <span class="header-profile-name">Alexandre Martin</span>
+                        <span class="header-profile-name">{{ auth()->user()->nom }}
+                            {{ auth()->user()->prenom }}</span>
                         <span class="header-profile-role">Administrateur</span>
                     </div>
                 </div>

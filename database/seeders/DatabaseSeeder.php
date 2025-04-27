@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
             ContentsTableSeeder::class,
             AppointmentsTableSeeder::class,
             NotificationsTableSeeder::class,
+            TreatmentSeeder::class,
+
         ]);
     }
 }

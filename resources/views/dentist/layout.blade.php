@@ -188,6 +188,7 @@
             background-color: var(--light-gray);
             color: var(--primary);
             border-left-color: var(--primary);
+            font-weight: 600;
         }
 
         .sidebar-nav-link:hover {
@@ -363,49 +364,53 @@
             </button>
         </div>
         <div class="sidebar-profile">
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. Thomas Dubois"
+            <img src="{{ auth()->user()->image }}" alt="Dr. {{ auth()->user()->nom }} {{ auth()->user()->prenom }}"
                 class="sidebar-profile-img">
-            <h3 class="sidebar-profile-name">Dr. Thomas Dubois</h3>
-            <p class="sidebar-profile-role">Dentiste</p>
+            <h3 class="sidebar-profile-name">Dr. {{ auth()->user()->nom }} {{ auth()->user()->prenom }}</h3>
+            <p class="sidebar-profile-role">{{ auth()->user()->dentist->speciality }} </p>
             <div class="sidebar-profile-status online">En ligne</div>
         </div>
         <div class="sidebar-nav">
             <h4 class="sidebar-nav-title">Menu principal</h4>
             <ul class="sidebar-nav-items">
                 <li class="sidebar-nav-item">
-                    <a href="{{ route('dentistDashboard') }}" class="sidebar-nav-link">
+                    <a href="{{ route('dentistDashboard') }}"
+                        class="sidebar-nav-link {{ request()->is('dentistDashboard') ? 'active' : '' }}">
                         <i class="fas fa-home sidebar-nav-icon"></i>
                         Tableau de bord
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link">
+                    <a href="{{ route('mesRendezVous.index') }}"
+                        class="sidebar-nav-link {{ request()->is('mesRendezVous') ? 'active' : '' }}">
                         <i class="fas fa-calendar-alt sidebar-nav-icon"></i>
                         Rendez-vous
-                        <span class="sidebar-nav-badge">4</span>
+                        <span class="sidebar-nav-badge">{{ auth()->user()->dentist->appointments->count() }}</span>
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link">
+                    <a href="{{ route('mesPatients.index') }}"
+                        class="sidebar-nav-link {{ request()->is('mesPatients') ? 'active' : '' }}">
                         <i class="fas fa-users sidebar-nav-icon"></i>
                         Patients
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link">
+                    <a href="#" class="sidebar-nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
                         <i class="fas fa-clipboard-list sidebar-nav-icon"></i>
                         Traitements
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link">
+                    <a href="#" class="sidebar-nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
                         <i class="fas fa-chart-line sidebar-nav-icon"></i>
                         Statistiques
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="{{ route('contents.index') }}" class="sidebar-nav-link">
-                        <i class="fas fa-chart-line sidebar-nav-icon"></i>
+                    <a href="{{ route('contents.index') }}"
+                        class="sidebar-nav-link {{ request()->is('contents') ? 'active' : '' }}">
+                        <i class="fa fa-book sidebar-nav-icon"></i>
                         Contenu
                     </a>
                 </li>
@@ -413,19 +418,19 @@
             <h4 class="sidebar-nav-title" style="margin-top: 20px;">Gestion</h4>
             <ul class="sidebar-nav-items">
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link">
+                    <a href="#" class="sidebar-nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
                         <i class="fas fa-file-invoice-dollar sidebar-nav-icon"></i>
                         Facturation
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link">
+                    <a href="#" class="sidebar-nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
                         <i class="fas fa-pills sidebar-nav-icon"></i>
                         Médicaments
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link">
+                    <a href="#" class="sidebar-nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
                         <i class="fas fa-cog sidebar-nav-icon"></i>
                         Paramètres
                     </a>
@@ -455,11 +460,12 @@
                     <span class="header-icon-badge">5</span>
                 </div>
                 <div class="header-profile">
-                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. Thomas Dubois"
-                        class="header-profile-img">
+                    <img src="{{ auth()->user()->image }}"
+                        alt="Dr. {{ auth()->user()->nom }} {{ auth()->user()->prenom }}" class="header-profile-img">
                     <div class="header-profile-info">
-                        <span class="header-profile-name">Dr. Thomas Dubois</span>
-                        <span class="header-profile-role">Dentiste</span>
+                        <span class="header-profile-name">Dr. {{ auth()->user()->nom }}
+                            {{ auth()->user()->prenom }}</span>
+                        <span class="header-profile-role">{{ auth()->user()->dentist->speciality }}</span>
                     </div>
                 </div>
             </div>
@@ -480,8 +486,11 @@
 
         @yield('content')
         @yield('dentistDashbord')
+        @yield('rendez_vous')
+        @yield('patients')
     </main>
     @yield('scriptContent')
+
 
 </body>
 
