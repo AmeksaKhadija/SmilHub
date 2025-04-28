@@ -73,40 +73,6 @@
             font-size: 0.9rem;
         }
 
-        .content-filters {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            background-color: var(--white);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-        }
-
-        .filter-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .filter-label {
-            font-weight: 500;
-            color: var(--text-dark);
-        }
-
-        .filter-select {
-            padding: 8px 12px;
-            border: 1px solid var(--gray);
-            border-radius: 5px;
-            font-family: 'Poppins', sans-serif;
-            color: var(--text-dark);
-        }
-
-        .filter-select:focus {
-            outline: none;
-            border-color: var(--primary-light);
-        }
-
         .content-table-container {
             background-color: var(--white);
             border-radius: 10px;
@@ -203,42 +169,8 @@
             transform: translateY(-2px);
         }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
 
-        .page-item {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            background-color: var(--white);
-            color: var(--text-dark);
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-sm);
-        }
 
-        .page-item:hover {
-            background-color: var(--light-gray);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow);
-        }
-
-        .page-item.active {
-            background-color: var(--primary);
-            color: var(--white);
-        }
-
-        .page-item.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
 
         .empty-state {
             text-align: center;
@@ -275,28 +207,6 @@
             <a href="{{ route('contents.create') }}" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Créer un nouvel article
             </a>
-        </div>
-    </div>
-
-    <div class="content-filters">
-        <div class="filter-item">
-            <label class="filter-label">Catégorie:</label>
-            <select class="filter-select" id="categoryFilter">
-                <option value="">Toutes les catégories</option>
-                @foreach ($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="filter-item">
-            <label class="filter-label">Type:</label>
-            <select class="filter-select" id="typeFilter">
-                <option value="">Tous les types</option>
-                <option value="article">Article</option>
-                <option value="guide">Guide</option>
-                <option value="conseil">Conseil</option>
-                <option value="faq">FAQ</option>
-            </select>
         </div>
     </div>
 
@@ -358,10 +268,6 @@
                 @endforelse
             </tbody>
         </table>
-    </div>
-
-    <div class="pagination">
-        {{ $contents->links() }}
     </div>
 @endsection
 

@@ -70,9 +70,7 @@ class AdminController extends Controller
         foreach ($dentists as $dentist) {
             $dentist->available_slots = json_decode($dentist->available_slots, true);
         }
-
-
-
+        
         return view('admin.statistics', compact(
             'userCount',
             'dentistsActifs',

@@ -450,7 +450,7 @@
             <p>Gérez vos informations personnelles et professionnelles</p>
         </div>
         <div class="dashbord">
-            <button><a href="./dentistDashboard">Tableau de bord</a></button>
+            <button><a href="{{ route('mesRendezVous.index') }}">Tableau de bord</a></button>
         </div>
     </header>
 

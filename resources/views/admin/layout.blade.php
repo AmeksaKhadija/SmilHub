@@ -395,7 +395,7 @@
                 <li class="sidebar-nav-item">
                     <a href="{{ route('statistics.dashboard') }}" class="sidebar-nav-link">
                         <i class="fas fa-chart-line sidebar-nav-icon"></i>
-                        Statistiques
+                        Tableau de bord
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
@@ -476,7 +476,8 @@
 
         <!-- Dashboard Content -->
         <h1 class="dashboard-title">Tableau de bord administrateur</h1>
-        <p class="dashboard-subtitle">Bienvenue, Alexandre ! Voici un aperçu de la plateforme SmileHub.</p>
+        <p class="dashboard-subtitle">Bienvenue, {{ auth()->user()->nom }} {{ auth()->user()->prenom }} ! Voici un
+            aperçu de la plateforme SmileHub.</p>
         @if (session('success'))
             <div class="alert alert-success"
                 style="background-color: #10b981; color: white; padding: 15px; margin: 20px 0; border-radius: 8px;">

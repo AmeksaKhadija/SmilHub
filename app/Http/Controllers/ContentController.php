@@ -20,9 +20,9 @@ class ContentController extends Controller
      */
     public function index()
     {
-        $contents = Content::with(['categorie', 'dentist'])->paginate(10);
+        $contents = Content::with(['categorie', 'dentist'])->get();
         $categories = Categorie::all();
-
+        // dd($contents[0]);
         return view('dentist.contents', compact('contents', 'categories'));
     }
 

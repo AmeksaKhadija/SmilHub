@@ -20,7 +20,7 @@ class ContentsTableSeeder extends Seeder
                 'title' => 'Comment bien se brosser les dents',
                 'type' => 'article',
                 'content' => 'Un bon brossage dure au moins deux minutes...',
-                'category_id' => 1,
+                'categorie_id' => 1,
                 'dentist_id' => 1,
                 'image' => 'image.png',
                 'created_at' => now(),

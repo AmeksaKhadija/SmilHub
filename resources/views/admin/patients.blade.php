@@ -300,42 +300,7 @@
             transform: translateY(-2px);
         }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .page-item {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            background-color: var(--white);
-            color: var(--text-dark);
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .page-item:hover {
-            background-color: var(--light-gray);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow);
-        }
-
-        .page-item.active {
-            background-color: var(--primary);
-            color: var(--white);
-        }
-
-        .page-item.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        
 
         /* Responsive */
         @media (max-width: 1200px) {
@@ -380,85 +345,6 @@
 
     <div class="page-header">
         <h2 class="page-title">Gestion des patients</h2>
-        <button class="btn btn-primary">
-            <i class="fas fa-download"></i> Exporter les données
-        </button>
-    </div>
-
-    <div class="stats-row">
-        <div class="stat-card">
-            <div class="stat-card-icon blue">
-                <i class="fas fa-users"></i>
-            </div>
-            <div class="stat-card-content">
-                <h3 class="stat-card-title">Total patients</h3>
-                <p class="stat-card-value">1,248</p>
-                <div class="stat-card-change up">
-                    <i class="fas fa-arrow-up"></i> +124 ce mois-ci
-                </div>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-card-icon green">
-                <i class="fas fa-user-check"></i>
-            </div>
-            <div class="stat-card-content">
-                <h3 class="stat-card-title">Patients actifs</h3>
-                <p class="stat-card-value">985</p>
-                <div class="stat-card-change up">
-                    <i class="fas fa-arrow-up"></i> +85 ce mois-ci
-                </div>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-card-icon orange">
-                <i class="fas fa-calendar-check"></i>
-            </div>
-            <div class="stat-card-content">
-                <h3 class="stat-card-title">Rendez-vous</h3>
-                <p class="stat-card-value">328</p>
-                <div class="stat-card-change up">
-                    <i class="fas fa-arrow-up"></i> +18% ce mois-ci
-                </div>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-card-icon purple">
-                <i class="fas fa-user-plus"></i>
-            </div>
-            <div class="stat-card-content">
-                <h3 class="stat-card-title">Nouveaux patients</h3>
-                <p class="stat-card-value">124</p>
-                <div class="stat-card-change up">
-                    <i class="fas fa-arrow-up"></i> +12% ce mois-ci
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="filter-bar">
-        <div class="filter-item">
-            <label class="filter-label">Statut:</label>
-            <select class="filter-select" id="statusFilter">
-                <option value="">Tous les statuts</option>
-                <option value="active">Actif</option>
-                <option value="inactive">Inactif</option>
-            </select>
-        </div>
-        <div class="filter-item">
-            <label class="filter-label">Dentiste:</label>
-            <select class="filter-select" id="dentistFilter">
-                <option value="">Tous les dentistes</option>
-                <option value="1">Dr. Thomas Dubois</option>
-                <option value="2">Dr. Marie Leroy</option>
-                <option value="3">Dr. Pierre Moreau</option>
-                <option value="4">Dr. Claire Dubois</option>
-            </select>
-        </div>
-        <div class="filter-item">
-            <label class="filter-label">Recherche:</label>
-            <input type="text" class="filter-input" id="searchInput" placeholder="Nom, email...">
-        </div>
     </div>
 
     <div class="patient-table-container">
@@ -513,14 +399,6 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
-
-    <div class="pagination">
-        <a href="#" class="page-item disabled"><i class="fas fa-chevron-left"></i></a>
-        <a href="#" class="page-item active">1</a>
-        <a href="#" class="page-item">2</a>
-        <a href="#" class="page-item">3</a>
-        <a href="#" class="page-item"><i class="fas fa-chevron-right"></i></a>
     </div>
 
     <script>

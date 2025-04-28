@@ -335,7 +335,7 @@
             }
         }
 
-        /* Style du Modal */
+        /* Style du Modal amélioré */
         .custom-modal {
             display: none;
             /* Cache le modal par défaut */
@@ -345,57 +345,153 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            /* Fond semi-transparent */
+            background-color: rgba(0, 0, 0, 0.6);
+            /* Fond plus sombre pour meilleur contraste */
             justify-content: center;
             align-items: center;
+            transition: all 0.3s ease;
+            /* Animation douce à l'ouverture */
+        }
+
+        /* Animation pour l'apparition du modal */
+        .custom-modal.show {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         /* Contenu du Modal */
         .modal-content {
             background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            width: 400px;
-            max-width: 100%;
+            padding: 25px;
+            border-radius: 12px;
+            width: 500px;
+            max-width: 90%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .custom-modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        /* En-tête du modal */
+        .modal-content h5 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            font-weight: 600;
         }
 
         /* Bouton de fermeture */
         .close-modal {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            color: #333;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            color: #888;
             cursor: pointer;
+            transition: color 0.2s;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
         }
 
         .close-modal:hover {
-            color: red;
+            color: #e74c3c;
+            background-color: #f8f8f8;
+        }
+
+        /* Formulaire */
+        .form-label {
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border 0.3s;
+            box-sizing: border-box;
+            resize: none;
+        }
+
+        .form-control:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .mb-3 {
+            margin-bottom: 20px;
         }
 
         /* Footer du Modal */
         .modal-footer {
             display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
+            justify-content: flex-end;
+            /* Boutons alignés à droite */
+            gap: 15px;
+            /* Espacement entre les boutons */
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
         }
 
         /* Style des boutons */
         .btn {
-            padding: 10px 20px;
-            border-radius: 4px;
+            padding: 10px 22px;
+            border-radius: 6px;
             cursor: pointer;
             border: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
         }
 
         .btn-secondary {
-            background-color: #ccc;
+            background-color: #f2f2f2;
+            color: #555;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
         }
 
         .btn-primary {
-            background-color: #007bff;
+            background-color: #3498db;
             color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Animation pour les boutons */
+        .btn:active {
+            transform: translateY(1px);
         }
     </style>
 

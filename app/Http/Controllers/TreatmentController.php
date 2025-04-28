@@ -7,6 +7,7 @@ use App\Http\Requests\StoreTreatmentRequest;
 use App\Http\Requests\UpdateTreatmentRequest;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TreatmentController extends Controller
 {
@@ -17,7 +18,15 @@ class TreatmentController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        // dd($user);
+        $dentistId = $user->dentist->id;
+
+        $appointements = Appointment::with(['dentist.user', 'patient.user', 'treatment'])
+            ->where('dentist_id', $dentistId)
+            ->get();
+        $treatments = $appointements->pluck('treatment')->filter();
+        return view('dentist.treatment', compact('appointements', 'treatments'));
     }
 
     /**
@@ -79,7 +88,7 @@ class TreatmentController extends Controller
      */
     public function edit(Treatment $treatment)
     {
-        //
+        return view('dentist.treatments.edit', compact('treatment'));
     }
 
     /**
@@ -89,9 +98,27 @@ class TreatmentController extends Controller
      * @param  \App\Models\Treatment  $treatment
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTreatmentRequest $request, Treatment $treatment)
+
+    public function update(Request $request, Treatment $treatment)
     {
-        //
+        $validator = $request->validate([
+            'description' => 'required|string|max:255',
+            'medications' => 'required|string|max:255',
+        ]);
+
+        if (!$validator) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $treatment->update([
+            'description' => $request->description,
+            'medications' => $request->medications,
+        ]);
+
+        return redirect()->route('treatment.index')
+            ->with('success', 'Treatment mise à jour avec succès!');
     }
 
     /**
@@ -102,6 +129,11 @@ class TreatmentController extends Controller
      */
     public function destroy(Treatment $treatment)
     {
-        //
+        // $treatment = Treatment::findOrFail($treatment);
+
+        $treatment->delete();
+
+        return redirect()->back()
+            ->with('success', 'Le traitement a été supprimé avec succès');
     }
 }

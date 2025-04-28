@@ -825,53 +825,58 @@
                 </thead>
                 <tbody>
                     @foreach ($users as $user)
-                        <tr>
-                            <td>
-                                <div class="user-table-user">
-                                    <img src="{{ $user->image }}" alt="Dr. Thomas Dubois" class="user-table-img">
-                                    <div>
-                                        @if ($user->role == 'dentiste')
-                                            <div class="user-table-name">Dr. {{ $user->nom }} {{ $user->prenom }}</div>
-                                        @else
-                                            <div class="user-table-name">{{ $user->nom }} {{ $user->prenom }}</div>
-                                        @endif
-                                        <div class="user-table-email">{{ $user->email }}</div>
+                        @if ($user->role != 'admin')
+                            <tr>
+                                <td>
+                                    <div class="user-table-user">
+                                        <img src="{{ $user->image }}" alt="Dr. Thomas Dubois" class="user-table-img">
+                                        <div>
+                                            @if ($user->role == 'dentiste')
+                                                <div class="user-table-name">Dr. {{ $user->nom }} {{ $user->prenom }}
+                                                </div>
+                                            @else
+                                                <div class="user-table-name">{{ $user->nom }} {{ $user->prenom }}</div>
+                                            @endif
+                                            <div class="user-table-email">{{ $user->email }}</div>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td>{{ $user->phone }}</td>
-                            <td>{{ $user->role }}</td>
-                            <td><span class="user-table-status {{ strtolower($user->status) }}">{{ $user->status }}</span>
-                            </td>
-                            <td>
-                                <div class="user-table-actions">
-                                    <div class="user-table-action">
-                                        @if ($dentist->user->status)
-                                            <form action="{{ route('admin.Statistics.desactive', $user->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button type="submit" class="user-table-btn" title="Rendre inactif">
-                                                    <i class="fa fa-lock" aria-hidden="true"></i>
-                                                </button>
-                                            </form>
-                                        @endif
+                                </td>
+                                <td>{{ $user->phone }}</td>
+                                <td>{{ $user->role }}</td>
+                                <td><span
+                                        class="user-table-status {{ strtolower($user->status) }}">{{ $user->status }}</span>
+                                </td>
+                                <td>
+                                    <div class="user-table-actions">
+                                        <div class="user-table-action">
+                                            @if ($dentist->user->status)
+                                                <form action="{{ route('admin.Statistics.desactive', $user->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="user-table-btn" title="Rendre inactif">
+                                                        <i class="fa fa-lock" aria-hidden="true"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                        <div class="user-table-action">
+                                            @if ($dentist->user->status)
+                                                <form action="{{ route('admin.Statistics.active', $user->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="user-table-btn-unlock"
+                                                        title="Rendre active">
+                                                        <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
                                     </div>
-                                    <div class="user-table-action">
-                                        @if ($dentist->user->status)
-                                            <form action="{{ route('admin.Statistics.active', $user->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button type="submit" class="user-table-btn-unlock" title="Rendre active">
-                                                    <i class="fa fa-unlock-alt" aria-hidden="true"></i>
-                                                </button>
-                                            </form>
-                                        @endif
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        @endif
                     @endforeach
                 </tbody>
             </table>

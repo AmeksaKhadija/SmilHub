@@ -490,96 +490,71 @@
         </div>
     </div>
     <div class="filter-bar">
-        <div class="filter-item">
-            <label class="filter-label">Statut:</label>
-            <select class="filter-select" id="statusFilter">
-                <option value="">Tous les statuts</option>
-                <option value="active">Actif</option>
-                <option value="pending">En attente</option>
-                <option value="inactive">Inactif</option>
-            </select>
-        </div>
-        <div class="filter-item">
-            <label class="filter-label">Spécialité:</label>
-            <select class="filter-select" id="specialtyFilter">
-                <option value="">Toutes les spécialités</option>
-                <option value="general">Dentiste général</option>
-                <option value="orthodontist">Orthodontiste</option>
-                <option value="pedodontist">Pédodontiste</option>
-                <option value="implantologist">Implantologue</option>
-                <option value="periodontist">Parodontiste</option>
-            </select>
-        </div>
-        <div class="filter-item">
-            <label class="filter-label">Recherche:</label>
-            <input type="text" class="filter-input" id="searchInput" placeholder="Nom, email...">
-        </div>
-    </div>
 
-    <div class="dentist-table-container">
-        <table class="dentist-table">
-            <thead>
-                <tr>
-                    <th>Nom du categorie</th>
-                    <th>Description courte</th>
-                    <th>Numero de contenu dans categorie</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($categories as $categorie)
+        <div class="dentist-table-container">
+            <table class="dentist-table">
+                <thead>
                     <tr>
-                        <td>
-                            <div class="dentist-profile">
-                                <div class="dentist-profile-info">
-                                    <div class="dentist-profile-name">{{ $categorie->name }}</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>{{ $categorie->description_courte }}</td>
-                        <td>{{ $categorie->contents->count() }}</td>
-                        <td>
-                            <div class="dentist-actions">
-                                <a href="{{ route('categories.show', $categorie->id) }}" class="dentist-action view">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a href="{{ route('categories.edit', $categorie->id) }}" class="dentist-action edit">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <form action="{{ route('categories.destroy', $categorie->id) }}" method="POST"
-                                    style="display: inline;">
-                                    @csrf 
-                                    @method('DELETE')
-                                    <button class="dentist-action delete" title="Supprimer">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
+                        <th>Nom du categorie</th>
+                        <th>Description courte</th>
+                        <th>Numero de contenu dans categorie</th>
+                        <th>Actions</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    @foreach ($categories as $categorie)
+                        <tr>
+                            <td>
+                                <div class="dentist-profile">
+                                    <div class="dentist-profile-info">
+                                        <div class="dentist-profile-name">{{ $categorie->name }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ $categorie->description_courte }}</td>
+                            <td>{{ $categorie->contents->count() }}</td>
+                            <td>
+                                <div class="dentist-actions">
+                                    <a href="{{ route('categories.show', $categorie->id) }}" class="dentist-action view">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('categories.edit', $categorie->id) }}" class="dentist-action edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form action="{{ route('categories.destroy', $categorie->id) }}" method="POST"
+                                        style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="dentist-action delete" title="Supprimer">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
 
-            // Mobile Menu Toggle
-            const menuToggle = document.getElementById('menuToggle');
-            const sidebar = document.getElementById('sidebar');
-            const sidebarClose = document.getElementById('sidebarClose');
+                // Mobile Menu Toggle
+                const menuToggle = document.getElementById('menuToggle');
+                const sidebar = document.getElementById('sidebar');
+                const sidebarClose = document.getElementById('sidebarClose');
 
-            menuToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('active');
+                menuToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                });
+
+                sidebarClose.addEventListener('click', function() {
+                    sidebar.classList.remove('active');
+                });
+
             });
-
-            sidebarClose.addEventListener('click', function() {
-                sidebar.classList.remove('active');
-            });
-
-        });
-    </script>
-@endsection
+        </script>
+    @endsection

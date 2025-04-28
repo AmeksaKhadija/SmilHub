@@ -336,36 +336,6 @@
     </div>
 
 
-    <div class="filter-bar">
-        <div class="filter-item">
-            <label class="filter-label">Statut:</label>
-            <select class="filter-select" id="statusFilter">
-                <option value="">Tous les statuts</option>
-                <option value="confirmed">Confirmé</option>
-                <option value="pending">En attente</option>
-                <option value="cancelled">Annulé</option>
-                <option value="completed">Terminé</option>
-            </select>
-        </div>
-        <div class="filter-item">
-            <label class="filter-label">Dentiste:</label>
-            <select class="filter-select" id="dentistFilter">
-                <option value="">Tous les dentistes</option>
-                <option value="1">Dr. Thomas Dubois</option>
-                <option value="2">Dr. Marie Leroy</option>
-                <option value="3">Dr. Pierre Moreau</option>
-                <option value="4">Dr. Claire Dubois</option>
-            </select>
-        </div>
-        <div class="filter-item">
-            <label class="filter-label">Date:</label>
-            <input type="date" class="filter-date" id="dateFilter">
-        </div>
-        <div class="filter-item">
-            <label class="filter-label">Recherche:</label>
-            <input type="text" class="filter-input" id="searchInput" placeholder="Patient, dentiste...">
-        </div>
-    </div>
 
     <div class="appointment-table-container">
         <table class="appointment-table">

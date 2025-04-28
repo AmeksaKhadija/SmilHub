@@ -86,11 +86,12 @@ Route::patch('/dentist/appointement/{id}/annuler', [DentistsController::class, '
 Route::patch('/dentist/appointement/{id}/compliter', [DentistsController::class, 'compliterAppointement'])->name('dentist.appointement.compliter');
 Route::get('/mesPatients', [DentistsController::class, 'index'])->name('mesPatients.index');
 Route::post('appointment/addTreatment', [TreatmentController::class, 'store'])->name('dentist.appointement.addTraitement');
+Route::get('treatment', [TreatmentController::class, 'index'])->name('treatment.index');
+Route::get('/treatment/{treatment}/edit', [TreatmentController::class, 'edit'])->name('treatment.edit');
+Route::put('/treatment/{treatment}', [TreatmentController::class, 'update'])->name('treatment.update');
+Route::delete('/treatment/{treatment}', [TreatmentController::class, 'destroy'])->name('treatment.destroy');
 
-
-Route::get('/dentistDashboard', function () {
-    return view('./dentist/dentistDashboard');
-})->name('dentistDashboard');
+// Route::get('/statistics', [DentistsController::class, 'statisticsDashboard'])->name('statistics.dashboard');
 
 
 // });

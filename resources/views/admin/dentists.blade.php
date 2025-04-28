@@ -459,32 +459,6 @@
         <h2 class="page-title">Gestion des dentistes</h2>
     </div>
 
-    <div class="filter-bar">
-        <div class="filter-item">
-            <label class="filter-label">Statut:</label>
-            <select class="filter-select" id="statusFilter">
-                <option value="">Tous les statuts</option>
-                <option value="active">Actif</option>
-                <option value="pending">En attente</option>
-                <option value="inactive">Inactif</option>
-            </select>
-        </div>
-        <div class="filter-item">
-            <label class="filter-label">Spécialité:</label>
-            <select class="filter-select" id="specialtyFilter">
-                <option value="">Toutes les spécialités</option>
-                <option value="general">Dentiste général</option>
-                <option value="orthodontist">Orthodontiste</option>
-                <option value="pedodontist">Pédodontiste</option>
-                <option value="implantologist">Implantologue</option>
-                <option value="periodontist">Parodontiste</option>
-            </select>
-        </div>
-        <div class="filter-item">
-            <label class="filter-label">Recherche:</label>
-            <input type="text" class="filter-input" id="searchInput" placeholder="Nom, email...">
-        </div>
-    </div>
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}

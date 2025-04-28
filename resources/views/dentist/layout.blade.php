@@ -374,13 +374,6 @@
             <h4 class="sidebar-nav-title">Menu principal</h4>
             <ul class="sidebar-nav-items">
                 <li class="sidebar-nav-item">
-                    <a href="{{ route('dentistDashboard') }}"
-                        class="sidebar-nav-link {{ request()->is('dentistDashboard') ? 'active' : '' }}">
-                        <i class="fas fa-home sidebar-nav-icon"></i>
-                        Tableau de bord
-                    </a>
-                </li>
-                <li class="sidebar-nav-item">
                     <a href="{{ route('mesRendezVous.index') }}"
                         class="sidebar-nav-link {{ request()->is('mesRendezVous') ? 'active' : '' }}">
                         <i class="fas fa-calendar-alt sidebar-nav-icon"></i>
@@ -396,15 +389,10 @@
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('treatment.index') }}"
+                        class="sidebar-nav-link {{ request()->is('treatment') ? 'active' : '' }}">
                         <i class="fas fa-clipboard-list sidebar-nav-icon"></i>
                         Traitements
-                    </a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-chart-line sidebar-nav-icon"></i>
-                        Statistiques
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
@@ -414,25 +402,19 @@
                         Contenu
                     </a>
                 </li>
+                <li class="sidebar-nav-item">
+                    <a href="#" class="sidebar-nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+                        <i class="fas fa-chart-line sidebar-nav-icon"></i>
+                        Statistiques
+                    </a>
+                </li>
             </ul>
             <h4 class="sidebar-nav-title" style="margin-top: 20px;">Gestion</h4>
             <ul class="sidebar-nav-items">
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-file-invoice-dollar sidebar-nav-icon"></i>
-                        Facturation
-                    </a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-pills sidebar-nav-icon"></i>
-                        Médicaments
-                    </a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-cog sidebar-nav-icon"></i>
-                        Paramètres
+                    <a href="logout" class="sidebar-nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+                        <i class="fas fa-sign-out sidebar-nav-icon"></i>
+                        Logout
                     </a>
                 </li>
             </ul>
@@ -488,6 +470,7 @@
         @yield('dentistDashbord')
         @yield('rendez_vous')
         @yield('patients')
+        @yield('treatment')
     </main>
     @yield('scriptContent')
 

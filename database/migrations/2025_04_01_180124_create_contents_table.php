@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('type');
             $table->text('content');
             $table->string('image');
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('categorie_id');
             $table->unsignedBigInteger('dentist_id')->nullable();
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('categorie_id')->references('id')->on('categories');
             $table->foreign('dentist_id')->references('id')->on('dentists');
             $table->engine = "InnoDB";
             $table->timestamps();
