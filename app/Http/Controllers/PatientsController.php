@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Patients;
 use App\Http\Requests\StorePatientsRequest;
 use App\Http\Requests\UpdatePatientsRequest;
+use App\Models\Appointment;
+use App\Models\Patient;
+use Carbon\Carbon;
 
 class PatientsController extends Controller
 {
@@ -15,7 +18,19 @@ class PatientsController extends Controller
      */
     public function index()
     {
-        //
+        // $patients = Patient::all();
+        $patients = Patient::with(['user', 'appointments.dentist.user'])->get();
+
+        foreach ($patients as $key => $patient) {
+
+            $patient->next_appointement = $patient->appointments()
+                ->where('date', '>=', Carbon::now()->toDateString())
+                ->orderBy('date', 'desc')
+                ->take(1)
+                ->first();
+        }
+
+        return view('./admin/patients', compact('patients'));
     }
 
     /**
@@ -45,7 +60,7 @@ class PatientsController extends Controller
      * @param  \App\Models\Patients  $patients
      * @return \Illuminate\Http\Response
      */
-    public function show(Patients $patients)
+    public function show(Patient $patient)
     {
         //
     }
@@ -56,7 +71,7 @@ class PatientsController extends Controller
      * @param  \App\Models\Patients  $patients
      * @return \Illuminate\Http\Response
      */
-    public function edit(Patients $patients)
+    public function edit(Patient $patient)
     {
         //
     }
@@ -68,7 +83,7 @@ class PatientsController extends Controller
      * @param  \App\Models\Patients  $patients
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePatientsRequest $request, Patients $patients)
+    public function update(UpdatePatientsRequest $request, Patient $patient)
     {
         //
     }
@@ -79,7 +94,7 @@ class PatientsController extends Controller
      * @param  \App\Models\Patients  $patients
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Patients $patients)
+    public function destroy(Patient $patient)
     {
         //
     }

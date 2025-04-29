@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Dentist extends Model
+class Dentist extends User
 {
     use HasFactory;
 
@@ -31,21 +31,6 @@ class Dentist extends Model
         return $this->hasMany(Content::class);
     }
 
-    public function getNom(Dentist $dentist)
-    {
-        $id = $dentist->utilisateur_id;
-        $user = User::find($id);
-        // dd($user);
-        return $user->nom;
-    }
-
-    public function getPrenom(Dentist $dentist)
-    {
-        $id = $dentist->utilisateur_id;
-        $user = User::find($id);
-        // dd($user);
-        return $user->prenom;
-    }
 
     public function getAvailableSlotsArrayAttribute()
     {

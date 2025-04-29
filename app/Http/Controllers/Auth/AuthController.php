@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -113,25 +114,6 @@ class AuthController extends Controller
         return $this->redirectBasedOnRole($user);
     }
 
-    // public function profile()
-    // {
-    //     $user = Auth::user();
-
-    //     if (!$user) {
-    //         return redirect()->route('login')->with('info', 'Veuillez vous connecter pour accéder à votre profil.');
-    //     }
-
-    //     if ($user->role === 'patient') {
-    //         $patient = $user->patient;
-    //         return view('profilePatient', compact('user', 'patient'));
-    //     } elseif ($user->role === 'dentiste') {
-    //         $dentist = $user->dentist;
-    //         return view('profileDentiste', compact('user', 'dentist'));
-    //     } else {
-    //         return redirect()->route('/')->with('error', 'Accès non autorisé.');
-    //     }
-    // }
-
     public function profilePatient()
     {
         $user = Auth::user();
@@ -140,6 +122,7 @@ class AuthController extends Controller
         }
 
         $patient = $user->patient;
+
         return view('profilePatient', compact('user', 'patient'));
     }
 
@@ -168,13 +151,19 @@ class AuthController extends Controller
                 'prenom' => 'required|string|min:2|max:30',
                 'email' => 'required|email|unique:users,email,' . $user->id,
                 'phone' => 'required|string',
+                'image' => 'required',
             ]);
 
             $user->nom = $request->nom;
             $user->prenom = $request->prenom;
             $user->email = $request->email;
             $user->phone = $request->phone;
-
+            // dd($request->hasFile('image'));
+            if ($request->hasFile('image')) {
+                $imageName = Str::slug($request->name) . '-' . time() . '.' . $request->image->extension();
+                $request->image->storeAs('public/users', $imageName);
+                $user->image = 'storage/users/' . $imageName;
+            }
             $user->save();
         } elseif ($section === 'speciality' && $user->role === 'dentiste') {
 
@@ -225,7 +214,7 @@ class AuthController extends Controller
     {
         switch ($user->role) {
             case 'admin':
-                return redirect('/adminDashboard');
+                return redirect('/statistics');
             case 'dentiste':
                 return redirect('/profileDentiste');
             case 'patient':
@@ -242,6 +231,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/')->with('success', 'Vous avez été déconnecté avec succès.');
+        return redirect()->route('home')->with('success', 'Vous avez été déconnecté avec succès.');
     }
 }
