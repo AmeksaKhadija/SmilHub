@@ -345,7 +345,6 @@
                     <th>Dentiste</th>
                     <th>Date & Heure</th>
                     <th>Statut</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -378,162 +377,10 @@
                         <td><span
                                 class="appointment-status {{ strtolower($appointement->status) }}">{{ $appointement->status }}</span>
                         </td>
-                        <td>
-                            <div class="appointment-actions">
-                                <button class="appointment-action view" title="Voir les détails">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </div>
-                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Gestion des onglets
-            const tabs = document.querySelectorAll('.appointment-tab');
-
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    tabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-
-                    // Filtrer les rendez-vous en fonction de l'onglet sélectionné
-                    const tabText = this.textContent.split(' ')[0].toLowerCase();
-                    filterAppointmentsByTab(tabText);
-                });
-            });
-
-            function filterAppointmentsByTab(tabText) {
-                const rows = document.querySelectorAll('.appointment-table tbody tr');
-
-                rows.forEach(row => {
-                    const statusText = row.querySelector('.appointment-status').textContent.toLowerCase();
-                    const dateText = row.querySelector('td:nth-child(3)').textContent;
-
-                    // Logique de filtrage en fonction de l'onglet
-                    if (tabText === 'tous') {
-                        row.style.display = '';
-                    } else if (tabText === 'aujourd\'hui') {
-                        const today = new Date().toLocaleDateString('fr-FR');
-                        const appointmentDate = dateText.split(' - ')[0];
-                        row.style.display = appointmentDate === today ? '' : 'none';
-                    } else if (tabText === 'cette') {
-                        // Logique pour filtrer cette semaine
-                        row.style.display = ''; // Simplifié pour l'exemple
-                    } else if (tabText === 'confirmés' && statusText === 'confirmé') {
-                        row.style.display = '';
-                    } else if (tabText === 'en' && statusText === 'en attente') {
-                        row.style.display = '';
-                    } else if (tabText === 'annulés' && statusText === 'annulé') {
-                        row.style.display = '';
-                    } else if (tabText === 'terminés' && statusText === 'terminé') {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
-            }
-
-            // Filtrage des rendez-vous
-            const statusFilter = document.getElementById('statusFilter');
-            const dentistFilter = document.getElementById('dentistFilter');
-            const dateFilter = document.getElementById('dateFilter');
-            const searchInput = document.getElementById('searchInput');
-            const appointmentRows = document.querySelectorAll('.appointment-table tbody tr');
-
-            function applyFilters() {
-                const statusValue = statusFilter.value.toLowerCase();
-                const dentistValue = dentistFilter.options[dentistFilter.selectedIndex].text.toLowerCase();
-                const dateValue = dateFilter.value ? new Date(dateFilter.value) : null;
-                const searchValue = searchInput.value.toLowerCase();
-
-                appointmentRows.forEach(row => {
-                    const statusText = row.querySelector('.appointment-status').textContent.toLowerCase();
-                    const dentistText = row.querySelector('.appointment-dentist-name').textContent
-                        .toLowerCase();
-                    const patientText = row.querySelector('.appointment-patient-name').textContent
-                        .toLowerCase();
-                    const dateText = row.querySelector('td:nth-child(3)').textContent.split(' - ')[0];
-                    const typeText = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
-
-                    // Convertir la date du rendez-vous au format YYYY-MM-DD pour la comparaison
-                    const dateParts = dateText.split('/');
-                    const appointmentDate = new Date(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`);
-
-                    const matchesStatus = !statusValue || statusText.includes(statusValue);
-                    const matchesDentist = !dentistValue || dentistValue === "tous les dentistes" ||
-                        dentistText.includes(dentistValue);
-                    const matchesDate = !dateValue || (
-                        appointmentDate.getFullYear() === dateValue.getFullYear() &&
-                        appointmentDate.getMonth() === dateValue.getMonth() &&
-                        appointmentDate.getDate() === dateValue.getDate()
-                    );
-                    const matchesSearch = !searchValue ||
-                        patientText.includes(searchValue) ||
-                        dentistText.includes(searchValue) ||
-                        typeText.includes(searchValue);
-
-                    if (matchesStatus && matchesDentist && matchesDate && matchesSearch) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
-            }
-
-            statusFilter.addEventListener('change', applyFilters);
-            dentistFilter.addEventListener('change', applyFilters);
-            dateFilter.addEventListener('change', applyFilters);
-            searchInput.addEventListener('input', applyFilters);
-
-            // Actions des boutons
-            const viewButtons = document.querySelectorAll('.appointment-action.view');
-            const editButtons = document.querySelectorAll('.appointment-action.edit');
-            const deleteButtons = document.querySelectorAll('.appointment-action.delete');
-
-            viewButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const row = this.closest('tr');
-                    const patient = row.querySelector('.appointment-patient-name').textContent;
-                    const dentist = row.querySelector('.appointment-dentist-name').textContent;
-                    const date = row.querySelector('td:nth-child(3)').textContent;
-
-                    alert(
-                        `Détails du rendez-vous:\nPatient: ${patient}\nDentiste: ${dentist}\nDate: ${date}`
-                    );
-                });
-            });
-
-            editButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const row = this.closest('tr');
-                    const patient = row.querySelector('.appointment-patient-name').textContent;
-                    const dentist = row.querySelector('.appointment-dentist-name').textContent;
-
-                    alert(`Modification du rendez-vous pour ${patient} avec ${dentist}`);
-                });
-            });
-
-            deleteButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const row = this.closest('tr');
-                    const patient = row.querySelector('.appointment-patient-name').textContent;
-                    const dentist = row.querySelector('.appointment-dentist-name').textContent;
-
-                    if (confirm(
-                            `Êtes-vous sûr de vouloir supprimer le rendez-vous de ${patient} avec ${dentist} ?`
-                        )) {
-                        // Simuler la suppression
-                        row.style.opacity = '0.5';
-                        setTimeout(() => {
-                            row.remove();
-                        }, 500);
-                    }
-                });
-            });
-        });
-    </script>
+    <script></script>
 @endsection

@@ -409,6 +409,14 @@
                         Statistiques
                     </a>
                 </li>
+                <li class="sidebar-nav-item">
+                    <a href="{{ route('profileDentiste') }}"
+                        class="sidebar-nav-link {{ request()->is('profileDentiste') ? 'active' : '' }}">
+                        <i class="fa fa-user-circle  sidebar-nav-icon" aria-hidden="true"></i>
+
+                        Profile
+                    </a>
+                </li>
             </ul>
             <h4 class="sidebar-nav-title" style="margin-top: 20px;">Gestion</h4>
             <ul class="sidebar-nav-items">
