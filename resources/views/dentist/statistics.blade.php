@@ -94,44 +94,8 @@
                 <i class="fas fa-users"></i>
             </div>
             <div class="stats-card-content">
-                <h3 class="stats-card-title">Total des utilisateurs</h3>
+                <h3 class="stats-card-title">Total de contenus</h3>
                 <p class="stats-card-value">{{ $contents }}</p>
-                <div class="stats-card-change up">
-                    <i class="fas fa-arrow-up"></i> +124 ce mois-ci
-                </div>
-            </div>
-        </div>
-        <div class="stats-card">
-            <div class="stats-card-icon blue">
-                <i class="fas fa-user-md"></i>
-            </div>
-            <div class="stats-card-content">
-                <h3 class="stats-card-title">Patients actifs</h3>
-                <p class="stats-card-value"> </p>
-                <div class="stats-card-change up">
-                    <i class="fas fa-arrow-up"></i> +2 ce mois-ci
-                </div>
-            </div>
-        </div>
-        <div class="stats-card">
-            <div class="stats-card-icon blue">
-                <i class="fas fa-user-md"></i>
-            </div>
-            <div class="stats-card-content">
-                <h3 class="stats-card-title">Patients inactifs</h3>
-                <p class="stats-card-value"></p>
-                <div class="stats-card-change up">
-                    <i class="fas fa-arrow-up"></i> +2 ce mois-ci
-                </div>
-            </div>
-        </div>
-        <div class="stats-card">
-            <div class="stats-card-icon green">
-                <i class="fas fa-users"></i>
-            </div>
-            <div class="stats-card-content">
-                <h3 class="stats-card-title">Patients inscrits</h3>
-                <p class="stats-card-value"></p>
                 <div class="stats-card-change up">
                     <i class="fas fa-arrow-up"></i> +124 ce mois-ci
                 </div>
@@ -143,7 +107,43 @@
             </div>
             <div class="stats-card-content">
                 <h3 class="stats-card-title">Rendez-vous</h3>
-                <p class="stats-card-value"></p>
+                <p class="stats-card-value">{{ $appointmentsCount }}</p>
+                <div class="stats-card-change up">
+                    <i class="fas fa-arrow-up"></i> +18% ce mois-ci
+                </div>
+            </div>
+        </div>
+        <div class="stats-card">
+            <div class="stats-card-icon orange">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="stats-card-content">
+                <h3 class="stats-card-title">Rendez-vous completed</h3>
+                <p class="stats-card-value">{{ $appointementCompleted }}</p>
+                <div class="stats-card-change up">
+                    <i class="fas fa-arrow-up"></i> +18% ce mois-ci
+                </div>
+            </div>
+        </div>
+        <div class="stats-card">
+            <div class="stats-card-icon orange">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="stats-card-content">
+                <h3 class="stats-card-title">Rendez-vous confirmed</h3>
+                <p class="stats-card-value">{{ $appointementConfermed }}</p>
+                <div class="stats-card-change up">
+                    <i class="fas fa-arrow-up"></i> +18% ce mois-ci
+                </div>
+            </div>
+        </div>
+        <div class="stats-card">
+            <div class="stats-card-icon orange">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="stats-card-content">
+                <h3 class="stats-card-title">Rendez-vous Pending</h3>
+                <p class="stats-card-value">{{ $appointementPending }}</p>
                 <div class="stats-card-change up">
                     <i class="fas fa-arrow-up"></i> +18% ce mois-ci
                 </div>
