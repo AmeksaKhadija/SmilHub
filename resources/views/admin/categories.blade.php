@@ -489,53 +489,50 @@
             </a>
         </div>
     </div>
-    <div class="filter-bar">
-
-        <div class="dentist-table-container">
-            <table class="dentist-table">
-                <thead>
+    <div class="dentist-table-container">
+        <table class="dentist-table">
+            <thead>
+                <tr>
+                    <th>Nom du categorie</th>
+                    <th>Description courte</th>
+                    <th>Numero de contenu dans categorie</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($categories as $categorie)
                     <tr>
-                        <th>Nom du categorie</th>
-                        <th>Description courte</th>
-                        <th>Numero de contenu dans categorie</th>
-                        <th>Actions</th>
+                        <td>
+                            <div class="dentist-profile">
+                                <div class="dentist-profile-info">
+                                    <div class="dentist-profile-name">{{ $categorie->name }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{ $categorie->description_courte }}</td>
+                        <td>{{ $categorie->contents->count() }}</td>
+                        <td>
+                            <div class="dentist-actions">
+                                <a href="{{ route('categories.show', $categorie->id) }}" class="dentist-action view">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{{ route('categories.edit', $categorie->id) }}" class="dentist-action edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('categories.destroy', $categorie->id) }}" method="POST"
+                                    style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="dentist-action delete" title="Supprimer">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach ($categories as $categorie)
-                        <tr>
-                            <td>
-                                <div class="dentist-profile">
-                                    <div class="dentist-profile-info">
-                                        <div class="dentist-profile-name">{{ $categorie->name }}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>{{ $categorie->description_courte }}</td>
-                            <td>{{ $categorie->contents->count() }}</td>
-                            <td>
-                                <div class="dentist-actions">
-                                    <a href="{{ route('categories.show', $categorie->id) }}" class="dentist-action view">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="{{ route('categories.edit', $categorie->id) }}" class="dentist-action edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <form action="{{ route('categories.destroy', $categorie->id) }}" method="POST"
-                                        style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="dentist-action delete" title="Supprimer">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                @endforeach
+            </tbody>
+        </table>
 
 
 

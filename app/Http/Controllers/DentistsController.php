@@ -147,14 +147,18 @@ class DentistsController extends Controller
 
     public function allStatistics()
     {
-        $userId = auth()->user()->id;
+        $userId = auth()->user()->dentist->id;
         $contents = Content::where('dentist_id', $userId)->count();
-        $appointmentsCount = Appointment::where('dentist_id', 1)->count();
-        // dd($appointmentsCount);
+        $appointmentsCount = Appointment::where('dentist_id', $userId)->count();
+        $appointementCompleted = Appointment::where('status', 'completed')->count();
+        $appointementConfermed = Appointment::where('status', 'confirmed')->count();
+        $appointementPending = Appointment::where('status', 'pending')->count();
         return view('dentist.statistics', compact(
             'contents',
-            'patientsCount',
             'appointmentsCount',
+            'appointementCompleted',
+            'appointementConfermed',
+            'appointementPending'
         ));
     }
 }
