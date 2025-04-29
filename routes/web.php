@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [DentistsController::class, 'getAllDentistInHomePage'])->name('home');
 Route::get('/dentists/{dentist}', [DentistsController::class, 'show'])->name('dentists.show');
 
+
 Route::get('/Register', [AuthController::class, 'register'])->name('register');
 Route::post('/registerpost', [AuthController::class, 'registerPost'])->name('registerPost');
 Route::get('/Login', [AuthController::class, 'login'])->name('login');
@@ -64,14 +65,12 @@ Route::delete('/categories/{categorie}', [CategorieController::class, 'destroy']
 Route::get('/all-categories', [CategorieController::class, 'getAllCategories'])->name('categories.all');
 
 
-
 Route::patch('/admin/dentists/{id}/activate', [AdminController::class, 'activateDentist'])->name('admin.dentists');
 Route::patch('/admin/user/{id}/inactive', [AdminController::class, 'inactivatUser'])->name('admin.Statistics.desactive');
 Route::patch('/admin/user/{id}/active', [AdminController::class, 'activatUser'])->name('admin.Statistics.active');
 
 Route::get('/dentists', [DentistsController::class, 'getDentistInAdminDashboard'])->name('dentists.index');
 Route::get('/patients', [PatientsController::class, 'index'])->name('patients.index');
-Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::get('/rendez_vous', [AppointmentController::class, 'index'])->name('rendez_vous.index');
 Route::get('/statistics', [AdminController::class, 'statisticsDashboard'])->name('statistics.dashboard');
@@ -90,23 +89,8 @@ Route::get('treatment', [TreatmentController::class, 'index'])->name('treatment.
 Route::get('/treatment/{treatment}/edit', [TreatmentController::class, 'edit'])->name('treatment.edit');
 Route::put('/treatment/{treatment}', [TreatmentController::class, 'update'])->name('treatment.update');
 Route::delete('/treatment/{treatment}', [TreatmentController::class, 'destroy'])->name('treatment.destroy');
+Route::get('/allStatistics', [DentistsController::class, 'allStatistics'])->name('statistics.all');
 
-// Route::get('/statistics', [DentistsController::class, 'statisticsDashboard'])->name('statistics.dashboard');
 
-
+Route::get('/logout', [AuthController::class, 'logout']);
 // });
-
-
-// middleware
-
-Route::get('/detailDentist', function () {
-    return view('detailDentist');
-});
-// patient
-
-Route::get('/suivi_soin', function () {
-    return view('suivi_soin');
-});
-
-
-// admin

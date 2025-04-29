@@ -144,4 +144,17 @@ class DentistsController extends Controller
 
         return view('dentist.patients', compact('patients'));
     }
+
+    public function allStatistics()
+    {
+        $userId = auth()->user()->id;
+        $contents = Content::where('dentist_id', $userId)->count();
+        $appointmentsCount = Appointment::where('dentist_id', 1)->count();
+        // dd($appointmentsCount);
+        return view('dentist.statistics', compact(
+            'contents',
+            'patientsCount',
+            'appointmentsCount',
+        ));
+    }
 }

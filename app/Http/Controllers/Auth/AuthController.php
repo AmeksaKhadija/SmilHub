@@ -122,6 +122,7 @@ class AuthController extends Controller
         }
 
         $patient = $user->patient;
+
         return view('profilePatient', compact('user', 'patient'));
     }
 

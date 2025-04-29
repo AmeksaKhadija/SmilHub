@@ -403,7 +403,8 @@
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
-                    <a href="#" class="sidebar-nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('statistics.all') }}"
+                        class="sidebar-nav-link {{ request()->is('allStatistics') ? 'active' : '' }}">
                         <i class="fas fa-chart-line sidebar-nav-icon"></i>
                         Statistiques
                     </a>
@@ -471,6 +472,7 @@
         @yield('rendez_vous')
         @yield('patients')
         @yield('treatment')
+        @yield('statistics')
     </main>
     @yield('scriptContent')
 

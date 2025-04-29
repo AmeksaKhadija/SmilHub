@@ -256,8 +256,8 @@
             @auth
                 @if (Auth::user()->role == 'dentist')
                     <input type="hidden" name="dentist_id" value="{{ Auth::user()->dentist->id }}">
-                @endauth
-            @endif
+                @endif
+            @endauth
 
             <div class="form-group">
                 <label for="title" class="form-label">Titre</label>

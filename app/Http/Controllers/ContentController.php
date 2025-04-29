@@ -45,12 +45,15 @@ class ContentController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
+        $dentist_id = Auth::user()->dentist->id;
+        // dd($dentist_id);
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'type' => 'required|string|max:50',
             'content' => 'required|string',
             'categorie_id' => 'required|exists:categories,id',
-            'dentist_id' => 'required',
             'image' => 'required',
         ]);
         if ($validator->fails()) {
@@ -60,13 +63,16 @@ class ContentController extends Controller
         }
         // dd($request);
 
-
+        if (!$dentist_id) {
+            return redirect()->back()->with('error', 'vous etes pas un dentist pour crée un content');
+        }
+        
         $content = Content::create([
             'title' => $request->title,
             'type' => $request->type,
             'content' => $request->content,
             'categorie_id' => $request->categorie_id,
-            'dentist_id' => $request->dentist_id,
+            'dentist_id' => $dentist_id,
             'image' => 'image.png',
         ]);
         if ($request->hasFile('image')) {
