@@ -423,6 +423,7 @@
     </style>
 
 <body>
+    <!-- Header -->
     <header class="header">
         <div class="top-header">
             <div class="container">
@@ -430,22 +431,38 @@
                     <div class="contact-info">
                         <div class="contact-info-item">
                             <i class="fas fa-phone-alt"></i>
-                            <span>+33 1 23 45 67 89</span>
+                            <span>+212 605 04 87 92</span>
                         </div>
                         <div class="contact-info-item">
                             <i class="fas fa-envelope"></i>
-                            <span>contact@smilehub.fr</span>
+                            <span>ameksa@SmileHub.com</span>
                         </div>
                         <div class="contact-info-item">
                             <i class="fas fa-map-marker-alt"></i>
-                            <span>123 Avenue de la Santé, 75001 Paris</span>
+                            <span>123 Avenue de la Santé, 75001 Maroc</span>
                         </div>
                     </div>
-                    @if (auth()->user())
-                        <div class="auth-buttons">
-                            <a href="logout" class="auth-btn login-btn"><i class="fa-solid fa-right-from-bracket"></i>
-                                Logout</a>
-                        </div>
+
+                    @if (auth()->check())
+                        @if (auth()->user()->role == 'dentiste')
+                            <div class="auth-buttons">
+                                <a href="logout" class="auth-btn login-btn"><i
+                                        class="fa-solid fa-right-from-bracket"></i>
+                                    Logout</a>
+                                <a href="mesRendezVous" class="auth-btn login-btn"><i
+                                        class="fa-solid fa-right-from-bracket"></i>
+                                    Dashboard</a>
+                            </div>
+                        @elseif(auth()->user()->role == 'patient')
+                            <div class="auth-buttons">
+                                <a href="logout" class="auth-btn login-btn"><i
+                                        class="fa-solid fa-right-from-bracket"></i>
+                                    Logout</a>
+                                <a href="profilePatient" class="auth-btn login-btn"><i
+                                        class="fa-solid fa-right-from-bracket"></i>
+                                    Profile</a>
+                            </div>
+                        @endif
                     @else
                         <div class="auth-buttons">
                             <a href="Login" class="auth-btn login-btn"><i class="fas fa-sign-in-alt"></i>
@@ -467,7 +484,7 @@
             <div class="container">
                 <div class="main-header-content">
                     <div class="logo">
-                        <svg width="40" height="40" viewBox="0 0 50 50" fill="none"
+                        <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <!-- Fond circulaire -->
                             <circle cx="25" cy="25" r="24" fill="#0369a1" />
@@ -485,12 +502,11 @@
                     </div>
                     <nav class="main-nav" id="mainNav">
                         <ul>
-                            <li><a href="/" class="nav-item">Accueil</a></li>
-                            <li><a href="#" class="nav-item">À propos</a></li>
-                            <li><a href="#" class="nav-item">Services</a></li>
-                            <li><a href="#" class="nav-item">Médecins</a></li>
-                            <li><a href="educational-content.html" class="nav-item">Ressources</a></li>
-                            <li><a href="#" class="nav-item">Contact</a></li>
+                            <li><a href="{{ route('home') }}" class="nav-item">Accueil</a></li>
+                            <li><a href="#about" class="nav-item">À propos</a></li>
+                            <li><a href="#service" class="nav-item">Services</a></li>
+                            <li><a href="#team" class="nav-item">Médecins</a></li>
+                            <li><a href="#temoignage" class="nav-item">Témoignages</a></li>
                         </ul>
                     </nav>
                     <button class="mobile-menu-btn" id="mobileMenuBtn">
