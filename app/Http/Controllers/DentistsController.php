@@ -5,7 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Dentists;
 use App\Http\Requests\StoreDentistsRequest;
 use App\Http\Requests\UpdateDentistsRequest;
+use App\Models\Appointment;
+use App\Models\Categorie;
+use App\Models\Content;
 use App\Models\Dentist;
+use App\Models\Patient;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class DentistsController extends Controller
 {
@@ -14,46 +20,33 @@ class DentistsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    private function getAllDentistsAndReturn($viewName)
     {
         $dentists = Dentist::all();
 
         foreach ($dentists as $dentist) {
             $dentist->available_slots = json_decode($dentist->available_slots, true);
         }
-
-        return view('/prendre_rendez_vous', compact('dentists'));
+        return view($viewName, compact('dentists'));
     }
 
-    public function getAllDentist()
+    public function getDentisteToTakeAppointement()
     {
-        $dentists = Dentist::all();
-
-        foreach ($dentists as $dentist) {
-            $dentist->available_slots = json_decode($dentist->available_slots, true);
-        }
-        return view('/index', ['dentists' => $dentists]);
-    }
-    /**
-     * Show the form for creating a new resource.
-     *x
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return $this->getAllDentistsAndReturn('patient.prendre_rendez_vous');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreDentistsRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreDentistsRequest $request)
+
+    public function getAllDentistInHomePage()
     {
-        //
+        return $this->getAllDentistsAndReturn('/index');
     }
+
+    public function getDentistInAdminDashboard()
+    {
+        return $this->getAllDentistsAndReturn('./admin/dentists');
+    }
+
 
     /**
      * Display the specified resource.
@@ -61,42 +54,107 @@ class DentistsController extends Controller
      * @param  \App\Models\Dentists  $dentists
      * @return \Illuminate\Http\Response
      */
-    public function show(Dentist $dentist)
+    public function show($id)
     {
-        //
+        $dentist = Dentist::with('user')->findOrFail($id);
+        $contents = Content::where('dentist_id', $id)
+            ->with('categorie')
+            ->latest()
+            ->get();
+        $categories = Categorie::all();
+
+        return view('client.detailDentist', compact('dentist', 'contents', 'categories'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Dentists  $dentists
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Dentist $dentist)
+
+
+    public function getDetails($id)
     {
-        //
+        $dentist = Dentist::with('user')->findOrFail($id);
+        $contents = Content::where('dentist_id', $id)
+            ->with('categorie')
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'dentist' => $dentist,
+            'contents' => $contents
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateDentistsRequest  $request
-     * @param  \App\Models\Dentists  $dentists
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateDentistsRequest $request, Dentist $dentist)
+
+    public function getAppointementByDentist()
     {
-        //
+        $user = Auth::user();
+        // dd($user);
+        $dentistId = $user->dentist->id;
+
+        $appointements = Appointment::with(['dentist.user', 'patient.user'])
+            ->where('dentist_id', $dentistId)
+            ->get();
+
+        return view('dentist.rendez_vous', compact('appointements'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Dentists  $dentists
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Dentist $dentist)
+    public function accepterAppointement($id)
     {
-        //
+        $appointement = Appointment::findOrFail($id);
+
+        if ($appointement->status == 'pending' || $appointement->status == 'cancelled') {
+            $appointement->status = 'confirmed';
+            $appointement->save();
+
+            return redirect()->back()->with('success', 'Statut du rendez vous confirmée avec succès.');
+        }
+
+        return redirect()->back()->with('error', 'Le statut du rendez vous ne peut pas être mis à jour.');
+    }
+
+    public function annulerAppointement($id)
+    {
+        $appointement = Appointment::findOrFail($id);
+
+        if ($appointement->status == 'pending' || $appointement->status == 'confirmed') {
+            $appointement->status = 'cancelled';
+            $appointement->save();
+
+            return redirect()->back()->with('success', 'Rendez vous annulée avec succès.');
+        }
+
+        return redirect()->back()->with('error', 'Le statut du rendez vous ne peut pas être mis à jour.');
+    }
+
+    public function compliterAppointement($id)
+    {
+        $appointement = Appointment::findOrFail($id);
+
+        if ($appointement->status == 'confirmed') {
+            $appointement->status = 'completed';
+            $appointement->save();
+
+            return redirect()->back()->with('success', 'Rendez vous complitée avec succès.');
+        }
+
+        return redirect()->back()->with('error', 'Le statut du rendez vous ne peut pas être mis à jour.');
+    }
+
+    public function index()
+    {
+        $patients = Patient::with(['user', 'appointments'])->get();
+
+        return view('dentist.patients', compact('patients'));
+    }
+
+    public function allStatistics()
+    {
+        $userId = auth()->user()->id;
+        $contents = Content::where('dentist_id', $userId)->count();
+        $appointmentsCount = Appointment::where('dentist_id', 1)->count();
+        // dd($appointmentsCount);
+        return view('dentist.statistics', compact(
+            'contents',
+            'patientsCount',
+            'appointmentsCount',
+        ));
     }
 }

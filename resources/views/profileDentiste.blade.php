@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Dentiste - MedSmile</title>
+    <title>Profil Dentiste - SmileHub</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -60,6 +60,7 @@
             color: var(--white);
             padding: 30px 0;
             margin-bottom: 30px;
+            display: flex;
         }
 
         .profile-header h1 {
@@ -70,6 +71,32 @@
         .profile-header p {
             opacity: 0.9;
             margin-bottom: 0;
+        }
+
+        .dashbord button {
+            background-color: var(--white);
+            color: var(--primary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin-top: 15px;
+            margin-right: 25px;
+        }
+
+        .dashbord button:hover {
+            background-color: var(--primary-light);
+            color: var(--white);
+        }
+
+        .dashbord button a {
+            text-decoration: none;
+            color: inherit;
+            display: inline-block;
+            width: 100%;
+            height: 100%;
         }
 
         .profile-container {
@@ -127,6 +154,13 @@
             font-size: 3rem;
             border: 5px solid var(--white);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .avatar-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .profile-name {
@@ -415,20 +449,23 @@
             <h1>Profil Dentiste</h1>
             <p>Gérez vos informations personnelles et professionnelles</p>
         </div>
+        <div class="dashbord">
+            <button><a href="{{ route('mesRendezVous.index') }}">Tableau de bord</a></button>
+        </div>
     </header>
 
     <div class="container">
         <!-- Alert Messages -->
-        @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
         @endif
 
-        @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
         @endif
 
         <div class="profile-container">
@@ -440,20 +477,24 @@
                     </div>
                     <div class="profile-info">
                         <div class="profile-avatar">
-                            <i class="fas fa-user-md"></i>
+                            @if ($user->image)
+                                <img src="{{ $user->image }}" alt="Photo de profil" class="avatar-img">
+                            @else
+                                <i class="fas fa-user-md"></i>
+                            @endif
                         </div>
                         <h3 class="profile-name">Dr. {{ $user->prenom }} {{ $user->nom }}</h3>
                         <p class="profile-role">{{ $dentist->speciality ?? 'Dentiste' }}</p>
-                        <div class="profile-status {{ $user->status === 'active' ? 'status-active' : ($user->status === 'pending' ? 'status-pending' : 'status-blocked') }}">
-                            @if($user->status === 'active')
-                            Actif
+                        <div
+                            class="profile-status {{ $user->status === 'active' ? 'status-active' : ($user->status === 'pending' ? 'status-pending' : 'status-blocked') }}">
+                            @if ($user->status === 'active')
+                                Actif
                             @elseif($user->status === 'pending')
-                            En attente d'approbation
+                                En attente d'approbation
                             @else
-                            Bloqué
+                                Bloqué
                             @endif
                         </div>
-
                         <ul class="profile-nav">
                             <li class="profile-nav-item">
                                 <a href="#personal-info" class="profile-nav-link active" data-tab="personal-info">
@@ -484,25 +525,30 @@
                             <h2>Informations personnelles</h2>
                         </div>
                         <div class="profile-info">
-                            <form action="{{ route('profile.update') }}" method="POST">
+                            <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="section" value="personal">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="nom" class="form-label">Nom</label>
-                                            <input type="text" class="form-control @error('nom') is-invalid @enderror" id="nom" name="nom" value="{{ old('nom', $user->nom) }}">
+                                            <input type="text"
+                                                class="form-control @error('nom') is-invalid @enderror" id="nom"
+                                                name="nom" value="{{ old('nom', $user->nom) }}">
                                             @error('nom')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="prenom" class="form-label">Prénom</label>
-                                            <input type="text" class="form-control @error('prenom') is-invalid @enderror" id="prenom" name="prenom" value="{{ old('prenom', $user->prenom) }}">
+                                            <input type="text"
+                                                class="form-control @error('prenom') is-invalid @enderror"
+                                                id="prenom" name="prenom"
+                                                value="{{ old('prenom', $user->prenom) }}">
                                             @error('prenom')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
@@ -512,24 +558,44 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="email" class="form-label">Email</label>
-                                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $user->email) }}">
+                                            <input type="email"
+                                                class="form-control @error('email') is-invalid @enderror" id="email"
+                                                name="email" value="{{ old('email', $user->email) }}">
                                             @error('email')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="phone" class="form-label">Téléphone</label>
-                                            <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone', $user->phone) }}">
+                                            <input type="text"
+                                                class="form-control @error('phone') is-invalid @enderror"
+                                                id="phone" name="phone"
+                                                value="{{ old('phone', $user->phone) }}">
                                             @error('phone')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="image" class="form-label">Image</label>
+                                            <input type="file"
+                                                class="form-control @error('image') is-invalid @enderror"
+                                                id="image" name="image"
+                                                value="{{ old('image', $user->image) }}">
+                                            @error('image')
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
                                 </div>
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                                    <button type="submit" class="btn btn-primary">Enregistrer les
+                                        modifications</button>
                                 </div>
                             </form>
                         </div>
@@ -540,7 +606,7 @@
                 <div id="speciality" class="tab-content">
                     <div class="profile-card">
                         <div class="profile-card-header">
-                            <h2>Spécialité et informations professionnelles</h2>
+                            <h2>Spécialité</h2>
                         </div>
                         <div class="profile-info">
                             <form action="{{ route('profile.update') }}" method="POST">
@@ -548,22 +614,36 @@
                                 <input type="hidden" name="section" value="speciality">
                                 <div class="form-group">
                                     <label for="speciality" class="form-label">Spécialité</label>
-                                    <select class="form-select @error('speciality') is-invalid @enderror" id="speciality" name="speciality">
+                                    <select class="form-select @error('speciality') is-invalid @enderror"
+                                        id="speciality" name="speciality">
                                         <option value="">Sélectionnez une spécialité</option>
-                                        <option value="Dentiste généraliste" {{ $dentist && $dentist->speciality === 'Dentiste généraliste' ? 'selected' : '' }}>Dentiste généraliste</option>
-                                        <option value="Orthodontiste" {{ $dentist && $dentist->speciality === 'Orthodontiste' ? 'selected' : '' }}>Orthodontiste</option>
-                                        <option value="Endodontiste" {{ $dentist && $dentist->speciality === 'Endodontiste' ? 'selected' : '' }}>Endodontiste</option>
-                                        <option value="Parodontiste" {{ $dentist && $dentist->speciality === 'Parodontiste' ? 'selected' : '' }}>Parodontiste</option>
-                                        <option value="Chirurgien oral" {{ $dentist && $dentist->speciality === 'Chirurgien oral' ? 'selected' : '' }}>Chirurgien oral</option>
-                                        <option value="Pédodontiste" {{ $dentist && $dentist->speciality === 'Pédodontiste' ? 'selected' : '' }}>Pédodontiste</option>
+                                        <option value="Dentiste généraliste"
+                                            {{ $dentist && $dentist->speciality === 'Dentiste généraliste' ? 'selected' : '' }}>
+                                            Dentiste généraliste</option>
+                                        <option value="Orthodontiste"
+                                            {{ $dentist && $dentist->speciality === 'Orthodontiste' ? 'selected' : '' }}>
+                                            Orthodontiste</option>
+                                        <option value="Endodontiste"
+                                            {{ $dentist && $dentist->speciality === 'Endodontiste' ? 'selected' : '' }}>
+                                            Endodontiste</option>
+                                        <option value="Parodontiste"
+                                            {{ $dentist && $dentist->speciality === 'Parodontiste' ? 'selected' : '' }}>
+                                            Parodontiste</option>
+                                        <option value="Chirurgien oral"
+                                            {{ $dentist && $dentist->speciality === 'Chirurgien oral' ? 'selected' : '' }}>
+                                            Chirurgien oral</option>
+                                        <option value="Pédodontiste"
+                                            {{ $dentist && $dentist->speciality === 'Pédodontiste' ? 'selected' : '' }}>
+                                            Pédodontiste</option>
                                     </select>
                                     @error('speciality')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                                    <button type="submit" class="btn btn-primary">Enregistrer les
+                                        modifications</button>
                                 </div>
                             </form>
                         </div>
@@ -584,19 +664,33 @@
                                     <label class="form-label">Jours de travail</label>
                                     <div class="row">
                                         @php
-                                        $days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
-                                        $availableDays = $dentist && isset($dentist->available_slots['days']) ? $dentist->available_slots['days'] : [];
+                                            $days = [
+                                                'Lundi',
+                                                'Mardi',
+                                                'Mercredi',
+                                                'Jeudi',
+                                                'Vendredi',
+                                                'Samedi',
+                                                'Dimanche',
+                                            ];
+                                            $availableDays =
+                                                $dentist && isset($dentist->available_slots['days'])
+                                                    ? $dentist->available_slots['days']
+                                                    : [];
                                         @endphp
 
-                                        @foreach($days as $day)
-                                        <div class="col-6">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="day-{{ $loop->index }}" name="available_slots[days][]" value="{{ $day }}" {{ in_array($day, $availableDays) ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="day-{{ $loop->index }}">
-                                                    {{ $day }}
-                                                </label>
+                                        @foreach ($days as $day)
+                                            <div class="col-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="day-{{ $loop->index }}" name="available_slots[days][]"
+                                                        value="{{ $day }}"
+                                                        {{ in_array($day, $availableDays) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="day-{{ $loop->index }}">
+                                                        {{ $day }}
+                                                    </label>
+                                                </div>
                                             </div>
-                                        </div>
                                         @endforeach
                                     </div>
                                 </div>
@@ -605,24 +699,38 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="start_time" class="form-label">Heure de début</label>
-                                            <input type="time" class="form-control" id="start_time" name="available_slots[start_time]" value="{{ $dentist && isset($dentist->available_slots['start_time']) ? $dentist->available_slots['start_time'] : '09:00' }}">
+                                            <input type="time" class="form-control" id="start_time"
+                                                name="available_slots[start_time]"
+                                                value="{{ $dentist && isset($dentist->available_slots['start_time']) ? $dentist->available_slots['start_time'] : '09:00' }}">
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="end_time" class="form-label">Heure de fin</label>
-                                            <input type="time" class="form-control" id="end_time" name="available_slots[end_time]" value="{{ $dentist && isset($dentist->available_slots['end_time']) ? $dentist->available_slots['end_time'] : '18:00' }}">
+                                            <input type="time" class="form-control" id="end_time"
+                                                name="available_slots[end_time]"
+                                                value="{{ $dentist && isset($dentist->available_slots['end_time']) ? $dentist->available_slots['end_time'] : '18:00' }}">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="appointment_duration" class="form-label">Durée d'un rendez-vous (en minutes)</label>
-                                    <select class="form-select" id="appointment_duration" name="available_slots[appointment_duration]">
-                                        <option value="15" {{ $dentist && isset($dentist->available_slots['appointment_duration']) && $dentist->available_slots['appointment_duration'] == 15 ? 'selected' : '' }}>15 minutes</option>
-                                        <option value="30" {{ $dentist && isset($dentist->available_slots['appointment_duration']) && $dentist->available_slots['appointment_duration'] == 30 ? 'selected' : '' }}>30 minutes</option>
-                                        <option value="45" {{ $dentist && isset($dentist->available_slots['appointment_duration']) && $dentist->available_slots['appointment_duration'] == 45 ? 'selected' : '' }}>45 minutes</option>
-                                        <option value="60" {{ $dentist && isset($dentist->available_slots['appointment_duration']) && $dentist->available_slots['appointment_duration'] == 60 ? 'selected' : '' }}>60 minutes</option>
+                                    <label for="appointment_duration" class="form-label">Durée d'un rendez-vous (en
+                                        minutes)</label>
+                                    <select class="form-select" id="appointment_duration"
+                                        name="available_slots[appointment_duration]">
+                                        <option value="15"
+                                            {{ $dentist && isset($dentist->available_slots['appointment_duration']) && $dentist->available_slots['appointment_duration'] == 15 ? 'selected' : '' }}>
+                                            15 minutes</option>
+                                        <option value="30"
+                                            {{ $dentist && isset($dentist->available_slots['appointment_duration']) && $dentist->available_slots['appointment_duration'] == 30 ? 'selected' : '' }}>
+                                            30 minutes</option>
+                                        <option value="45"
+                                            {{ $dentist && isset($dentist->available_slots['appointment_duration']) && $dentist->available_slots['appointment_duration'] == 45 ? 'selected' : '' }}>
+                                            45 minutes</option>
+                                        <option value="60"
+                                            {{ $dentist && isset($dentist->available_slots['appointment_duration']) && $dentist->available_slots['appointment_duration'] == 60 ? 'selected' : '' }}>
+                                            60 minutes</option>
                                     </select>
                                 </div>
 
@@ -632,14 +740,18 @@
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="break_start" class="form-label">Début</label>
-                                                <input type="time" class="form-control" id="break_start" name="available_slots[break_start]" value="{{ $dentist && isset($dentist->available_slots['break_start']) ? $dentist->available_slots['break_start'] : '12:00' }}">
+                                                <input type="time" class="form-control" id="break_start"
+                                                    name="available_slots[break_start]"
+                                                    value="{{ $dentist && isset($dentist->available_slots['break_start']) ? $dentist->available_slots['break_start'] : '12:00' }}">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="break_end" class="form-label">Fin</label>
-                                            <input type="time" class="form-control" id="break_end" name="available_slots[break_end]" value="{{ $dentist && isset($dentist->available_slots['break_end']) ? $dentist->available_slots['break_end'] : '13:00' }}">
+                                            <input type="time" class="form-control" id="break_end"
+                                                name="available_slots[break_end]"
+                                                value="{{ $dentist && isset($dentist->available_slots['break_end']) ? $dentist->available_slots['break_end'] : '13:00' }}">
                                         </div>
                                     </div>
                                 </div>
@@ -651,6 +763,7 @@
                         </form>
                     </div>
                 </div>
+
             </div>
 
         </div>
@@ -660,7 +773,6 @@
     <!-- JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Tab Navigation
             const tabLinks = document.querySelectorAll('.profile-nav-link');
             const tabContents = document.querySelectorAll('.tab-content');
 
@@ -668,14 +780,11 @@
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
 
-                    // Remove active class from all links and contents
                     tabLinks.forEach(l => l.classList.remove('active'));
                     tabContents.forEach(c => c.classList.remove('active'));
 
-                    // Add active class to clicked link
                     this.classList.add('active');
 
-                    // Show corresponding content
                     const tabId = this.getAttribute('data-tab');
                     document.getElementById(tabId).classList.add('active');
                 });

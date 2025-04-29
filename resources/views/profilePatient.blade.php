@@ -129,6 +129,13 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
+        .avatar-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
         .profile-name {
             font-size: 1.5rem;
             font-weight: 600;
@@ -379,6 +386,77 @@
                 max-width: 100%;
             }
         }
+
+        .appointment-dentist {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .appointment-dentist-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .appointment-dentist-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .appointment-dentist-name {
+            font-weight: 400;
+        }
+
+        .appointment-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .appointment-status.confirmed {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: var(--success);
+        }
+
+        .appointment-status.pending {
+            background-color: rgba(234, 179, 8, 0.1);
+            color: var(--warning);
+        }
+
+        .appointment-status.cancelled {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .appointment-status.completed {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+        }
+
+        .user-table-btn-user {
+            background-color: #81dde9;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 16px;
+            color: #099dff;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .user-table-btn-user:hover {
+            background-color: #1aaeee;
+            transform: scale(1.05);
+            color: #64e8ff;
+        }
+
+        .user-table-btn-user i {
+            pointer-events: none;
+        }
     </style>
 </head>
 
@@ -393,16 +471,16 @@
 
     <div class="container">
         <!-- Alert Messages -->
-        @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
         @endif
 
-        @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
         @endif
 
         <div class="profile-container">
@@ -413,8 +491,13 @@
                         <h2>Mon Profil</h2>
                     </div>
                     <div class="profile-info">
+
                         <div class="profile-avatar">
-                            <i class="fas fa-user"></i>
+                            @if ($user->image)
+                                <img src="{{ $user->image }}" alt="Photo de profil" class="avatar-img">
+                            @else
+                                <i class="fas fa-user"></i>
+                            @endif
                         </div>
                         <h3 class="profile-name">{{ $user->prenom }} {{ $user->nom }}</h3>
                         <p class="profile-role">{{ $user->role }}</p>
@@ -435,6 +518,11 @@
                                     <i class="fas fa-calendar-check"></i> Mes rendez-vous
                                 </a>
                             </li>
+                            <li class="profile-nav-item">
+                                <a href="#treatments" class="profile-nav-link" data-tab="treatments">
+                                    <i class="fas fa-sticky-note"></i> Mes Traitements
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -449,25 +537,30 @@
                             <h2>Informations personnelles</h2>
                         </div>
                         <div class="profile-info">
-                            <form action="{{ route('profile.update') }}" method="POST">
+                            <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="section" value="personal">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="nom" class="form-label">Nom</label>
-                                            <input type="text" class="form-control @error('nom') is-invalid @enderror" id="nom" name="nom" value="{{ old('nom', $user->nom) }}">
+                                            <input type="text"
+                                                class="form-control @error('nom') is-invalid @enderror" id="nom"
+                                                name="nom" value="{{ old('nom', $user->nom) }}">
                                             @error('nom')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="prenom" class="form-label">Prénom</label>
-                                            <input type="text" class="form-control @error('prenom') is-invalid @enderror" id="prenom" name="prenom" value="{{ old('prenom', $user->prenom) }}">
+                                            <input type="text"
+                                                class="form-control @error('prenom') is-invalid @enderror"
+                                                id="prenom" name="prenom"
+                                                value="{{ old('prenom', $user->prenom) }}">
                                             @error('prenom')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
@@ -477,25 +570,46 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="email" class="form-label">Email</label>
-                                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $user->email) }}">
+                                            <input type="email"
+                                                class="form-control @error('email') is-invalid @enderror" id="email"
+                                                name="email" value="{{ old('email', $user->email) }}">
                                             @error('email')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="phone" class="form-label">Téléphone</label>
-                                            <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone', $user->phone) }}">
+                                            <input type="text"
+                                                class="form-control @error('phone') is-invalid @enderror"
+                                                id="phone" name="phone"
+                                                value="{{ old('phone', $user->phone) }}">
                                             @error('phone')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="image" class="form-label">Image</label>
+                                            <input type="file"
+                                                class="form-control @error('image') is-invalid @enderror"
+                                                id="image" name="image"
+                                                value="{{ old('image', $user->image) }}">
+                                            @error('image')
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                                    <button type="submit" class="btn btn-primary">Enregistrer les
+                                        modifications</button>
                                 </div>
                             </form>
                         </div>
@@ -530,19 +644,25 @@
                                 <div class="form-group">
                                     <label class="form-label">Antécédents dentaires</label>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="previous_surgery" name="medical_history[previous_surgery]" {{ $patient && isset($patient->medical_history['previous_surgery']) && $patient->medical_history['previous_surgery'] ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="checkbox" id="previous_surgery"
+                                            name="medical_history[previous_surgery]"
+                                            {{ $patient && isset($patient->medical_history['previous_surgery']) && $patient->medical_history['previous_surgery'] ? 'checked' : '' }}>
                                         <label class="form-check-label" for="previous_surgery">
                                             Chirurgie dentaire précédente
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="braces" name="medical_history[braces]" {{ $patient && isset($patient->medical_history['braces']) && $patient->medical_history['braces'] ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="checkbox" id="braces"
+                                            name="medical_history[braces]"
+                                            {{ $patient && isset($patient->medical_history['braces']) && $patient->medical_history['braces'] ? 'checked' : '' }}>
                                         <label class="form-check-label" for="braces">
                                             Appareil dentaire précédent
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="gum_disease" name="medical_history[gum_disease]" {{ $patient && isset($patient->medical_history['gum_disease']) && $patient->medical_history['gum_disease'] ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="checkbox" id="gum_disease"
+                                            name="medical_history[gum_disease]"
+                                            {{ $patient && isset($patient->medical_history['gum_disease']) && $patient->medical_history['gum_disease'] ? 'checked' : '' }}>
                                         <label class="form-check-label" for="gum_disease">
                                             Maladie des gencives
                                         </label>
@@ -550,7 +670,8 @@
                                 </div>
 
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                                    <button type="submit" class="btn btn-primary">Enregistrer les
+                                        modifications</button>
                                 </div>
                             </form>
                         </div>
@@ -574,16 +695,114 @@
                                             <th>Date</th>
                                             <th>Heure</th>
                                             <th>Dentiste</th>
-                                            <th>Motif</th>
                                             <th>Statut</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- Si vous avez des rendez-vous, vous pouvez les afficher ici -->
+                                        @foreach ($patient->appointments as $appointement)
+                                            <tr>
+                                                <td>
+                                                    <div class="appointment-dentist">
+                                                        <div class="appointment-dentist-info">
+                                                            <div class="appointment-dentist-name">
+                                                                {{ Carbon\Carbon::parse($appointement->date)->format('M d, Y') }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="appointment-dentist">
+                                                        <div class="appointment-dentist-info">
+                                                            <div class="appointment-dentist-name">
+                                                                {{ Carbon\Carbon::parse($appointement->date)->format('H:i') }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="appointment-dentist">
+                                                        <div class="appointment-dentist-info">
+                                                            <div class="appointment-dentist-name">Dr.
+                                                                {{ $appointement->dentist->user->nom }}
+                                                                {{ $appointement->dentist->user->prenom }}</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><span
+                                                        class="appointment-status {{ strtolower($appointement->status) }}">{{ $appointement->status }}</span>
+                                                </td>
+                                                <td>
+                                                    <div class="user-table-actions">
+                                                        <div class="user-table-action">
+                                                            @if ($appointement->status == 'completed')
+                                                                <button type="button"
+                                                                    class="user-table-btn-user">Treatment
+                                                                </button>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Treatments -->
+                <div id="treatments" class="tab-content">
+                    <div class="profile-card">
+                        <div class="profile-card-header d-flex justify-content-between align-items-center">
+                            <h2>Mes Traitements</h2>
+                        </div>
+                        <div class="profile-info">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
                                         <tr>
-                                            <td colspan="6" class="text-center">Aucun rendez-vous à afficher</td>
+                                            <th>Date</th>
+                                            <th>Description du traitement</th>
+                                            <th>Médicaments</th>
                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($patient->appointments as $appointement)
+                                            <tr>
+                                                <td>
+                                                    <div class="appointment-dentist">
+                                                        <div class="appointment-dentist-info">
+                                                            <div class="appointment-dentist-name">
+                                                                {{ Carbon\Carbon::parse($appointement->date)->format('M d, Y H:i') }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="appointment-dentist">
+                                                        <div class="appointment-dentist-info">
+                                                            <div class="appointment-dentist-name">
+                                                                @if ($appointement->treatment)
+                                                                    {{ $appointement->treatment->description }}
+                                                                @else
+                                                                    <em>Pas encore de traitement</em>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="appointment-dentist-name">
+                                                        @if ($appointement->treatment)
+                                                            {{ $appointement->treatment->medications }}
+                                                        @else
+                                                            <em>Pas encore de traitement</em>
+                                                        @endif
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -597,7 +816,6 @@
     <!-- JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Tab Navigation
             const tabLinks = document.querySelectorAll('.profile-nav-link');
             const tabContents = document.querySelectorAll('.tab-content');
 
@@ -605,14 +823,11 @@
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
 
-                    // Remove active class from all links and contents
                     tabLinks.forEach(l => l.classList.remove('active'));
                     tabContents.forEach(c => c.classList.remove('active'));
 
-                    // Add active class to clicked link
                     this.classList.add('active');
 
-                    // Show corresponding content
                     const tabId = this.getAttribute('data-tab');
                     document.getElementById(tabId).classList.add('active');
                 });

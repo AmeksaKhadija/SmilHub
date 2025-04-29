@@ -13,9 +13,7 @@ class Appointment extends Model
         'patient_id',
         'dentist_id',
         'date',
-        'time',
-        'status',
-        'description',
+        'status'
     ];
 
 
@@ -27,5 +25,10 @@ class Appointment extends Model
     public function dentist()
     {
         return $this->belongsTo(Dentist::class);
+    }
+
+    public function treatment()
+    {
+        return $this->hasOne(Treatment::class);
     }
 }
