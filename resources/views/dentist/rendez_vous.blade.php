@@ -513,148 +513,93 @@
             </thead>
             <tbody>
                 @foreach ($appointements as $appointement)
-                    <tr>
-                        <td>
-                            <div class="appointment-patient">
-                                <img src="{{ $appointement->patient->user->image }}"
-                                    alt="{{ $appointement->patient->user->nom }}" class="appointment-patient-img">
-                                <div class="appointment-patient-info">
-                                    <div class="appointment-patient-name">{{ $appointement->patient->user->nom }}
-                                        {{ $appointement->patient->user->prenom }}</div>
-                                    <div class="appointment-patient-email">{{ $appointement->patient->user->email }}</div>
+                    @if (auth()->user()->dentist->appointments)
+                        <tr>
+                            <td>
+                                <div class="appointment-patient">
+                                    <img src="{{ $appointement->patient->user->image }}"
+                                        alt="{{ $appointement->patient->user->nom }}" class="appointment-patient-img">
+                                    <div class="appointment-patient-info">
+                                        <div class="appointment-patient-name">{{ $appointement->patient->user->nom }}
+                                            {{ $appointement->patient->user->prenom }}</div>
+                                        <div class="appointment-patient-email">{{ $appointement->patient->user->email }}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="appointment-dentist">
-                                <div class="appointment-dentist-info">
-                                    <div class="appointment-dentist-name">{{ $appointement->patient->user->phone }}</div>
+                            </td>
+                            <td>
+                                <div class="appointment-dentist">
+                                    <div class="appointment-dentist-info">
+                                        <div class="appointment-dentist-name">{{ $appointement->patient->user->phone }}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td>{{ Carbon\Carbon::parse($appointement->date)->format('M d, Y H:i') }}</td>
-                        <td><span
-                                class="appointment-status {{ strtolower($appointement->status) }}">{{ $appointement->status }}</span>
-                        </td>
-                        <td>
-                            <div class="user-table-actions">
-                                <div class="user-table-action">
-                                    @if ($appointement->status == 'completed')
-                                        <button type="button" class="user-table-btn-user" id="openTreatmentModal"
-                                            data-id="{{ $appointement->id }}" title="Ajouter un traitement">
-                                            <i class="fa fa-user-md" aria-hidden="true"></i>
-                                        </button>
-                                    @endif
+                            </td>
+                            <td>{{ Carbon\Carbon::parse($appointement->date)->format('M d, Y H:i') }}</td>
+                            <td><span
+                                    class="appointment-status {{ strtolower($appointement->status) }}">{{ $appointement->status }}</span>
+                            </td>
+                            <td>
+                                <div class="user-table-actions">
+                                    <div class="user-table-action">
+                                        @if ($appointement->status == 'completed' && $appointement->treatment == null)
+                                            <form action="{{ route('treatment.create', $appointement->id) }}"
+                                                method="GET">
+                                                @csrf
+                                                <button type="submit" class="user-table-btn-user"
+                                                    title="Ajouter un traitement">
+                                                    <i class="fa fa-user-md" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                    <div class="user-table-action">
+                                        @if ($appointement->status != 'confirmed' && $appointement->status != 'completed')
+                                            <form action="{{ route('dentist.appointement.accepter', $appointement->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="user-table-btn-unlock"
+                                                    title="accepter appointement">
+                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                    <div class="user-table-action">
+                                        @if ($appointement->status != 'completed' && $appointement->status != 'cancelled')
+                                            <form action="{{ route('dentist.appointement.annuler', $appointement->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="user-table-btn" title="annuler appointement">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                    <div class="user-table-action">
+                                        @if ($appointement->status == 'confirmed')
+                                            <form action="{{ route('dentist.appointement.compliter', $appointement->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="user-table-btn-done"
+                                                    title="complète appointement">
+                                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
                                 </div>
-                                <div class="user-table-action">
-                                    @if ($appointement->status != 'confirmed' && $appointement->status != 'completed')
-                                        <form action="{{ route('dentist.appointement.accepter', $appointement->id) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="user-table-btn-unlock"
-                                                title="accepter appointement">
-                                                <i class="fa fa-check" aria-hidden="true"></i>
-                                            </button>
-                                        </form>
-                                    @endif
-                                </div>
-                                <div class="user-table-action">
-                                    @if ($appointement->status != 'completed' && $appointement->status != 'cancelled')
-                                        <form action="{{ route('dentist.appointement.annuler', $appointement->id) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="user-table-btn" title="annuler appointement">
-                                                <i class="fa fa-times" aria-hidden="true"></i>
-                                            </button>
-                                        </form>
-                                    @endif
-                                </div>
-                                <div class="user-table-action">
-                                    @if ($appointement->status == 'confirmed')
-                                        <form action="{{ route('dentist.appointement.compliter', $appointement->id) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="user-table-btn-done"
-                                                title="complète appointement">
-                                                <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                                            </button>
-                                        </form>
-                                    @endif
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    @else
+                        <p>aucun rendez-vous</p>
+                    @endif
                 @endforeach
             </tbody>
         </table>
     </div>
-
-
-    <!-- Modal Ajouter un traitement -->
-    <div id="treatmentModal" class="custom-modal">
-        <div class="modal-content">
-            <span class="close-modal" id="closeModal">&times;</span>
-            <h5>Ajouter un traitement</h5>
-            <form action="{{ route('dentist.appointement.addTraitement') }}" id="addTreatment" method="POST">
-                @csrf
-                @method('POST')
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description du traitement</label>
-                    <textarea name="description" id="description" class="form-control" rows="3" required></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="medications" class="form-label">Médicaments</label>
-                    <textarea name="medications" id="medications" class="form-control" rows="3" required></textarea>
-                </div>
-                <div class="modal-footer">
-
-                    <input type="hidden" name="appointment_id" id="appId" value="{{ $appointement->id }}">
-                    <button type="button" class="btn btn-secondary" id="closeModalBtn">Fermer</button>
-                    <button type="submit" id="submit" class="btn btn-primary">Enregistrer</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // Obtenez les éléments nécessaires
-        const modal = document.getElementById('treatmentModal');
-        const openModalButton = document.getElementById('openTreatmentModal');
-        const closeModalButton = document.getElementById('closeModal');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-
-        openModalButton.addEventListener('click', () => {
-            const form = document.getElementById('addTreatment');
-            form.reset();
-            const appointementId = openModalButton.getAttribute('data-id');
-            document.getElementById('appId').value = appointementId;
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        });
-
-        function closeModal() {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        closeModalButton.addEventListener('click', closeModal);
-        closeModalBtn.addEventListener('click', closeModal);
-
-        // Fermeture du modal si on clique en dehors du contenu du modal
-        window.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
-
-        // Fermeture du modal avec la touche "Échap"
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && modal.style.display === 'flex') {
-                closeModal();
-            }
-        });
-    </script>
+    <script></script>
 @endsection

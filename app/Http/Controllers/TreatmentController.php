@@ -34,9 +34,11 @@ class TreatmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        // dd($id);
+        $treatments = Treatment::all();
+        return view('dentist.treatments.create', compact('treatments', 'id'));
     }
 
     /**
@@ -48,7 +50,8 @@ class TreatmentController extends Controller
     public function store(Request $request)
     {
         // dd($request);
-        $appointment_id = $request->input('appointment_id');
+
+        $appointment_id = $request->input('id');
 
         // dd($appointment_id); 
 
@@ -58,14 +61,21 @@ class TreatmentController extends Controller
         ]);
 
         $appointment = Appointment::findOrFail($appointment_id);
+        // dd($appointment->treatment->count());
+        if ($appointment->treatment->count() > 0) {
 
-        $treatment = new Treatment();
-        $treatment->appointment_id = $appointment->id;
-        $treatment->description = $request->input('description');
-        $treatment->medications = $request->input('medications');
-        $treatment->save();
+            return redirect()->back()->with('error', 'appointement has already treatment');
+        } else {
 
-        return redirect()->back()->with('success', 'Traitement ajouté avec succès');
+            $treatment = new Treatment();
+            $treatment->appointment_id = $appointment->id;
+            $treatment->description = $request->input('description');
+            $treatment->medications = $request->input('medications');
+            $treatment->save();
+
+            return redirect()->route('mesRendezVous.index')
+                ->with('success', 'Traitement ajouté avec succès');
+        }
     }
 
 
