@@ -101,7 +101,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/categories/{categorie}/edit', [CategorieController::class, 'edit'])->name('categories.edit');
     Route::put('/categories/{categorie}', [CategorieController::class, 'update'])->name('categories.update');
     Route::delete('/categories/{categorie}', [CategorieController::class, 'destroy'])->name('categories.destroy');
-    Route::get('/all-categories', [CategorieController::class, 'getAllCategories'])->name('categories.all');
 
     // Gestion des dentistes
     Route::patch('/admin/dentists/{id}/activate', [AdminController::class, 'activateDentist'])->name('admin.dentists');

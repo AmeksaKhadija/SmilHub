@@ -129,19 +129,4 @@ class CategorieController extends Controller
         return redirect()->route('categories.index')
             ->with('success', 'Catégorie supprimée avec succès!');
     }
-
-    /**
-     * Get all categories
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getAllCategories()
-    {
-        $categories = Categorie::all();
-
-        return response()->json([
-            'success' => true,
-            'data' => $categories
-        ]);
-    }
 }
