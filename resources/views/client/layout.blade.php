@@ -448,23 +448,38 @@
                     <div class="contact-info">
                         <div class="contact-info-item">
                             <i class="fas fa-phone-alt"></i>
-                            <span>+33 1 23 45 67 89</span>
+                            <span>+212 605 04 87 92</span>
                         </div>
                         <div class="contact-info-item">
                             <i class="fas fa-envelope"></i>
-                            <span>contact@SmileHub.fr</span>
+                            <span>ameksa@SmileHub.com</span>
                         </div>
                         <div class="contact-info-item">
                             <i class="fas fa-map-marker-alt"></i>
-                            <span>123 Avenue de la Santé, 75001 Paris</span>
+                            <span>123 Avenue de la Santé, 75001 Maroc</span>
                         </div>
                     </div>
 
-                    @if (auth()->user())
-                        <div class="auth-buttons">
-                            <a href="logout" class="auth-btn login-btn"><i class="fa-solid fa-right-from-bracket"></i>
-                                Logout</a>
-                        </div>
+                    @if (auth()->check())
+                        @if (auth()->user()->role == 'dentiste')
+                            <div class="auth-buttons">
+                                <a href="logout" class="auth-btn login-btn"><i
+                                        class="fa-solid fa-right-from-bracket"></i>
+                                    Logout</a>
+                                <a href="mesRendezVous" class="auth-btn login-btn"><i
+                                        class="fa-solid fa-right-from-bracket"></i>
+                                    Dashboard</a>
+                            </div>
+                        @elseif(auth()->user()->role == 'patient')
+                            <div class="auth-buttons">
+                                <a href="logout" class="auth-btn login-btn"><i
+                                        class="fa-solid fa-right-from-bracket"></i>
+                                    Logout</a>
+                                <a href="profilePatient" class="auth-btn login-btn"><i
+                                        class="fa-solid fa-right-from-bracket"></i>
+                                    Profile</a>
+                            </div>
+                        @endif
                     @else
                         <div class="auth-buttons">
                             <a href="Login" class="auth-btn login-btn"><i class="fas fa-sign-in-alt"></i>
@@ -473,6 +488,7 @@
                                 Inscription</a>
                         </div>
                     @endif
+
 
 
                     <div class="social-links">
@@ -506,13 +522,11 @@
                     </div>
                     <nav class="main-nav" id="mainNav">
                         <ul>
-                            <li><a href="#" class="nav-item">Accueil</a></li>
-                            <li><a href="#" class="nav-item">À propos</a></li>
-                            <li><a href="" class="nav-item">Services</a></li>
-                            <li><a href="#" class="nav-item">Médecins</a></li>
-                            <li><a href="#" class="nav-item">Témoignages</a></li>
-                            <li><a href="#" class="nav-item">Blog</a></li>
-                            <li><a href="#" class="nav-item">Contact</a></li>
+                            <li><a href="{{ route('home') }}" class="nav-item">Accueil</a></li>
+                            <li><a href="#about" class="nav-item">À propos</a></li>
+                            <li><a href="#service" class="nav-item">Services</a></li>
+                            <li><a href="#team" class="nav-item">Médecins</a></li>
+                            <li><a href="#temoignage" class="nav-item">Témoignages</a></li>
                         </ul>
                     </nav>
                     <button class="mobile-menu-btn" id="mobileMenuBtn">
@@ -585,25 +599,25 @@
                         <div class="footer-contact-icon">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
-                        <p>123 Avenue de la Santé, 75001 Paris, France</p>
+                        <p>123 Avenue de la Santé, 75001 Maroc</p>
                     </div>
                     <div class="footer-contact-item">
                         <div class="footer-contact-icon">
                             <i class="fas fa-phone-alt"></i>
                         </div>
-                        <p>+33 1 23 45 67 89</p>
+                        <p>+212 605 04 87 92</p>
                     </div>
                     <div class="footer-contact-item">
                         <div class="footer-contact-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
-                        <p>contact@smilehub.fr</p>
+                        <p>ameksa@smilehub.com</p>
                     </div>
                     <div class="footer-contact-item">
                         <div class="footer-contact-icon">
                             <i class="fas fa-clock"></i>
                         </div>
-                        <p>Lun-Ven: 9h-19h | Sam: 9h-17h</p>
+                        <p>Lun-Ven: 9h-19h </p>
                     </div>
                 </div>
             </div>
