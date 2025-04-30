@@ -696,7 +696,6 @@
                                             <th>Heure</th>
                                             <th>Dentiste</th>
                                             <th>Statut</th>
-                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -731,17 +730,6 @@
                                                 </td>
                                                 <td><span
                                                         class="appointment-status {{ strtolower($appointement->status) }}">{{ $appointement->status }}</span>
-                                                </td>
-                                                <td>
-                                                    <div class="user-table-actions">
-                                                        <div class="user-table-action">
-                                                            @if ($appointement->status == 'completed')
-                                                                <button type="button"
-                                                                    class="user-table-btn-user">Treatment
-                                                                </button>
-                                                            @endif
-                                                        </div>
-                                                    </div>
                                                 </td>
                                             </tr>
                                         @endforeach

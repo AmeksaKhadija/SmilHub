@@ -6,6 +6,7 @@ use App\Models\Patients;
 use App\Http\Requests\StorePatientsRequest;
 use App\Http\Requests\UpdatePatientsRequest;
 use App\Models\Appointment;
+use App\Models\Content;
 use App\Models\Patient;
 use Carbon\Carbon;
 
@@ -60,9 +61,10 @@ class PatientsController extends Controller
      * @param  \App\Models\Patients  $patients
      * @return \Illuminate\Http\Response
      */
-    public function show(Patient $patient)
+    public function show(Content $content)
     {
-        //
+        $content->load(['categorie', 'dentist']);
+        return view('client.detailContent', compact('content'));
     }
 
     /**
