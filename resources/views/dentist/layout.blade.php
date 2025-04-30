@@ -364,7 +364,7 @@
             </button>
         </div>
         <div class="sidebar-profile">
-            <img src="{{ auth()->user()->image }}" alt="Dr. {{ auth()->user()->nom }} {{ auth()->user()->prenom }}"
+            <img src="/{{ auth()->user()->image }}" alt="Dr. {{ auth()->user()->nom }} {{ auth()->user()->prenom }}"
                 class="sidebar-profile-img">
             <h3 class="sidebar-profile-name">Dr. {{ auth()->user()->nom }} {{ auth()->user()->prenom }}</h3>
             <p class="sidebar-profile-role">{{ auth()->user()->dentist->speciality }} </p>

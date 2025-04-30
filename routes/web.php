@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DentistsController::class, 'getAllDentistInHomePage'])->name('home');
 Route::get('/dentists/{dentist}', [DentistsController::class, 'show'])->name('dentists.show');
+Route::get('/detailContent/{content}', [PatientsController::class, 'show'])->name('detailContent');
 
 
 Route::get('/Register', [AuthController::class, 'register'])->name('register');
