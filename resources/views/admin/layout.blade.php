@@ -464,7 +464,7 @@
                     <span class="header-icon-badge">3</span>
                 </div>
                 <div class="header-profile">
-                    <img src="{{ auth()->user()->image }}" alt="Admin" class="header-profile-img">
+                    <img src="/{{ auth()->user()->image }}" alt="Admin" class="header-profile-img">
                     <div class="header-profile-info">
                         <span class="header-profile-name">{{ auth()->user()->nom }}
                             {{ auth()->user()->prenom }}</span>
