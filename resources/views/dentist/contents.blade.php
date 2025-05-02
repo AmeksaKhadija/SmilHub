@@ -73,7 +73,7 @@
             font-size: 0.9rem;
         }
 
-        .content-table-container {
+        .appointment-table-container {
             background-color: var(--white);
             border-radius: 10px;
             box-shadow: var(--shadow);
@@ -81,12 +81,12 @@
             margin-bottom: 20px;
         }
 
-        .content-table {
+        .appointment-table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        .content-table th {
+        .appointment-table th {
             background-color: var(--light-gray);
             color: var(--text-dark);
             font-weight: 600;
@@ -95,17 +95,17 @@
             border-bottom: 1px solid var(--gray);
         }
 
-        .content-table td {
+        .appointment-table td {
             padding: 15px;
             border-bottom: 1px solid var(--gray);
             color: var(--text-dark);
         }
 
-        .content-table tr:last-child td {
+        .appointment-table tr:last-child td {
             border-bottom: none;
         }
 
-        .content-table tr:hover {
+        .appointment-table tr:hover {
             background-color: var(--light-gray);
         }
 
@@ -210,8 +210,8 @@
         </div>
     </div>
 
-    <div class="content-table-container">
-        <table class="content-table">
+    <div class="appointment-table-container">
+        <table class="appointment-table">
             <thead>
                 <tr>
                     <th>Titre</th>
@@ -278,7 +278,7 @@
             const categoryFilter = document.getElementById('categoryFilter');
             const typeFilter = document.getElementById('typeFilter');
 
-            const tableRows = document.querySelectorAll('.content-table tbody tr');
+            const tableRows = document.querySelectorAll('.appointment-table tbody tr');
 
             function applyFilters() {
                 const categoryValue = categoryFilter.value;

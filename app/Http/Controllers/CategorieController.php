@@ -4,10 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Categorie;
 use Illuminate\Http\Request;
+use App\Repositories\Interfaces\CategorieRepositoryInterface;
 use Illuminate\Support\Facades\Validator;
 
 class CategorieController extends Controller
 {
+
+    protected $categorieRepository;
+
+    public function __construct(CategorieRepositoryInterface $categorieRepository)
+    {
+        $this->categorieRepository = $categorieRepository;
+    }
+
     /**
      * Display a listing of the categories.
      *
@@ -15,7 +24,7 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        $categories = Categorie::all();
+        $categories = $this->categorieRepository->getAllCategories();
         return view('./admin/categories', compact('categories'));
     }
 
@@ -42,18 +51,13 @@ class CategorieController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        // dd($request);
-
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
 
-        $category = Categorie::create([
-            'name' => $request->name,
-            'description_courte' => $request->description,
-        ]);
+        $this->categorieRepository->createCategorie($request->all());
 
         return redirect()->route('categories.index')
             ->with('success', 'Catégorie créée avec succès!');
@@ -65,8 +69,15 @@ class CategorieController extends Controller
      * @param  \App\Models\Categorie  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Categorie $categorie)
+    public function show($id)
     {
+        $categorie = $this->categorieRepository->getCategorieById($id);
+
+        if (!$categorie) {
+            return redirect()->route('categories.index')
+                ->with('error', 'Catégorie non trouvée.');
+        }
+
         return view('admin.categories.show', compact('categorie'));
     }
 
@@ -76,8 +87,15 @@ class CategorieController extends Controller
      * @param  \App\Models\Categorie  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Categorie $categorie)
+    public function edit($id)
     {
+        $categorie = $this->categorieRepository->getCategorieById($id);
+
+        if (!$categorie) {
+            return redirect()->route('categories.index')
+                ->with('error', 'Catégorie non trouvée.');
+        }
+
         return view('admin.categories.edit', compact('categorie'));
     }
 
@@ -88,10 +106,17 @@ class CategorieController extends Controller
      * @param  \App\Models\Categorie  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Categorie $categorie)
+    public function update(Request $request, $id)
     {
+        $categorie = $this->categorieRepository->getCategorieById($id);
+
+        if (!$categorie) {
+            return redirect()->route('categories.index')
+                ->with('error', 'Catégorie non trouvée.');
+        }
+
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255|unique:categories,name,' . $categorie->id,
+            'name' => 'required|string|max:255|unique:categories,name,' . $id,
             'description' => 'nullable|string',
         ]);
 
@@ -101,10 +126,7 @@ class CategorieController extends Controller
                 ->withInput();
         }
 
-        $categorie->update([
-            'name' => $request->name,
-            'description_courte' => $request->description,
-        ]);
+        $this->categorieRepository->updateCategorie($categorie, $request->all());
 
         return redirect()->route('categories.index')
             ->with('success', 'Catégorie mise à jour avec succès!');
@@ -116,32 +138,24 @@ class CategorieController extends Controller
      * @param  \App\Models\Categorie  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Categorie $categorie)
+    public function destroy($id)
     {
+        $categorie = $this->categorieRepository->getCategorieById($id);
+
+        if (!$categorie) {
+            return redirect()->route('categories.index')
+                ->with('error', 'Catégorie non trouvée.');
+        }
+
         // Check if category has contents
-        if ($categorie->contents()->count() > 0) {
+        if ($this->categorieRepository->hasContents($categorie)) {
             return redirect()->route('categories.index')
                 ->with('error', 'Impossible de supprimer cette catégorie car elle contient des articles.');
         }
 
-        $categorie->delete();
+        $this->categorieRepository->deleteCategorie($categorie);
 
         return redirect()->route('categories.index')
             ->with('success', 'Catégorie supprimée avec succès!');
-    }
-
-    /**
-     * Get all categories
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getAllCategories()
-    {
-        $categories = Categorie::all();
-
-        return response()->json([
-            'success' => true,
-            'data' => $categories
-        ]);
     }
 }

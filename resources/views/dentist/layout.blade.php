@@ -437,7 +437,7 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="header-search">
-                    <input type="text" placeholder="Rechercher...">
+                    <input type="search" placeholder="Rechercher..." id="inputsearch">
                     <i class="fas fa-search"></i>
                 </div>
             </div>
@@ -451,7 +451,7 @@
                     <span class="header-icon-badge">5</span>
                 </div>
                 <div class="header-profile">
-                    <img src="{{ auth()->user()->image }}"
+                    <img src="/{{ auth()->user()->image }}"
                         alt="Dr. {{ auth()->user()->nom }} {{ auth()->user()->prenom }}" class="header-profile-img">
                     <div class="header-profile-info">
                         <span class="header-profile-name">Dr. {{ auth()->user()->nom }}
@@ -485,6 +485,27 @@
     @yield('scriptContent')
 
 
+
+    <script>
+        const searchBar = document.getElementById("inputsearch");
+
+        searchBar.addEventListener("keyup", (e) => {
+            const searchedLetters = e.target.value.toLowerCase();
+            const itemRecherchee = document.querySelectorAll(".appointment-table tbody tr");
+            filterElements(searchedLetters, itemRecherchee);
+        });
+
+        function filterElements(searchedLetters, itemRecherchee) {
+            itemRecherchee.forEach((item) => {
+                const itemInfo = item.textContent.toLowerCase();
+                if (itemInfo.includes(searchedLetters)) {
+                    item.style.display = "";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
