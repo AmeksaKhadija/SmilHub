@@ -437,7 +437,7 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="header-search">
-                    <input type="text" placeholder="Rechercher...">
+                    <input type="search" placeholder="Rechercher..." id="inputsearch">
                     <i class="fas fa-search"></i>
                 </div>
             </div>
@@ -485,6 +485,27 @@
     @yield('scriptContent')
 
 
+
+    <script>
+        const searchBar = document.getElementById("inputsearch");
+
+        searchBar.addEventListener("keyup", (e) => {
+            const searchedLetters = e.target.value.toLowerCase();
+            const contacts = document.querySelectorAll(".appointment-table tbody tr");
+            filterElements(searchedLetters, contacts);
+        });
+
+        function filterElements(searchedLetters, contacts) {
+            contacts.forEach((contact) => {
+                const contactInfo = contact.textContent.toLowerCase();
+                if (contactInfo.includes(searchedLetters)) {
+                    contact.style.display = "";
+                } else {
+                    contact.style.display = "none";
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
