@@ -491,17 +491,17 @@
 
         searchBar.addEventListener("keyup", (e) => {
             const searchedLetters = e.target.value.toLowerCase();
-            const contacts = document.querySelectorAll(".appointment-table tbody tr");
-            filterElements(searchedLetters, contacts);
+            const itemRecherchee = document.querySelectorAll(".appointment-table tbody tr");
+            filterElements(searchedLetters, itemRecherchee);
         });
 
-        function filterElements(searchedLetters, contacts) {
-            contacts.forEach((contact) => {
-                const contactInfo = contact.textContent.toLowerCase();
-                if (contactInfo.includes(searchedLetters)) {
-                    contact.style.display = "";
+        function filterElements(searchedLetters, itemRecherchee) {
+            itemRecherchee.forEach((item) => {
+                const itemInfo = item.textContent.toLowerCase();
+                if (itemInfo.includes(searchedLetters)) {
+                    item.style.display = "";
                 } else {
-                    contact.style.display = "none";
+                    item.style.display = "none";
                 }
             });
         }
