@@ -140,7 +140,20 @@ class DentistsController extends Controller
 
     public function index()
     {
-        $patients = Patient::with(['user', 'appointments'])->get();
+        $dentist = Auth::user()->dentist;
+
+        if (!$dentist) {
+            return redirect()->back()->with('error', 'Vous n\'êtes pas un dentiste.');
+        }
+
+        $patientIds = Appointment::where('dentist_id', $dentist->id)
+            ->pluck('patient_id');
+
+        $patients = Patient::whereIn('id', $patientIds)
+            ->with(['user', 'appointments'])
+            ->get();
+
+
 
         return view('dentist.patients', compact('patients'));
     }
