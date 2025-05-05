@@ -1127,23 +1127,25 @@
                 </div>
                 <div class="team-container">
                     @foreach ($dentists as $dentist)
-                        <div class="team-card">
-                            <div class="team-image">
-                                <img src="{{ $dentist->user->image }}"
-                                    alt="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}">
-                            </div>
-                            <div class="team-content">
-                                <h3 class="team-name">Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}</h3>
-                                <p class="team-position">{{ $dentist->speciality }}</p>
-                                <div class="team-social">
-                                    <a href="#" class="team-social-link"><i class="fab fa-facebook-f"></i></a>
-                                    <a href="#" class="team-social-link"><i class="fab fa-twitter"></i></a>
-                                    <a href="#" class="team-social-link"><i class="fab fa-linkedin-in"></i></a>
+                        @if ($dentist->status == 'active')
+                            <div class="team-card">
+                                <div class="team-image">
+                                    <img src="{{ $dentist->user->image }}"
+                                        alt="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}">
                                 </div>
-                                <a href="{{ route('dentists.show', $dentist->id) }}" style="margin-top:10%"
-                                    class="btn btn-secondary">Voir plus</a>
+                                <div class="team-content">
+                                    <h3 class="team-name">Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}</h3>
+                                    <p class="team-position">{{ $dentist->speciality }}</p>
+                                    <div class="team-social">
+                                        <a href="#" class="team-social-link"><i class="fab fa-facebook-f"></i></a>
+                                        <a href="#" class="team-social-link"><i class="fab fa-twitter"></i></a>
+                                        <a href="#" class="team-social-link"><i class="fab fa-linkedin-in"></i></a>
+                                    </div>
+                                    <a href="{{ route('dentists.show', $dentist->id) }}" style="margin-top:10%"
+                                        class="btn btn-secondary">Voir plus</a>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     @endforeach
                 </div>
             </div>

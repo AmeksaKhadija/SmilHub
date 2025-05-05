@@ -20,7 +20,14 @@ class ContentController extends Controller
      */
     public function index()
     {
-        $contents = Content::with(['categorie', 'dentist'])->get();
+        $dentist = Auth::user()->dentist;
+
+        if (!$dentist) {
+            return redirect()->back()->with('error', 'Vous n\'êtes pas un dentiste.');
+        }
+        
+        $contents = Content::where('dentist_id', $dentist->id)->with(['categorie', 'dentist'])->get();
+        // dd($contents);
         $categories = Categorie::all();
         // dd($contents[0]);
         return view('dentist.contents', compact('contents', 'categories'));
@@ -66,7 +73,7 @@ class ContentController extends Controller
         if (!$dentist_id) {
             return redirect()->back()->with('error', 'vous etes pas un dentist pour crée un content');
         }
-        
+
         $content = Content::create([
             'title' => $request->title,
             'type' => $request->type,
