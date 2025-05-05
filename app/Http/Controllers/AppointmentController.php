@@ -54,6 +54,12 @@ class AppointmentController extends Controller
 
                 $av_days = json_decode($dentist->available_slots, true)['days'];
 
+                if (!in_array(strtolower($appointmentDay), array_map('strtolower', $av_days))) {
+                    return redirect()->back()
+                        ->with('error', 'Le dentiste ne travaille pas le jour sélectionné. Veuillez choisir un autre jour.')
+                        ->withInput();
+                }
+
                 $start_time = json_decode($dentist->available_slots, true)['start_time'];
                 $startTime = Carbon::createFromFormat('H:i', $start_time);
 

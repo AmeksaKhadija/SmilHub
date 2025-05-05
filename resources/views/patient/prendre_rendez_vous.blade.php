@@ -694,143 +694,129 @@
             <div class="appointment-container">
                 <!-- Dentist Cards -->
                 @foreach ($dentists as $dentist)
-                    <div class="dentist-availability-section" data-dentist-id="{{ $dentist->id }}">
-                        <div class="dentist-header">
-                            <div class="dentist-head">
-                                <div class="dentist-avatar">
-                                    <img src="{{ $dentist->user->image }}"
-                                        alt="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}">
-                                </div>
-                                <div class="dentist-info">
-                                    <h4 class="dentist-name">Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}</h4>
-                                    <input type="hidden" name="dentist_id" value="{{ $dentist->id }}">
-                                    <p class="dentist-specialty">{{ $dentist->speciality ?: 'Dentiste généraliste' }}</p>
-                                    <div class="dentist-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                        <span>(4.5)</span>
+                    @if ($dentist->status == 'active')
+                        <div class="dentist-availability-section" data-dentist-id="{{ $dentist->id }}">
+                            <div class="dentist-header">
+                                <div class="dentist-head">
+                                    <div class="dentist-avatar">
+                                        <img src="{{ $dentist->user->image }}"
+                                            alt="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}">
+                                    </div>
+                                    <div class="dentist-info">
+                                        <h4 class="dentist-name">Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}
+                                        </h4>
+                                        <input type="hidden" name="dentist_id" value="{{ $dentist->id }}">
+                                        <p class="dentist-specialty">{{ $dentist->speciality ?: 'Dentiste généraliste' }}
+                                        </p>
+                                        <div class="dentist-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                            <span>(4.5)</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Available Days Section -->
-                            @if (isset($dentist->available_slots) && !empty($dentist->available_slots))
-                                @if (is_array($dentist->available_slots))
-                                    <!-- Si available_slots est un tableau de créneaux par date -->
-                                    @if (isset($dentist->available_slots[0]) && isset($dentist->available_slots[0]['date']))
-                                        @foreach ($dentist->available_slots as $slot)
-                                            @if (isset($slot['date']) && isset($slot['slots']) && is_array($slot['slots']))
-                                                <div>
-                                                    <h5 class="time-slots-title">Pour le {{ $slot['date'] }}</h5>
-                                                    <div class="time-slots-container">
-                                                        @foreach ($slot['slots'] as $hour)
-                                                            <div class="time-slot" data-dentist-id="{{ $dentist->id }}"
-                                                                data-dentist-name="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}"
-                                                                data-date="{{ $slot['date'] }}"
-                                                                data-time="{{ $hour }}">
-                                                                {{ $hour }}
-                                                            </div>
+                                <!-- Available Days Section -->
+                                @if (isset($dentist->available_slots) && !empty($dentist->available_slots))
+                                    @if (is_array($dentist->available_slots))
+                                        <!-- Si available_slots est un tableau de créneaux par date -->
+                                        @if (isset($dentist->available_slots[0]) && isset($dentist->available_slots[0]['date']))
+                                            @foreach ($dentist->available_slots as $slot)
+                                                @if (isset($slot['date']) && isset($slot['slots']) && is_array($slot['slots']))
+                                                    <div>
+                                                        <h5 class="time-slots-title">Pour le {{ $slot['date'] }}</h5>
+                                                        <div class="time-slots-container">
+                                                            @foreach ($slot['slots'] as $hour)
+                                                                <div class="time-slot"
+                                                                    data-dentist-id="{{ $dentist->id }}"
+                                                                    data-dentist-name="Dr. {{ $dentist->user->nom }} {{ $dentist->user->prenom }}"
+                                                                    data-date="{{ $slot['date'] }}"
+                                                                    data-time="{{ $hour }}">
+                                                                    {{ $hour }}
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <!-- Si available_slots est un objet avec jours, heures, etc. -->
+                                            <div class="available-days">
+                                                <h5 class="available-days-title">Jours disponibles</h5>
+                                                <div class="days-list">
+                                                    @if (isset($dentist->available_slots['days']) && is_array($dentist->available_slots['days']))
+                                                        @foreach ($dentist->available_slots['days'] as $day)
+                                                            <span class="day-item">{{ $day }}</span>
                                                         @endforeach
+                                                    @endif
+                                                </div>
+
+                                                <div class="availability-details">
+                                                    <div class="availability-label">Heures de travail:
+                                                        {{ $dentist->available_slots['start_time'] }} -
+                                                        {{ $dentist->available_slots['end_time'] }}
+                                                    </div>
+                                                    <div class="availability-label">Pause déjeuner:
+                                                        {{ $dentist->available_slots['break_start'] }} -
+                                                        {{ $dentist->available_slots['break_end'] }}
+                                                    </div>
+                                                    <div class="availability-label">Durée des rendez-vous:
+                                                        {{ $dentist->available_slots['appointment_duration'] }} minutes
                                                     </div>
                                                 </div>
-                                            @endif
-                                        @endforeach
+                                            </div>
+                                        @endif
+                                    @elseif(is_object($dentist->available_slots))
+                                        <div>
+                                            <p>Informations de disponibilité stockées sous forme d'objet. Veuillez contacter
+                                                l'administrateur.</p>
+                                        </div>
                                     @else
-                                        <!-- Si available_slots est un objet avec jours, heures, etc. -->
-                                        <div class="available-days">
-                                            <h5 class="available-days-title">Jours disponibles</h5>
-                                            <div class="days-list">
-                                                @if (isset($dentist->available_slots['days']) && is_array($dentist->available_slots['days']))
-                                                    @foreach ($dentist->available_slots['days'] as $day)
-                                                        <span class="day-item">{{ $day }}</span>
-                                                    @endforeach
-                                                @endif
-                                            </div>
-
-                                            <div class="availability-details">
-                                                <div class="availability-label">Heures de travail:
-                                                    {{ $dentist->available_slots['start_time'] }} -
-                                                    {{ $dentist->available_slots['end_time'] }}
-                                                </div>
-                                                <div class="availability-label">Pause déjeuner:
-                                                    {{ $dentist->available_slots['break_start'] }} -
-                                                    {{ $dentist->available_slots['break_end'] }}
-                                                </div>
-                                                <div class="availability-label">Durée des rendez-vous:
-                                                    {{ $dentist->available_slots['appointment_duration'] }} minutes
-                                                </div>
-                                            </div>
+                                        <div>
+                                            <p>Format de disponibilité non reconnu. Veuillez contacter l'administrateur.</p>
                                         </div>
                                     @endif
-                                @elseif(is_object($dentist->available_slots))
-                                    <div>
-                                        <p>Informations de disponibilité stockées sous forme d'objet. Veuillez contacter
-                                            l'administrateur.</p>
-                                    </div>
                                 @else
-                                    <div>
-                                        <p>Format de disponibilité non reconnu. Veuillez contacter l'administrateur.</p>
-                                    </div>
+                                    <p>Aucune information de disponibilité pour ce dentiste.</p>
                                 @endif
-                            @else
-                                <p>Aucune information de disponibilité pour ce dentiste.</p>
-                            @endif
-                        </div>
-
-                        <div class="appointment-summary">
-
-
-                            <h3>Résumé du rendez-vous</h3>
-
-                            <div class="date-instruction">
-                                <i class="fas fa-info-circle"></i>
-                                Veuillez sélectionner une date parmi les jours disponibles indiqués à gauche. Seuls les
-                                rendez-vous pris durant ces jours seront acceptés.
                             </div>
 
-                            <form method="POST" action="{{ route('appointments.store') }}">
-                                @csrf
-                                <input type="hidden" name="dentist_id" value="{{ $dentist->id }}">
+                            <div class="appointment-summary">
 
-                                <div class="form-group">
-                                    <label for="date">Date</label>
-                                    <input type="date" id="date" name="date" class="form-control">
+
+                                <h3>Résumé du rendez-vous</h3>
+
+                                <div class="date-instruction">
+                                    <i class="fas fa-info-circle"></i>
+                                    Veuillez sélectionner une date parmi les jours disponibles indiqués à gauche. Seuls les
+                                    rendez-vous pris durant ces jours seront acceptés.
                                 </div>
-                                <div class="form-group">
-                                    <label for="time">Heure</label>
-                                    <input type="time" id="time" name="time" class="form-control">
-                                </div>
-                                <button type="submit" name="submit" class="btn btn-primary">Réserver</button>
-                            </form>
+
+                                <form method="POST" action="{{ route('appointments.store') }}">
+                                    @csrf
+                                    <input type="hidden" name="dentist_id" value="{{ $dentist->id }}">
+
+                                    <div class="form-group">
+                                        <label for="date">Date</label>
+                                        <input type="date" id="date" name="date" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="time">Heure</label>
+                                        <input type="time" id="time" name="time" class="form-control">
+                                    </div>
+                                    <button type="submit" name="submit" class="btn btn-primary">Réserver</button>
+                                </form>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 @endforeach
             </div>
         </div>
     </section>
 
-    <!-- Confirmation Modal -->
-    <div class="modal" id="confirmationModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Confirmation du rendez-vous</h2>
-                <button class="modal-close" id="modalClose">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Votre rendez-vous a été confirmé avec succès !</p>
-                <p>Vous recevrez bientôt un email de confirmation avec les détails de votre rendez-vous.</p>
-                <p>Un rappel vous sera également envoyé 24 heures avant votre rendez-vous.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" id="modalOkBtn">OK</button>
-            </div>
-        </div>
-    </div>
 
 
     <script>
@@ -862,23 +848,6 @@
                     }
                 });
             });
-
-            // Modal handling
-            const modal = document.getElementById('confirmationModal');
-            const closeBtn = document.getElementById('modalClose');
-            const okBtn = document.getElementById('modalOkBtn');
-
-            if (closeBtn) {
-                closeBtn.addEventListener('click', function() {
-                    modal.classList.remove('active');
-                });
-            }
-
-            if (okBtn) {
-                okBtn.addEventListener('click', function() {
-                    modal.classList.remove('active');
-                });
-            }
 
             // Mobile menu toggle
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
